@@ -2,7 +2,7 @@
 
 A personal website and digital portfolio built with a "Mid-Century Jet Age" aesthetic. This project serves as a hub for professional work, editorial experiments, and creative side projects, reflecting a passion for hypermedia, UI/UX, and retro-futuristic design.
 
-## ✦ Design Ethos: Mid-Century Modern
+## Design Ethos: Mid-Century Modern
 
 The site's visual language is inspired by the optimistic futurism of the 1950s and 60s—the "Jet Age." This is characterized by:
 
@@ -11,7 +11,7 @@ The site's visual language is inspired by the optimistic futurism of the 1950s a
 - **Motifs:** Atomic starbursts, jet-age decorative lines, and subtle "springy" animations.
 - **Layout:** A flexible sidebar-driven navigation that prioritizes content clarity and editorial flow.
 
-## 🚀 Tech Stack
+## Tech Stack
 
 - **Framework:** [Astro 6.x](https://astro.build/) (Static Output)
 - **Runtime:** Node.js (>=22.12.0)
@@ -19,7 +19,7 @@ The site's visual language is inspired by the optimistic futurism of the 1950s a
 - **Styling:** Vanilla CSS with custom properties for tokens
 - **Type Safety:** TypeScript
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 /
@@ -34,7 +34,7 @@ The site's visual language is inspired by the optimistic futurism of the 1950s a
 └── wrangler.jsonc   # Cloudflare Pages configuration
 ```
 
-## ◈ Key Features
+## Key Features
 
 - **Portfolio:** Showcasing projects like SLIFA Magazine, Transistor Radio, and the Mid-Century Design System.
 - **Articles:** A blog platform featuring experiments in AI augmentation, culture (City Pop, Enka), and technical explorations.
@@ -42,7 +42,7 @@ The site's visual language is inspired by the optimistic futurism of the 1950s a
 - **Chronos Tracker:** A personal time-tracking utility integrated into the dashboard.
 - **Music:** A curated section for music-related projects and playlists.
 
-## 🧞 Commands
+## Commands
 
 All commands are run from the root of the project, from a terminal:
 
@@ -54,7 +54,7 @@ All commands are run from the root of the project, from a terminal:
 | `npm run preview` | Preview your build locally, before deploying     |
 | `npm run astro`   | Run Astro CLI commands                           |
 
-## ✦ Deployment
+## Deployment
 
 The site is automatically deployed to **Cloudflare Pages** on push. 
 
