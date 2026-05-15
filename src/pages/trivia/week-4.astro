@@ -1,0 +1,99 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { quizzes } from '../../data/quizzes';
+
+const quiz = quizzes.find(q => q.id === 4)!;
+---
+
+<Layout title={quiz.title} description={quiz.description}>
+  <nav class="breadcrumb">
+    <a href="/trivia">Trivia</a>
+    <span class="breadcrumb-sep">→</span>
+    <span class="breadcrumb-current">{quiz.title}</span>
+  </nav>
+
+  <div class="quiz-container">
+    <div class="quiz-header">
+      <span class="quiz-date tag">{quiz.date}</span>
+      <h1>{quiz.title}</h1>
+      <p>{quiz.description}</p>
+    </div>
+
+    <div class="quiz-slide-wrapper" id="quizWrapper">
+      {quiz.questions.map((q, i) => (
+        <div class={`quiz-slide ${i === 0 ? 'active' : ''}`} data-index={i}>
+          <div class="quiz-question-num">
+            <span class="q-num">{i + 1}</span>
+            <span class="q-total">/ {quiz.questions.length}</span>
+          </div>
+          <h2 class="quiz-question">{q.question}</h2>
+          <button class="btn reveal-btn" onclick={`document.getElementById('answer-${i}').classList.toggle('visible')`}>
+            Reveal Answer
+          </button>
+          <div class="quiz-answer" id={`answer-${i}`}>
+            <p>{q.answer}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="quiz-nav">
+      <button class="btn" id="btnPrev" disabled>← Previous</button>
+      <span class="quiz-progress" id="quizProgress">1 / {quiz.questions.length}</span>
+      <button class="btn btn--primary" id="btnNext">Next →</button>
+    </div>
+  </div>
+</Layout>
+
+<script define:vars={{ total: quiz.questions.length }}>
+  let current = 0;
+  const slides = document.querySelectorAll('.quiz-slide');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+  const progress = document.getElementById('quizProgress');
+
+  function showSlide(index) {
+    slides.forEach((s, i) => {
+      s.classList.toggle('active', i === index);
+    });
+    btnPrev.disabled = index === 0;
+    btnNext.textContent = index === total - 1 ? 'Finish ✓' : 'Next →';
+    progress.textContent = `${index + 1} / ${total}`;
+  }
+
+  btnPrev.addEventListener('click', () => {
+    if (current > 0) { current--; showSlide(current); }
+  });
+
+  btnNext.addEventListener('click', () => {
+    if (current < total - 1) { current++; showSlide(current); }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      if (current < total - 1) { current++; showSlide(current); }
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      if (current > 0) { current--; showSlide(current); }
+    }
+  });
+</script>
+
+<style>
+  .breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 1.5rem; color: var(--color-warm-gray); }
+  .breadcrumb a { color: var(--accent-primary); }
+  .breadcrumb-sep { opacity: 0.5; }
+  .quiz-header { margin-bottom: 2.5rem; }
+  .quiz-header h1 { font-size: 1.75rem; margin: 0.75rem 0 0.5rem; }
+  .quiz-slide { display: none; animation: fadeIn 0.3s var(--ease-out); min-height: 300px; }
+  .quiz-slide.active { display: block; }
+  .quiz-question-num { display: flex; align-items: baseline; gap: 0.35rem; margin-bottom: 1.5rem; }
+  .q-num { font-family: var(--font-heading); font-size: 2.5rem; font-weight: 700; color: var(--accent-primary); line-height: 1; }
+  .q-total { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-warm-gray); }
+  .quiz-question { font-size: 1.5rem; line-height: 1.5; margin-bottom: 1.5rem; color: var(--text-primary); }
+  .reveal-btn { margin-bottom: 1rem; }
+  .quiz-answer { display: none; padding: 1.25rem; background: rgba(42, 157, 143, 0.06); border-left: 3px solid var(--accent-primary); border-radius: 0 var(--radius-md) var(--radius-md) 0; animation: fadeInUp 0.3s var(--ease-out); }
+  .quiz-answer.visible { display: block; }
+  .quiz-answer p { font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0; font-weight: 500; }
+  .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); }
+  .quiz-progress { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-warm-gray); }
+</style>

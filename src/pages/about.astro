@@ -1,0 +1,193 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About" description="About Sha Razeek — Developer, Hypermedia and UI/UX Specialist">
+  <div class="page-header">
+    <h1>About</h1>
+    <p class="subtitle">A bit about who I am and what I do</p>
+  </div>
+
+  <div class="about-content">
+    <div class="about-intro">
+      <div class="about-photo">
+        <div class="photo-placeholder">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <circle cx="40" cy="30" r="12" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M16 68c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="about-text">
+        <p class="about-lead">
+          I'm Sha Razeek, a developer, hypermedia specialist, and UI/UX designer with nearly two decades
+          of experience spanning financial analytics, digital publishing, and creative technology.
+        </p>
+        <p>
+          My career began in financial research and analytics, working with firms like Moody's Analytics
+          and Acuity Knowledge Partners. Over the years, I've moved from deep quantitative analysis
+          toward the intersection of technology and design — building digital experiences that are
+          as functional as they are beautiful.
+        </p>
+        <p>
+          Today, I focus on hypermedia systems, web development, and crafting interfaces that honour
+          the optimism and elegance of mid-century modern design while leveraging contemporary web standards.
+        </p>
+      </div>
+    </div>
+
+    <div class="jet-line"><span>✦</span></div>
+
+    <section class="about-section">
+      <h2>What I Do</h2>
+      <div class="skills-grid stagger">
+        <div class="skill-card">
+          <span class="skill-icon">◈</span>
+          <h3>Development</h3>
+          <p>Full-stack web development with modern frameworks, APIs, and cloud-native architectures.</p>
+        </div>
+        <div class="skill-card">
+          <span class="skill-icon">◎</span>
+          <h3>UI/UX Design</h3>
+          <p>User-centered design with a focus on typography, motion, and visual systems.</p>
+        </div>
+        <div class="skill-card">
+          <span class="skill-icon">✦</span>
+          <h3>Hypermedia</h3>
+          <p>Building interconnected digital experiences that leverage the web's native linking capabilities.</p>
+        </div>
+        <div class="skill-card">
+          <span class="skill-icon">♫</span>
+          <h3>Creative Tech</h3>
+          <p>Exploring the boundaries between art, music, and technology through interactive projects.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="jet-line"><span>◆</span></div>
+
+    <section class="about-section">
+      <h2>Philosophy</h2>
+      <blockquote class="about-quote">
+        "I believe the web is the greatest hypermedia system ever built. Every page should feel
+        like a destination, not just a waypoint. Design should be invisible when it works
+        and unforgettable when it doesn't."
+      </blockquote>
+      <p>
+        My approach draws heavily from mid-century modernism — the idea that form follows function,
+        that simplicity is the ultimate sophistication, and that technology should feel human.
+      </p>
+    </section>
+
+    <div class="about-cta mt-4">
+      <a href="/resume" class="btn btn--primary">View Resume</a>
+      <a href="/portfolio" class="btn">See My Work</a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .about-content {
+    max-width: 680px;
+  }
+
+  .about-intro {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+  }
+
+  .about-photo {
+    flex-shrink: 0;
+  }
+
+  .photo-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(42, 157, 143, 0.06);
+    border: 1.5px dashed var(--accent-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-primary);
+  }
+
+  .about-lead {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    font-weight: 400;
+  }
+
+  .about-section h2 {
+    font-size: 1.4rem;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .skill-card {
+    padding: 1.25rem;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-medium);
+  }
+
+  .skill-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .skill-icon {
+    font-size: 1.25rem;
+    color: var(--accent-primary);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .skill-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .skill-card p {
+    font-size: 0.875rem;
+    margin-bottom: 0;
+  }
+
+  .about-quote {
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1.7;
+    border-left: 3px solid var(--accent-primary);
+    padding: 1rem 1.5rem;
+    background: rgba(42, 157, 143, 0.04);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: 1.5rem 0;
+    color: var(--text-secondary);
+  }
+
+  .about-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 640px) {
+    .about-intro {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .skills-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

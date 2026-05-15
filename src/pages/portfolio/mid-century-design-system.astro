@@ -1,0 +1,172 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { portfolioItems } from '../../data/portfolio';
+
+const item = portfolioItems.find(i => i.slug === 'mid-century-design-system')!;
+---
+
+<Layout title={item.title} description={item.tagline}>
+  <nav class="breadcrumb">
+    <a href="/portfolio">Portfolio</a>
+    <span class="breadcrumb-sep">→</span>
+    <span class="breadcrumb-current">{item.title}</span>
+  </nav>
+
+  <div class="project-hero" style={`background: ${item.color}`}>
+    <span class="project-hero-icon">{item.icon}</span>
+    <h1>{item.title}</h1>
+    <p class="project-hero-tagline">{item.tagline}</p>
+  </div>
+
+  <div class="project-content article-content">
+    <div class="project-meta">
+      <div class="meta-item">
+        <span class="meta-label">Role</span>
+        <span class="meta-value">{item.details.role}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Year</span>
+        <span class="meta-value">{item.details.year}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Tools</span>
+        <span class="meta-value">{item.details.tools.join(', ')}</span>
+      </div>
+    </div>
+
+    <div class="jet-line"><span>◆</span></div>
+
+    <h2>Overview</h2>
+    <p>{item.details.overview}</p>
+
+    <!-- Color Palette Showcase -->
+    <div class="palette-showcase">
+      <h3>Color Palette</h3>
+      <div class="palette-row">
+        <div class="palette-swatch" style="background: #264653;">
+          <span>Dark Teal</span>
+          <small>#264653</small>
+        </div>
+        <div class="palette-swatch" style="background: #2A9D8F;">
+          <span>Teal</span>
+          <small>#2A9D8F</small>
+        </div>
+        <div class="palette-swatch" style="background: #E9C46A; color: #333;">
+          <span>Mustard</span>
+          <small>#E9C46A</small>
+        </div>
+        <div class="palette-swatch" style="background: #E76F51;">
+          <span>Coral</span>
+          <small>#E76F51</small>
+        </div>
+        <div class="palette-swatch" style="background: #FAF3E0; color: #333;">
+          <span>Cream</span>
+          <small>#FAF3E0</small>
+        </div>
+      </div>
+    </div>
+
+    <h2>Key Features</h2>
+    <ul class="feature-list">
+      {item.details.features.map((f) => (
+        <li>{f}</li>
+      ))}
+    </ul>
+
+    <div class="project-nav mt-4">
+      <a href="/portfolio" class="btn">← All Projects</a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-warm-gray);
+  }
+  .breadcrumb a { color: var(--accent-primary); }
+  .breadcrumb-sep { opacity: 0.5; }
+
+  .project-hero {
+    border-radius: var(--radius-lg);
+    padding: 3rem 2rem;
+    text-align: center;
+    color: white;
+    margin-bottom: 2rem;
+  }
+  .project-hero-icon { font-size: 3rem; display: block; margin-bottom: 1rem; opacity: 0.9; }
+  .project-hero h1 { color: white; font-size: 2.25rem; margin-bottom: 0.5rem; }
+  .project-hero-tagline { font-size: 1.1rem; opacity: 0.85; font-weight: 300; }
+
+  .project-content { max-width: 680px; }
+
+  .project-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .meta-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-warm-gray);
+    margin-bottom: 0.2rem;
+  }
+  .meta-value { font-size: 0.95rem; font-weight: 500; }
+
+  .palette-showcase {
+    margin: 2rem 0;
+  }
+  .palette-showcase h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .palette-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .palette-swatch {
+    flex: 1;
+    min-width: 80px;
+    height: 80px;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+  }
+  .palette-swatch small {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    opacity: 0.8;
+    margin-top: 0.2rem;
+  }
+
+  .feature-list { list-style: none; padding: 0; }
+  .feature-list li {
+    padding: 0.5rem 0 0.5rem 1.25rem;
+    position: relative;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+  }
+  .feature-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-primary);
+  }
+</style>

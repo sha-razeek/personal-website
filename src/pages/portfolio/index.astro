@@ -1,0 +1,120 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { portfolioItems } from '../../data/portfolio';
+---
+
+<Layout title="Portfolio" description="Selected works and projects by Sha Razeek">
+  <div class="page-header">
+    <h1>Portfolio</h1>
+    <p class="subtitle">Selected works and projects</p>
+  </div>
+
+  <div class="portfolio-content">
+    <div class="portfolio-grid stagger">
+      {portfolioItems.map((item) => (
+        <a href={`/portfolio/${item.slug}`} class="card portfolio-card">
+          <div class="portfolio-card-top" style={`background: ${item.color}`}>
+            <span class="portfolio-card-icon">{item.icon}</span>
+          </div>
+          <div class="portfolio-card-body">
+            <div class="portfolio-tags">
+              {item.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+            <h3>{item.title}</h3>
+            <p class="portfolio-tagline">{item.tagline}</p>
+            <p class="portfolio-desc">{item.description}</p>
+            <span class="portfolio-link">View Project →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .portfolio-content {
+    max-width: 780px;
+  }
+
+  .portfolio-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .portfolio-card {
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    color: inherit;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .portfolio-card:hover {
+    color: inherit;
+  }
+
+  .portfolio-card-top {
+    width: 140px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .portfolio-card-icon {
+    font-size: 2.5rem;
+    color: white;
+    opacity: 0.9;
+  }
+
+  .portfolio-card-body {
+    padding: 1.5rem;
+    flex: 1;
+  }
+
+  .portfolio-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .portfolio-card-body h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .portfolio-tagline {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .portfolio-desc {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .portfolio-link {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 640px) {
+    .portfolio-card {
+      flex-direction: column;
+    }
+    .portfolio-card-top {
+      width: 100%;
+      height: 80px;
+    }
+  }
+</style>

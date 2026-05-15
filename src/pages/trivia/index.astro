@@ -1,0 +1,137 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { quizzes } from '../../data/quizzes';
+---
+
+<Layout title="Trivia" description="Bi-weekly quizzes on general knowledge and interesting facts">
+  <div class="page-header">
+    <h1>Trivia</h1>
+    <p class="subtitle">Bi-weekly quizzes on general knowledge and interesting facts</p>
+  </div>
+
+  <div class="trivia-content">
+    <p class="trivia-intro">
+      Test your knowledge with these curated quizzes. Each week features 30 questions
+      spanning science, history, culture, nature, and the peculiar corners of human knowledge.
+      No multiple choice — just you and the answer.
+    </p>
+
+    <div class="quiz-list stagger">
+      {quizzes.map((quiz) => (
+        <a href={`/trivia/week-${quiz.id}`} class="card quiz-card">
+          <div class="quiz-card-number">
+            <span class="quiz-week-num">W{quiz.id}</span>
+          </div>
+          <div class="quiz-card-body">
+            <div class="quiz-card-header">
+              <h3>{quiz.title}</h3>
+              <span class="quiz-card-date tag">{quiz.date}</span>
+            </div>
+            <p>{quiz.description}</p>
+            <div class="quiz-card-meta">
+              <span class="quiz-card-count">{quiz.questions.length} questions</span>
+              <span class="quiz-card-arrow">Launch Quiz →</span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .trivia-content {
+    max-width: 680px;
+  }
+
+  .trivia-intro {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    line-height: 1.8;
+  }
+
+  .quiz-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .quiz-card {
+    display: flex;
+    text-decoration: none;
+    color: inherit;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .quiz-card:hover {
+    color: inherit;
+  }
+
+  .quiz-card-number {
+    width: 80px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--color-dark), var(--accent-primary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .quiz-week-num {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+    opacity: 0.9;
+  }
+
+  .quiz-card-body {
+    padding: 1.25rem 1.5rem;
+    flex: 1;
+  }
+
+  .quiz-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .quiz-card-body h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+  }
+
+  .quiz-card-body p {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .quiz-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .quiz-card-count {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-warm-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .quiz-card-arrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 640px) {
+    .quiz-card { flex-direction: column; }
+    .quiz-card-number { width: 100%; padding: 0.75rem; }
+  }
+</style>

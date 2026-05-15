@@ -1,0 +1,153 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Projects" description="Featured projects and experiments by Sha Razeek">
+  <div class="page-header">
+    <h1>Projects</h1>
+    <p class="subtitle">Things I've built, experiments, and ongoing work</p>
+  </div>
+
+  <div class="projects-content">
+    <div class="projects-grid stagger">
+      <!-- Transistor Radio -->
+      <a href="/music/transistor" class="card project-card project-card--featured">
+        <div class="project-card-top" style="background: linear-gradient(135deg, var(--color-dark), var(--accent-primary))">
+          <span class="project-card-icon">📻</span>
+        </div>
+        <div class="project-card-body">
+          <span class="tag tag--coral">Live</span>
+          <h3>Transistor Radio</h3>
+          <p>An online radio player that connects you to thousands of stations worldwide via radio-browser.info. Search, favorite, and discover new sounds with a retro-inspired interface.</p>
+          <div class="project-tech">
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Web Audio API</span>
+            <span class="tech-tag">radio-browser.info</span>
+          </div>
+          <span class="project-link">Open Transistor →</span>
+        </div>
+      </a>
+
+      <!-- More coming soon -->
+      <div class="card project-card project-card--coming">
+        <div class="project-card-body">
+          <span class="project-coming-icon">✦</span>
+          <h3>More Projects Coming Soon</h3>
+          <p>New experiments and builds are always in progress. Check back for updates — or follow along on the Articles page for write-ups on what I'm working on.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .projects-content {
+    max-width: 780px;
+  }
+
+  .projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    text-decoration: none;
+    color: inherit;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .project-card:hover {
+    color: inherit;
+  }
+
+  .project-card--featured {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .project-card-top {
+    width: 160px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .project-card-icon {
+    font-size: 3rem;
+    filter: grayscale(0.1);
+  }
+
+  .project-card-body {
+    padding: 1.75rem;
+    flex: 1;
+  }
+
+  .project-card-body h3 {
+    font-size: 1.35rem;
+    margin: 0.5rem 0;
+  }
+
+  .project-card-body p {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+  }
+
+  .tech-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.2em 0.6em;
+    border-radius: 100px;
+    background: rgba(42, 157, 143, 0.06);
+    color: var(--color-charcoal);
+    border: 1px solid var(--border-color);
+  }
+
+  .project-link {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .project-card--coming {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+    border-style: dashed;
+  }
+
+  .project-coming-icon {
+    font-size: 2rem;
+    color: var(--color-warm-gray);
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .project-card--coming .project-card-body {
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .project-card--featured {
+      flex-direction: column;
+    }
+    .project-card-top {
+      width: 100%;
+      height: 100px;
+    }
+  }
+</style>

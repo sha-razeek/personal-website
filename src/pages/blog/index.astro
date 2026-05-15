@@ -1,0 +1,142 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { musicArticles } from '../../data/music';
+---
+
+<Layout title="Articles" description="Writing about music, technology, and design">
+  <div class="page-header">
+    <h1>Articles</h1>
+    <p class="subtitle">Writing about music, discovery, and the things that move me</p>
+  </div>
+
+  <div class="blog-content">
+    <div class="blog-grid stagger">
+      {musicArticles.map((article) => (
+        <a href={`/blog/${article.slug}`} class="card blog-card">
+          <div class="blog-card-hero" style={`background: ${article.heroColor}`}>
+            <span class="blog-card-genre">{article.genre}</span>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-tags">
+              {article.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+            <h3>{article.title}</h3>
+            <p>{article.excerpt}</p>
+            <div class="blog-card-footer">
+              <span class="blog-card-date">{article.date}</span>
+              <span class="blog-card-read">Read →</span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .blog-content { max-width: 720px; }
+
+  .blog-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .blog-card {
+    display: flex;
+    text-decoration: none;
+    color: inherit;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .blog-card:hover {
+    color: inherit;
+  }
+
+  .blog-card-hero {
+    width: 180px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .blog-card-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,0.2) 0%, transparent 60%);
+  }
+
+  .blog-card-genre {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 1;
+  }
+
+  .blog-card-body {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .blog-card-tags {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+
+  .blog-card-body h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .blog-card-body p {
+    font-size: 0.9rem;
+    flex: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  .blog-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .blog-card-date {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-warm-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .blog-card-read {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 640px) {
+    .blog-card {
+      flex-direction: column;
+    }
+    .blog-card-hero {
+      width: 100%;
+      height: 100px;
+    }
+  }
+</style>

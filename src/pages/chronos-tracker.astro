@@ -1,0 +1,448 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Time Tracker" description="Personal time tracking calendar">
+  <div class="page-header">
+    <h1>Time Tracker</h1>
+    <p class="subtitle">Chronological attendance calendar</p>
+  </div>
+
+  <div class="tracker-content">
+    <!-- Month Navigation -->
+    <div class="month-nav">
+      <button class="btn btn--small" id="btnPrevMonth">← Prev</button>
+      <h2 class="month-title" id="monthTitle"></h2>
+      <button class="btn btn--small" id="btnNextMonth">Next →</button>
+    </div>
+
+    <!-- Calendar Grid -->
+    <div class="calendar-wrapper">
+      <div class="calendar-grid" id="calendarGrid">
+        <div class="calendar-header-cell">Mon</div>
+        <div class="calendar-header-cell">Tue</div>
+        <div class="calendar-header-cell">Wed</div>
+        <div class="calendar-header-cell">Thu</div>
+        <div class="calendar-header-cell">Fri</div>
+        <div class="calendar-header-cell">Sat</div>
+        <div class="calendar-header-cell">Sun</div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="calendar-legend">
+      <div class="legend-item">
+        <span class="legend-swatch legend-workday"></span>
+        <span>Checked in/out</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch legend-weekend"></span>
+        <span>Weekend</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch legend-holiday"></span>
+        <span>UK Holiday</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Check-in Dialog -->
+  <div class="modal-overlay" id="checkinDialog">
+    <div class="modal-box">
+      <h3 id="dialogTitle">Check In</h3>
+      <p class="dialog-date" id="dialogDate"></p>
+
+      <div class="modal-field">
+        <label for="checkinTime">Check-in Time</label>
+        <input type="time" id="checkinTime" step="60" />
+      </div>
+
+      <div class="modal-field" id="checkoutField" style="display: none;">
+        <label for="checkoutTime">Check-out Time</label>
+        <input type="time" id="checkoutTime" step="60" />
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn--primary" id="btnCheckin">Check-in</button>
+        <button class="btn" id="btnCheckout" style="display: none;">Check-out</button>
+        <button class="btn btn--coral btn--small" id="btnClear" style="display: none;">Clear</button>
+        <button class="btn btn--small" id="btnCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  // UK Public Holidays 2026 (major ones)
+  const UK_HOLIDAYS_2026 = [
+    '2026-01-01', // New Year's Day
+    '2026-04-03', // Good Friday
+    '2026-04-06', // Easter Monday
+    '2026-05-04', // Early May Bank Holiday
+    '2026-05-25', // Spring Bank Holiday
+    '2026-08-31', // Summer Bank Holiday
+    '2026-12-25', // Christmas Day
+    '2026-12-28', // Boxing Day (observed)
+  ];
+
+  interface DayEntry {
+    checkin: string;
+    checkout: string;
+  }
+
+  let currentYear: number;
+  let currentMonth: number; // 0-indexed
+  let timeData: Record<string, DayEntry> = {};
+
+  const calendarGrid = document.getElementById('calendarGrid')!;
+  const monthTitle = document.getElementById('monthTitle')!;
+  const btnPrevMonth = document.getElementById('btnPrevMonth')!;
+  const btnNextMonth = document.getElementById('btnNextMonth')!;
+  const checkinDialog = document.getElementById('checkinDialog')!;
+  const dialogTitle = document.getElementById('dialogTitle')!;
+  const dialogDate = document.getElementById('dialogDate')!;
+  const checkinTime = document.getElementById('checkinTime') as HTMLInputElement;
+  const checkoutTime = document.getElementById('checkoutTime') as HTMLInputElement;
+  const checkoutField = document.getElementById('checkoutField')!;
+  const btnCheckin = document.getElementById('btnCheckin')!;
+  const btnCheckout = document.getElementById('btnCheckout')!;
+  const btnClear = document.getElementById('btnClear')!;
+  const btnCancel = document.getElementById('btnCancel')!;
+
+  let selectedDate: string = '';
+
+  function loadData() {
+    const saved = localStorage.getItem('timetracker-data');
+    timeData = saved ? JSON.parse(saved) : {};
+  }
+
+  function saveData() {
+    localStorage.setItem('timetracker-data', JSON.stringify(timeData));
+  }
+
+  function getCurrentTime() {
+    const now = new Date();
+    return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+  }
+
+  function formatDateKey(year: number, month: number, day: number): string {
+    return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  }
+
+  function formatDateDisplay(dateStr: string): string {
+    const d = new Date(dateStr + 'T12:00:00');
+    return d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function isWeekend(year: number, month: number, day: number): boolean {
+    const d = new Date(year, month, day);
+    const dow = d.getDay();
+    return dow === 0 || dow === 6;
+  }
+
+  function isHoliday(dateStr: string): boolean {
+    return UK_HOLIDAYS_2026.includes(dateStr);
+  }
+
+  function renderCalendar() {
+    // Update title
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'];
+    monthTitle.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+    // Keep header cells, remove old body cells
+    const existingCells = calendarGrid.querySelectorAll('.calendar-cell');
+    existingCells.forEach(c => c.remove());
+
+    // First day of month (0=Sun, adjust to Mon-based)
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+    // Offset: Mon=0, Tue=1, ... Sun=6
+    const startOffset = firstDay === 0 ? 6 : firstDay - 1;
+
+    // Empty cells before
+    for (let i = 0; i < startOffset; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'calendar-cell empty';
+      calendarGrid.appendChild(cell);
+    }
+
+    // Day cells
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dateKey = formatDateKey(currentYear, currentMonth, day);
+      const weekend = isWeekend(currentYear, currentMonth, day);
+      const holiday = isHoliday(dateKey);
+      const entry = timeData[dateKey];
+
+      const cell = document.createElement('div');
+      cell.className = 'calendar-cell';
+      if (weekend) cell.classList.add('weekend');
+      if (holiday) cell.classList.add('holiday');
+      if (entry && (entry.checkin || entry.checkout)) cell.classList.add('has-data');
+
+      cell.innerHTML = `
+        <div class="calendar-date">${day}</div>
+        ${entry?.checkin ? `<div class="calendar-time">In: ${entry.checkin}</div>` : ''}
+        ${entry?.checkout ? `<div class="calendar-time">Out: ${entry.checkout}</div>` : ''}
+      `;
+
+      if (!weekend) {
+        cell.addEventListener('click', () => openDialog(dateKey));
+      }
+
+      calendarGrid.appendChild(cell);
+    }
+  }
+
+  function openDialog(dateKey: string) {
+    selectedDate = dateKey;
+    const entry = timeData[dateKey];
+
+    dialogDate.textContent = formatDateDisplay(dateKey);
+
+    if (entry && entry.checkin) {
+      // Already has check-in — allow editing
+      dialogTitle.textContent = 'Update Times';
+      checkinTime.value = entry.checkin;
+      checkoutField.style.display = 'block';
+      btnCheckin.textContent = 'Update Check-in';
+      btnCheckout.style.display = entry.checkout ? 'inline-flex' : 'inline-flex';
+      btnCheckout.textContent = entry.checkout ? 'Update Check-out' : 'Check-out';
+      if (entry.checkout) checkoutTime.value = entry.checkout;
+      else checkoutTime.value = getCurrentTime();
+      btnClear.style.display = 'inline-flex';
+    } else {
+      // New check-in
+      dialogTitle.textContent = 'Check In';
+      checkinTime.value = getCurrentTime();
+      checkoutField.style.display = 'none';
+      btnCheckin.textContent = 'Check-in';
+      btnCheckout.style.display = 'none';
+      btnClear.style.display = 'none';
+    }
+
+    checkinDialog.classList.add('active');
+  }
+
+  function closeDialog() {
+    checkinDialog.classList.remove('active');
+    selectedDate = '';
+  }
+
+  // Event Listeners
+  btnPrevMonth.addEventListener('click', () => {
+    currentMonth--;
+    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+    renderCalendar();
+  });
+
+  btnNextMonth.addEventListener('click', () => {
+    currentMonth++;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    renderCalendar();
+  });
+
+  btnCheckin.addEventListener('click', () => {
+    if (!selectedDate) return;
+    if (!timeData[selectedDate]) timeData[selectedDate] = { checkin: '', checkout: '' };
+    timeData[selectedDate].checkin = checkinTime.value;
+    saveData();
+    closeDialog();
+    renderCalendar();
+  });
+
+  btnCheckout.addEventListener('click', () => {
+    if (!selectedDate) return;
+    if (!timeData[selectedDate]) timeData[selectedDate] = { checkin: '', checkout: '' };
+    timeData[selectedDate].checkout = checkoutTime.value;
+    saveData();
+    closeDialog();
+    renderCalendar();
+  });
+
+  btnClear.addEventListener('click', () => {
+    if (!selectedDate) return;
+    delete timeData[selectedDate];
+    saveData();
+    closeDialog();
+    renderCalendar();
+  });
+
+  btnCancel.addEventListener('click', closeDialog);
+
+  checkinDialog.addEventListener('click', (e) => {
+    if (e.target === checkinDialog) closeDialog();
+  });
+
+  // Init
+  const now = new Date();
+  currentYear = now.getFullYear();
+  currentMonth = now.getMonth();
+  loadData();
+  renderCalendar();
+</script>
+
+<style>
+  .tracker-content {
+    max-width: 750px;
+  }
+
+  .month-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .month-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  .calendar-wrapper {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    background: var(--border-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    min-width: 600px;
+  }
+
+  .calendar-header-cell {
+    background: var(--color-dark);
+    color: white;
+    padding: 0.65rem;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  :global(.calendar-cell) {
+    background: white;
+    min-height: 80px;
+    padding: 0.5rem;
+    transition: all var(--transition-fast);
+    position: relative;
+  }
+
+  :global(.calendar-cell:not(.empty)) {
+    cursor: pointer;
+  }
+
+  :global(.calendar-cell:not(.empty):hover) {
+    background: rgba(42, 157, 143, 0.06);
+    box-shadow: inset 0 0 0 1px rgba(42, 157, 143, 0.2);
+  }
+
+  :global(.calendar-cell.empty) {
+    background: var(--bg-secondary);
+  }
+
+  :global(.calendar-cell.weekend) {
+    background: rgba(233, 196, 106, 0.1);
+  }
+
+  :global(.calendar-cell.holiday) {
+    background: rgba(231, 111, 81, 0.08);
+  }
+
+  :global(.calendar-cell.has-data) {
+    background: rgba(42, 157, 143, 0.06);
+    box-shadow: inset 0 0 0 1px rgba(42, 157, 143, 0.15);
+  }
+
+  :global(.calendar-date) {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+  }
+
+  :global(.calendar-cell.weekend .calendar-date) {
+    color: var(--color-blush);
+  }
+
+  :global(.calendar-cell.holiday .calendar-date) {
+    color: var(--accent-secondary);
+  }
+
+  :global(.calendar-time) {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--accent-primary);
+    line-height: 1.5;
+  }
+
+  .calendar-legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid var(--border-color);
+  }
+
+  .legend-workday {
+    background: rgba(42, 157, 143, 0.12);
+    border-color: rgba(42, 157, 143, 0.25);
+  }
+
+  .legend-weekend {
+    background: rgba(233, 196, 106, 0.2);
+    border-color: rgba(233, 196, 106, 0.4);
+  }
+
+  .legend-holiday {
+    background: rgba(231, 111, 81, 0.15);
+    border-color: rgba(231, 111, 81, 0.3);
+  }
+
+  .dialog-date {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 640px) {
+    .calendar-grid { min-width: 100%; }
+    :global(.calendar-cell) { min-height: 60px; padding: 0.35rem; }
+    :global(.calendar-time) { font-size: 0.6rem; }
+  }
+</style>

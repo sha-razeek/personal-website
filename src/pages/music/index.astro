@@ -1,0 +1,190 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { musicArticles } from '../../data/music';
+---
+
+<Layout title="Music" description="Music writing, playlists, and the Transistor radio player">
+  <div class="page-header">
+    <h1>Music</h1>
+    <p class="subtitle">Writing about music, discovering sounds, and tuning in</p>
+  </div>
+
+  <div class="music-content">
+    <!-- Transistor Radio promo -->
+    <a href="/music/transistor" class="card transistor-promo">
+      <div class="transistor-promo-left">
+        <span class="transistor-icon">📻</span>
+      </div>
+      <div class="transistor-promo-right">
+        <span class="tag tag--coral">Live Now</span>
+        <h2>Transistor Radio</h2>
+        <p>Listen to thousands of radio stations from around the world. Search, save favorites, and discover new sounds.</p>
+        <span class="transistor-cta">Open Transistor →</span>
+      </div>
+    </a>
+
+    <div class="jet-line"><span>♪</span></div>
+
+    <!-- Music Articles -->
+    <section>
+      <div class="section-header">
+        <h2>Music Writing</h2>
+      </div>
+      <div class="music-articles stagger">
+        {musicArticles.map((article) => (
+          <a href={`/blog/${article.slug}`} class="card music-article-card">
+            <div class="music-article-hero" style={`background: ${article.heroColor}`}>
+              <span class="music-article-genre">{article.genre}</span>
+            </div>
+            <div class="music-article-body">
+              <div class="music-article-tags">
+                {article.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+              <h3>{article.title}</h3>
+              <p>{article.excerpt}</p>
+              <span class="music-article-date">{article.date}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .music-content { max-width: 700px; }
+
+  .transistor-promo {
+    display: flex;
+    text-decoration: none;
+    color: inherit;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--color-dark), #1a3a47);
+  }
+
+  .transistor-promo:hover {
+    color: white;
+  }
+
+  .transistor-promo-left {
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.05);
+    flex-shrink: 0;
+  }
+
+  .transistor-icon {
+    font-size: 2.5rem;
+    filter: grayscale(0.2);
+  }
+
+  .transistor-promo-right {
+    padding: 1.5rem;
+    color: white;
+  }
+
+  .transistor-promo-right h2 {
+    color: white;
+    margin: 0.5rem 0;
+    font-size: 1.3rem;
+  }
+
+  .transistor-promo-right p {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .transistor-cta {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-mustard);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .section-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+  }
+
+  .music-articles {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .music-article-card {
+    display: flex;
+    text-decoration: none;
+    color: inherit;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .music-article-card:hover {
+    color: inherit;
+  }
+
+  .music-article-hero {
+    width: 160px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+  }
+
+  .music-article-genre {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+
+  .music-article-body {
+    padding: 1.25rem;
+    flex: 1;
+  }
+
+  .music-article-tags {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+
+  .music-article-body h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .music-article-body p {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .music-article-date {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-warm-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 640px) {
+    .transistor-promo { flex-direction: column; }
+    .transistor-promo-left { width: 100%; height: 80px; }
+    .music-article-card { flex-direction: column; }
+    .music-article-hero { width: 100%; height: 80px; }
+  }
+</style>

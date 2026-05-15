@@ -1,0 +1,250 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { resumeData, education } from '../data/resume';
+---
+
+<Layout title="Resume" description="Professional experience and career history of Sha Razeek">
+  <div class="page-header">
+    <h1>Resume</h1>
+    <p class="subtitle">Professional experience & career history</p>
+  </div>
+
+  <div class="resume-content">
+    <!-- Download button -->
+    <div class="resume-actions mb-4">
+      <button class="btn btn--small" onclick="window.print()">
+        ↗ Print / Save as PDF
+      </button>
+    </div>
+
+    <!-- Experience -->
+    <section class="resume-section">
+      <h2 class="resume-section-title">
+        <span class="resume-section-icon">▣</span>
+        Experience
+      </h2>
+      <div class="timeline stagger">
+        {resumeData.map((entry) => (
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content card">
+              <div class="timeline-header">
+                <div>
+                  <h3 class="timeline-role">{entry.role}</h3>
+                  <span class="timeline-company">{entry.company}</span>
+                </div>
+                <span class="timeline-period tag">{entry.period}</span>
+              </div>
+              <p class="timeline-desc">{entry.description}</p>
+              <ul class="timeline-highlights">
+                {entry.highlights.map((h) => (
+                  <li>{h}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="jet-line"><span>◆</span></div>
+
+    <!-- Education -->
+    <section class="resume-section">
+      <h2 class="resume-section-title">
+        <span class="resume-section-icon">◇</span>
+        Education
+      </h2>
+      {education.map((edu) => (
+        <div class="card education-card">
+          <h3>{edu.degree}</h3>
+          <p class="education-school">{edu.institution}</p>
+          <span class="tag">{edu.year}</span>
+        </div>
+      ))}
+    </section>
+
+    <div class="jet-line"><span>✦</span></div>
+
+    <!-- Skills Summary -->
+    <section class="resume-section">
+      <h2 class="resume-section-title">
+        <span class="resume-section-icon">◎</span>
+        Core Competencies
+      </h2>
+      <div class="skills-tags stagger">
+        <span class="tag">Financial Analysis</span>
+        <span class="tag tag--coral">Web Development</span>
+        <span class="tag tag--mustard">UI/UX Design</span>
+        <span class="tag">Data Analytics</span>
+        <span class="tag tag--coral">Team Leadership</span>
+        <span class="tag tag--mustard">Hypermedia Systems</span>
+        <span class="tag">Process Automation</span>
+        <span class="tag tag--coral">Credit Risk Modelling</span>
+        <span class="tag tag--mustard">Design Systems</span>
+        <span class="tag">Digital Publishing</span>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .resume-content {
+    max-width: 720px;
+  }
+
+  .resume-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .resume-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .resume-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+    color: var(--text-primary);
+  }
+
+  .resume-section-icon {
+    color: var(--accent-primary);
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary), var(--accent-warm));
+    opacity: 0.3;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -2rem;
+    top: 1.5rem;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--accent-primary);
+    border: 2px solid var(--bg-primary);
+    z-index: 1;
+  }
+
+  .timeline-item:first-child .timeline-dot {
+    background: var(--accent-secondary);
+    width: 13px;
+    height: 13px;
+    left: calc(-2rem - 1px);
+    top: 1.4rem;
+  }
+
+  .timeline-content {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .timeline-role {
+    font-size: 1.1rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .timeline-company {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .timeline-period {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .timeline-desc {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .timeline-highlights {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .timeline-highlights li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    padding: 0.2rem 0;
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .timeline-highlights li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-primary);
+    font-size: 0.8rem;
+  }
+
+  /* Education */
+  .education-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .education-school {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Skills */
+  .skills-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  @media print {
+    .resume-actions { display: none; }
+    .sidebar, .sidebar-toggle, .sidebar-overlay { display: none !important; }
+    .main-content { margin-left: 0 !important; max-width: 100% !important; }
+    .card { break-inside: avoid; }
+  }
+
+  @media (max-width: 640px) {
+    .timeline-header {
+      flex-direction: column;
+    }
+    .timeline {
+      padding-left: 1.5rem;
+    }
+  }
+</style>

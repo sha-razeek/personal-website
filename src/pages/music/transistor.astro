@@ -1,0 +1,655 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Transistor Radio" description="Listen to thousands of radio stations from around the world">
+  <div class="page-header">
+    <h1>📻 Transistor</h1>
+    <p class="subtitle">Online radio player — Search, listen, and discover stations worldwide</p>
+  </div>
+
+  <div class="radio-app">
+    <!-- Now Playing Bar -->
+    <div class="now-playing" id="nowPlaying" style="display: none;">
+      <div class="np-info">
+        <div class="np-indicator"></div>
+        <div class="np-text">
+          <span class="np-station" id="npStation">—</span>
+          <span class="np-country" id="npCountry">—</span>
+        </div>
+      </div>
+      <div class="np-controls">
+        <button class="np-btn" id="btnFav" title="Add to favorites">♡</button>
+        <button class="np-btn np-btn-play" id="btnPlayPause" title="Play/Pause">▶</button>
+        <button class="np-btn" id="btnStop" title="Stop">■</button>
+        <div class="np-volume">
+          <span class="vol-icon">🔊</span>
+          <input type="range" id="volumeSlider" min="0" max="100" value="75" class="vol-slider" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="radio-search">
+      <input type="text" id="searchInput" placeholder="Search stations by name, country, or tag..." class="search-input" />
+      <button class="btn btn--primary" id="btnSearch">Search</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="radio-tabs">
+      <button class="tab active" data-tab="favorites">Favorites</button>
+      <button class="tab" data-tab="results">Results</button>
+      <button class="tab" data-tab="top">Top Stations</button>
+    </div>
+
+    <!-- Station Lists -->
+    <div class="tab-content" id="tabFavorites">
+      <div class="station-list" id="favoritesList">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <div class="tab-content" id="tabResults" style="display: none;">
+      <div class="station-list" id="resultsList">
+        <p class="empty-state">Search for stations above to see results.</p>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tabTop" style="display: none;">
+      <div class="station-list" id="topList">
+        <p class="loading-text">Loading top stations...</p>
+      </div>
+    </div>
+
+    <!-- Audio element -->
+    <audio id="audioPlayer" crossorigin="anonymous"></audio>
+  </div>
+</Layout>
+
+<style>
+  .radio-app {
+    max-width: 720px;
+  }
+
+  /* Now Playing */
+  .now-playing {
+    background: linear-gradient(135deg, var(--color-dark), #1a3a47);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fadeInUp 0.3s var(--ease-out);
+  }
+
+  .np-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .np-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-secondary);
+    animation: gentlePulse 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  .np-station {
+    color: white;
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .np-country {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .np-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .np-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-fast);
+  }
+
+  .np-btn:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+  .np-btn-play {
+    width: 52px;
+    height: 52px;
+    background: var(--accent-primary);
+    font-size: 1.15rem;
+  }
+
+  .np-btn-play:hover {
+    background: var(--accent-secondary);
+  }
+
+  .np-volume {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-left: 0.5rem;
+  }
+
+  .vol-icon { font-size: 0.85rem; }
+
+  .vol-slider {
+    width: 70px;
+    height: 3px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .vol-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-mustard);
+    cursor: pointer;
+  }
+
+  /* Search */
+  .radio-search {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .search-input {
+    flex: 1;
+    padding: 0.65rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: white;
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast);
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+  }
+
+  /* Tabs */
+  .radio-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .tab {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.6rem 1rem;
+    border: none;
+    background: none;
+    color: var(--color-warm-gray);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-fast);
+  }
+
+  .tab:hover {
+    color: var(--text-primary);
+  }
+
+  .tab.active {
+    color: var(--accent-primary);
+    border-bottom-color: var(--accent-primary);
+  }
+
+  /* Station List */
+  .station-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .station-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: white;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .station-item:hover {
+    border-color: var(--accent-primary);
+    background: rgba(42, 157, 143, 0.03);
+  }
+
+  .station-item.playing {
+    border-color: var(--accent-primary);
+    background: rgba(42, 157, 143, 0.06);
+  }
+
+  .station-favicon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+    background: var(--bg-secondary);
+    flex-shrink: 0;
+  }
+
+  .station-favicon-placeholder {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    background: rgba(42, 157, 143, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    flex-shrink: 0;
+  }
+
+  .station-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .station-name {
+    font-weight: 500;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .station-meta {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-warm-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .station-actions {
+    display: flex;
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  .station-btn {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    color: var(--text-secondary);
+  }
+
+  .station-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+  }
+
+  .station-btn.fav-active {
+    color: var(--accent-secondary);
+    border-color: var(--accent-secondary);
+  }
+
+  .empty-state, .loading-text {
+    text-align: center;
+    padding: 3rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-warm-gray);
+  }
+
+  @media (max-width: 640px) {
+    .now-playing {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .np-volume { display: none; }
+    .radio-search { flex-direction: column; }
+  }
+</style>
+
+<script>
+  // Transistor Radio Player
+  const API_BASE = 'https://de1.api.radio-browser.info/json';
+
+  interface Station {
+    stationuuid: string;
+    name: string;
+    url: string;
+    url_resolved: string;
+    country: string;
+    countrycode: string;
+    favicon: string;
+    tags: string;
+    codec: string;
+    bitrate: number;
+  }
+
+  // State
+  let currentStation: Station | null = null;
+  let favorites: Station[] = [];
+  let isPlaying = false;
+
+  const audio = document.getElementById('audioPlayer') as HTMLAudioElement;
+  const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+  const nowPlaying = document.getElementById('nowPlaying')!;
+  const npStation = document.getElementById('npStation')!;
+  const npCountry = document.getElementById('npCountry')!;
+  const btnPlayPause = document.getElementById('btnPlayPause')!;
+  const btnStop = document.getElementById('btnStop')!;
+  const btnFav = document.getElementById('btnFav')!;
+  const btnSearch = document.getElementById('btnSearch')!;
+  const volumeSlider = document.getElementById('volumeSlider') as HTMLInputElement;
+  const favoritesList = document.getElementById('favoritesList')!;
+  const resultsList = document.getElementById('resultsList')!;
+  const topList = document.getElementById('topList')!;
+
+  // Default favorites
+  const defaultFavorites: Station[] = [
+    {
+      stationuuid: 'default-voi',
+      name: 'Voice of Indonesia',
+      url: 'https://streaming.posindonesia.co.id:8443/vio',
+      url_resolved: 'https://streaming.posindonesia.co.id:8443/vio',
+      country: 'Indonesia',
+      countrycode: 'ID',
+      favicon: '',
+      tags: 'news,talk',
+      codec: 'MP3',
+      bitrate: 128,
+    },
+    {
+      stationuuid: 'default-bbc',
+      name: 'BBC World Service',
+      url: 'https://stream.live.vicemo.com:8012/bbc_world',
+      url_resolved: 'https://stream.live.vicemo.com:8012/bbc_world',
+      country: 'United Kingdom',
+      countrycode: 'GB',
+      favicon: '',
+      tags: 'news,talk',
+      codec: 'MP3',
+      bitrate: 128,
+    },
+  ];
+
+  // Init
+  function init() {
+    const saved = localStorage.getItem('transistor-favorites');
+    favorites = saved ? JSON.parse(saved) : [...defaultFavorites];
+    renderFavorites();
+    loadTopStations();
+    setupTabs();
+    setupEventListeners();
+    audio.volume = 0.75;
+  }
+
+  function saveFavorites() {
+    localStorage.setItem('transistor-favorites', JSON.stringify(favorites));
+  }
+
+  // Tabs
+  function setupTabs() {
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const tabName = tab.getAttribute('data-tab')!;
+        document.querySelectorAll('.tab-content').forEach(c => (c as HTMLElement).style.display = 'none');
+        const target = document.getElementById('tab' + tabName.charAt(0).toUpperCase() + tabName.slice(1))!;
+        target.style.display = 'block';
+      });
+    });
+  }
+
+  // Event Listeners
+  function setupEventListeners() {
+    btnSearch.addEventListener('click', searchStations);
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') searchStations();
+    });
+
+    btnPlayPause.addEventListener('click', () => {
+      if (isPlaying) {
+        audio.pause();
+      } else if (currentStation) {
+        audio.src = currentStation.url_resolved;
+        audio.play();
+      }
+    });
+
+    btnStop.addEventListener('click', stopPlayback);
+
+    btnFav.addEventListener('click', () => {
+      if (currentStation) toggleFavorite(currentStation);
+    });
+
+    volumeSlider.addEventListener('input', () => {
+      audio.volume = parseInt(volumeSlider.value) / 100;
+    });
+
+    audio.addEventListener('play', () => {
+      isPlaying = true;
+      btnPlayPause.textContent = '⏸';
+      if (currentStation) {
+        document.querySelectorAll('.station-item').forEach(el => el.classList.remove('playing'));
+        const el = document.querySelector(`[data-station-id="${currentStation.stationuuid}"]`);
+        el?.classList.add('playing');
+      }
+    });
+
+    audio.addEventListener('pause', () => {
+      isPlaying = false;
+      btnPlayPause.textContent = '▶';
+    });
+
+    audio.addEventListener('error', () => {
+      isPlaying = false;
+      btnPlayPause.textContent = '▶';
+    });
+  }
+
+  // Search
+  async function searchStations() {
+    const query = searchInput.value.trim();
+    if (!query) return;
+
+    resultsList.innerHTML = '<p class="loading-text">Searching...</p>';
+
+    try {
+      const res = await fetch(`${API_BASE}/stations/search?name=${encodeURIComponent(query)}&limit=30&order=votes&reverse=true&hidebroken=true`);
+      const stations: Station[] = await res.json();
+      renderStations(stations, resultsList);
+
+      // Switch to results tab
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelector('[data-tab="results"]')?.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(c => (c as HTMLElement).style.display = 'none');
+      document.getElementById('tabResults')!.style.display = 'block';
+    } catch {
+      resultsList.innerHTML = '<p class="empty-state">Error fetching results. Please try again.</p>';
+    }
+  }
+
+  // Top Stations
+  async function loadTopStations() {
+    try {
+      const res = await fetch(`${API_BASE}/stations/topvote?limit=30&hidebroken=true`);
+      const stations: Station[] = await res.json();
+      renderStations(stations, topList);
+    } catch {
+      topList.innerHTML = '<p class="empty-state">Could not load top stations.</p>';
+    }
+  }
+
+  // Render
+  function renderStations(stations: Station[], container: HTMLElement) {
+    if (stations.length === 0) {
+      container.innerHTML = '<p class="empty-state">No stations found.</p>';
+      return;
+    }
+
+    container.innerHTML = stations.map(s => `
+      <div class="station-item" data-station-id="${s.stationuuid}">
+        ${s.favicon
+          ? `<img class="station-favicon" src="${s.favicon}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="station-favicon-placeholder" style="display:none">♪</div>`
+          : `<div class="station-favicon-placeholder">♪</div>`
+        }
+        <div class="station-info">
+          <div class="station-name">${escapeHtml(s.name)}</div>
+          <div class="station-meta">${escapeHtml(s.country)} · ${s.codec} ${s.bitrate}k</div>
+        </div>
+        <div class="station-actions">
+          <button class="station-btn fav-btn ${isFavorite(s.stationuuid) ? 'fav-active' : ''}" data-uuid="${s.stationuuid}" title="Favorite">
+            ${isFavorite(s.stationuuid) ? '♥' : '♡'}
+          </button>
+          <button class="station-btn play-btn" data-uuid="${s.stationuuid}" title="Play">▶</button>
+        </div>
+      </div>
+    `).join('');
+
+    // Bind events
+    container.querySelectorAll('.play-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const uuid = btn.getAttribute('data-uuid')!;
+        const station = stations.find(s => s.stationuuid === uuid);
+        if (station) playStation(station);
+      });
+    });
+
+    container.querySelectorAll('.fav-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const uuid = btn.getAttribute('data-uuid')!;
+        const station = stations.find(s => s.stationuuid === uuid);
+        if (station) toggleFavorite(station);
+      });
+    });
+
+    container.querySelectorAll('.station-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const uuid = item.getAttribute('data-station-id')!;
+        const station = stations.find(s => s.stationuuid === uuid);
+        if (station) playStation(station);
+      });
+    });
+  }
+
+  function renderFavorites() {
+    if (favorites.length === 0) {
+      favoritesList.innerHTML = '<p class="empty-state">No favorites yet. Search and add stations!</p>';
+      return;
+    }
+    renderStations(favorites, favoritesList);
+  }
+
+  // Playback
+  function playStation(station: Station) {
+    currentStation = station;
+    audio.src = station.url_resolved;
+    audio.play();
+
+    nowPlaying.style.display = 'flex';
+    npStation.textContent = station.name;
+    npCountry.textContent = `${station.country} · ${station.codec} ${station.bitrate}k`;
+
+    btnFav.textContent = isFavorite(station.stationuuid) ? '♥' : '♡';
+  }
+
+  function stopPlayback() {
+    audio.pause();
+    audio.src = '';
+    isPlaying = false;
+    btnPlayPause.textContent = '▶';
+    currentStation = null;
+    nowPlaying.style.display = 'none';
+    document.querySelectorAll('.station-item').forEach(el => el.classList.remove('playing'));
+  }
+
+  // Favorites
+  function isFavorite(uuid: string): boolean {
+    return favorites.some(f => f.stationuuid === uuid);
+  }
+
+  function toggleFavorite(station: Station) {
+    if (isFavorite(station.stationuuid)) {
+      favorites = favorites.filter(f => f.stationuuid !== station.stationuuid);
+    } else {
+      favorites.push(station);
+    }
+    saveFavorites();
+    renderFavorites();
+
+    if (currentStation && currentStation.stationuuid === station.stationuuid) {
+      btnFav.textContent = isFavorite(station.stationuuid) ? '♥' : '♡';
+    }
+
+    // Re-render results/top to update fav buttons
+    document.querySelectorAll('.fav-btn').forEach(btn => {
+      const uuid = btn.getAttribute('data-uuid');
+      if (uuid) {
+        btn.classList.toggle('fav-active', isFavorite(uuid));
+        btn.textContent = isFavorite(uuid) ? '♥' : '♡';
+      }
+    });
+  }
+
+  function escapeHtml(str: string): string {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  init();
+</script>
