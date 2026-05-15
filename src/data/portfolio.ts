@@ -17,28 +17,6 @@ export interface PortfolioItem {
 
 export const portfolioItems: PortfolioItem[] = [
   {
-    slug: 'slifa-magazine',
-    title: 'SLIFA Magazine',
-    tagline: 'A digital publication celebrating Sri Lankan design and culture',
-    description: 'Editorial design and digital publishing platform with a mid-century aesthetic sensibility. SLIFA brings together voices from Sri Lanka\'s creative community.',
-    tags: ['Editorial', 'Publishing', 'Design'],
-    color: 'var(--color-coral)',
-    icon: '✦',
-    details: {
-      role: 'Design Lead & Developer',
-      year: '2024',
-      tools: ['Figma', 'Astro', 'Cloudflare Pages'],
-      overview: 'SLIFA Magazine is a digital-first publication that showcases Sri Lankan design, culture, and creative thinking. Built with a strong editorial sensibility and a visual language inspired by mid-century print design.',
-      features: [
-        'Custom editorial layout system with flexible grid',
-        'Typography-first design with curated font pairings',
-        'Performance-optimized static generation',
-        'Responsive reading experience across devices',
-        'Archive system with category filtering',
-      ],
-    },
-  },
-  {
     slug: 'transistor-radio',
     title: 'Transistor Radio',
     tagline: 'An online radio player tuned to the world',
@@ -79,6 +57,28 @@ export const portfolioItems: PortfolioItem[] = [
         'Component library with buttons, cards, modals, and more',
         'Animation principles based on Space Age motion graphics',
         'Accessibility-first approach with WCAG compliance',
+      ],
+    },
+  },
+  {
+    slug: 'slifa-magazine',
+    title: 'SLIFA Magazine',
+    tagline: 'A digital publication for the Sri Lanka Indonesia Friendship Association',
+    description: 'Was the editor for both slifa.lk and the SLIFA Magazine, the primary publications for the Sri Lanka Indonesia Friendship Association.',
+    tags: ['Editorial', 'Publishing', 'Design'],
+    color: 'var(--color-coral)',
+    icon: '✦',
+    details: {
+      role: 'Design Lead & Developer',
+      year: '2024',
+      tools: ['Figma', 'Astro', 'Cloudflare Pages'],
+      overview: 'SLIFA Magazine is a digital-first publication that showcases Sri Lankan design, culture, and creative thinking. Built with a strong editorial sensibility and a visual language inspired by mid-century print design.',
+      features: [
+        'Custom editorial layout system with flexible grid',
+        'Typography-first design with curated font pairings',
+        'Performance-optimized static generation',
+        'Responsive reading experience across devices',
+        'Archive system with category filtering',
       ],
     },
   },

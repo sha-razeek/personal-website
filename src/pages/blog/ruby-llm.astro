@@ -58,7 +58,7 @@ ai = AIClient.new(provider: :openai, model: "gpt-4")
 # ai = AIClient.new(provider: :anthropic, model: "claude-sonnet-4-20250514")
 # ai = AIClient.new(provider: :google, model: "gemini-2.0-flash")
 
-# Stream a response with a block — because Ruby loves blocks
+# Stream a response with a block  -  because Ruby loves blocks
 ai.chat("Write a haiku about recursion") do |chunk|
   print chunk
 end
@@ -108,7 +108,7 @@ const rubyConversation = `class Conversation
   end
 end
 
-# Usage — reads almost like English
+# Usage  -  reads almost like English
 bot = Conversation.new(
   system_prompt: "You are a helpful Ruby programming tutor.",
   model: "gpt-4"
@@ -159,7 +159,7 @@ puts bot.summarise`;
       </div>
 
       <p>
-        It works. It's functional. But look at it — nested dictionaries, explicit role strings,
+        It works. It's functional. But look at it  -  nested dictionaries, explicit role strings,
         method chains that read like legal documents. There's nothing <em>wrong</em> with it,
         but there's nothing that delights, either.
       </p>
@@ -195,7 +195,7 @@ puts bot.summarise`;
 
       <p>
         Already, something feels different. The <code>require "openai"</code> is honest and
-        unadorned. The method is called <code>chat</code> — not <code>chat.completions.create</code>,
+        unadorned. The method is called <code>chat</code>  -  not <code>chat.completions.create</code>,
         a three-word method chain that reads like a shipping manifest. Ruby favours directness.
       </p>
 
@@ -213,12 +213,12 @@ puts bot.summarise`;
       </p>
 
       <div class="code-block">
-        <div class="code-lang">Ruby — Multi-provider abstraction</div>
+        <div class="code-lang">Ruby  -  Multi-provider abstraction</div>
         <pre><code class="language-ruby" set:html={rubyAdvanced}></code></pre>
       </div>
 
       <p>
-        Notice the block syntax. This is quintessential Ruby — passing a block to a method for
+        Notice the block syntax. This is quintessential Ruby  -  passing a block to a method for
         streaming responses feels as natural as <code>each</code> or <code>map</code>. The
         language was practically designed for this pattern, even though Matz couldn't have known
         streaming AI responses would be a thing thirty years later.
@@ -251,7 +251,7 @@ puts bot.summarise`;
         </div>
         <div class="listening-item">
           <strong>DSL-Friendly Design</strong>
-          <p>Ruby excels at building domain-specific languages. LLM interaction is ripe for DSLs —
+          <p>Ruby excels at building domain-specific languages. LLM interaction is ripe for DSLs  - 
           and the community has delivered. Libraries that let you define prompt templates, chain
           conversations, and manage context with syntax that reads like English.</p>
         </div>
@@ -259,13 +259,13 @@ puts bot.summarise`;
 
       <h2>A Conversation Chain, the Ruby Way</h2>
       <p>
-        Here's a more complex example — a multi-turn conversation with context management,
+        Here's a more complex example  -  a multi-turn conversation with context management,
         prompt templates, and structured output. In Python, this would be a class with
         decorators and type hints. In Ruby, it's almost poetry:
       </p>
 
       <div class="code-block">
-        <div class="code-lang">Ruby — Conversation with context</div>
+        <div class="code-lang">Ruby  -  Conversation with context</div>
         <pre><code class="language-ruby" set:html={rubyConversation}></code></pre>
       </div>
 
@@ -274,7 +274,7 @@ puts bot.summarise`;
         patterns. Just a Ruby class that does what it says. The <code>include AI::Helpers</code>
         line pulls in convenience methods. The <code>ask</code> method is self-documenting.
         And the <code>to_s</code> method lets you <code>puts</code> the entire conversation
-        because of course it does — this is Ruby.
+        because of course it does  -  this is Ruby.
       </p>
 
       <div class="article-image ruby-gem">
@@ -286,13 +286,13 @@ puts bot.summarise`;
       <h2>The Honest Comparison</h2>
       <p>
         I should be fair. Python's advantage in the AI/ML space is real and well-earned.
-        The ecosystem is deeper: PyTorch, Hugging Face, LangChain — these are mature, battle-tested
+        The ecosystem is deeper: PyTorch, Hugging Face, LangChain  -  these are mature, battle-tested
         libraries with enormous communities. If you're training models, fine-tuning, or building
         production ML pipelines, Python is the pragmatic choice.
       </p>
       <p>
-        But for the increasingly common task of <em>integrating</em> LLMs into applications —
-        building chatbots, content generators, code assistants, and intelligent workflows —
+        But for the increasingly common task of <em>integrating</em> LLMs into applications  - 
+        building chatbots, content generators, code assistants, and intelligent workflows  - 
         Ruby offers something Python often doesn't: code that you actually want to read.
       </p>
       <p>
@@ -325,7 +325,7 @@ puts bot.summarise`;
         <div class="listening-item">
           <strong>langchainrb</strong>
           <p>Ruby's answer to LangChain. Agent frameworks, chain-of-thought prompting, tool use,
-          and memory — all wrapped in beautiful Ruby syntax.</p>
+          and memory  -  all wrapped in beautiful Ruby syntax.</p>
         </div>
         <div class="listening-item">
           <strong>ruby_llm</strong>
@@ -344,7 +344,7 @@ puts bot.summarise`;
       <p>
         And there's something rather lovely about that. In an industry obsessed with raw
         performance benchmarks and framework du jour, Ruby quietly demonstrates that how code
-        <em>feels</em> matters — not just how it runs. That elegance is a feature, not a luxury.
+        <em>feels</em> matters  -  not just how it runs. That elegance is a feature, not a luxury.
         And that Matz's original vision of a language that optimises for human happiness
         turns out to be remarkably well-suited for an era where humans and machines are learning
         to collaborate.

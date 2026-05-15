@@ -1,10 +1,10 @@
-# Sha Razeek — Mid-Century Jet Age Website
+# Sha Razeek  -  Mid-Century Jet Age Website
 
 A personal website and digital portfolio built with a "Mid-Century Jet Age" aesthetic. This project serves as a hub for professional work, editorial experiments, and creative side projects, reflecting a passion for hypermedia, UI/UX, and retro-futuristic design.
 
 ## Design Ethos: Mid-Century Modern
 
-The site's visual language is inspired by the optimistic futurism of the 1950s and 60s—the "Jet Age." This is characterized by:
+The site's visual language is inspired by the optimistic futurism of the 1950s and 60s - the "Jet Age." This is characterized by:
 
 - **Palette:** A curated selection of Cream, Teal, Coral, Mustard, and Charcoal.
 - **Typography:** Geometric sans-serifs (Figtree) paired with technical mono-spaced fonts (IBM Plex Mono).

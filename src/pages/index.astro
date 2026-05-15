@@ -17,8 +17,8 @@ const currentJob = resumeData[0];
       <span class="divider-star">◈</span>
     </div>
     <p class="hero-desc">
-      Crafting digital experiences at the crossroads of design and technology.
-      Currently serving as {currentJob.role} at {currentJob.company}.
+      Just an ordinary guy who loves building beautiful things.
+
     </p>
     <div class="hero-actions">
       <a href="/portfolio" class="btn btn--primary">View Portfolio</a>
@@ -104,7 +104,7 @@ const currentJob = resumeData[0];
         <div class="article-card-body">
           <span class="tag tag--mustard">Dangdut</span>
           <h3>The People's Music of Indonesia</h3>
-          <p>From the streets of Jakarta to global diaspora — the rhythmic, rebellious sound of Dangdut.</p>
+          <p>From the streets of Jakarta to global diaspora  -  the rhythmic, rebellious sound of Dangdut.</p>
           <span class="article-date">May 2026</span>
         </div>
       </a>
@@ -173,14 +173,28 @@ const currentJob = resumeData[0];
   }
 
   .hero-name {
-    font-size: 4rem;
+    font-size: 5.5rem;
     font-weight: 700;
     letter-spacing: -0.03em;
     margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, var(--color-dark), var(--accent-primary));
+    background: linear-gradient(
+      135deg, 
+      var(--color-dark) 0%, 
+      var(--accent-primary) 25%, 
+      var(--accent-secondary) 50%, 
+      var(--accent-primary) 75%, 
+      var(--color-dark) 100%
+    );
+    background-size: 400% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: shimmeryText 12s linear infinite;
+  }
+
+  @keyframes shimmeryText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
   }
 
   .hero-role {
@@ -495,10 +509,19 @@ const currentJob = resumeData[0];
   }
 
   @media (max-width: 640px) {
-    .hero-name { font-size: 2.75rem; }
+    .hero-name { font-size: 3.25rem; }
     .articles-grid { grid-template-columns: 1fr; }
     .explore-grid { grid-template-columns: repeat(2, 1fr); }
+    
     .app-promo-visual { height: 220px; }
+    .app-promo-overlay { padding: 1.5rem; gap: 1rem; }
+    .app-promo-icon { font-size: 3.5rem; }
+    .app-promo-title { font-size: 1.75rem; }
+    .app-promo-tag { font-size: 0.75rem; }
+    .app-promo-content { padding: 1.75rem; }
+    
+    .visual-waves span { right: -50px; width: 150px; height: 150px; }
+    .visual-test-pattern { width: 340px; height: 340px; margin-right: -80px; }
   }
 
 </style>

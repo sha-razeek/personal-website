@@ -202,7 +202,7 @@ import Layout from '../layouts/Layout.astro';
     dialogDate.textContent = formatDateDisplay(dateKey);
 
     if (entry && entry.checkin) {
-      // Already has check-in — allow editing
+      // Already has check-in  -  allow editing
       dialogTitle.textContent = 'Update Times';
       checkinTime.value = entry.checkin;
       checkoutField.style.display = 'block';
