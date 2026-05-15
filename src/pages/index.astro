@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { musicArticles } from '../data/music';
+import { resumeData } from '../data/resume';
+
+const currentJob = resumeData[0];
 ---
 
 <Layout title="Home">
@@ -15,7 +18,7 @@ import { musicArticles } from '../data/music';
     </div>
     <p class="hero-desc">
       Crafting digital experiences at the crossroads of design and technology.
-      Currently serving as Associate Director at Acuity Analytics.
+      Currently serving as {currentJob.role} at {currentJob.company}.
     </p>
     <div class="hero-actions">
       <a href="/portfolio" class="btn btn--primary">View Portfolio</a>
@@ -31,41 +34,34 @@ import { musicArticles } from '../data/music';
     <div class="apps-container stagger">
       <a href="/music/transistor" class="app-promo-card app-promo-card--transistor">
         <div class="app-promo-content">
-          <div class="app-promo-header">
+          <p class="app-promo-desc">Global radio broadcasting at your fingertips. Tuned to thousands of stations worldwide with a retro-futuristic interface.</p>
+        </div>
+        <div class="app-promo-visual">
+          <div class="app-promo-overlay">
             <span class="app-promo-icon">📻</span>
             <div class="app-promo-title-group">
               <h3 class="app-promo-title">Transistor</h3>
               <span class="app-promo-tag">Radio Receiver</span>
             </div>
           </div>
-          <p class="app-promo-desc">Global radio broadcasting at your fingertips. Tuned to thousands of stations worldwide with a retro-futuristic interface.</p>
-          <div class="app-promo-footer">
-            <span class="btn btn--small">Launch Station →</span>
-          </div>
-        </div>
-        <div class="app-promo-visual">
-          <div class="visual-circle"></div>
           <div class="visual-waves">
             <span></span><span></span><span></span>
           </div>
         </div>
       </a>
 
-      <a href="/projects/cathode" class="app-promo-card app-promo-card--cathode">
+      <a href="/projects/broadcast" class="app-promo-card app-promo-card--broadcast">
         <div class="app-promo-content">
-          <div class="app-promo-header">
-            <span class="app-promo-icon">📺</span>
-            <div class="app-promo-title-group">
-              <h3 class="app-promo-title">Cathode</h3>
-              <span class="app-promo-tag">Vision Monitor</span>
-            </div>
-          </div>
           <p class="app-promo-desc">Direct satellite transmission from across the globe. Seamless streaming of live international television channels.</p>
-          <div class="app-promo-footer">
-            <span class="btn btn--small">Direct Feed →</span>
-          </div>
         </div>
         <div class="app-promo-visual">
+          <div class="app-promo-overlay">
+            <span class="app-promo-icon">📺</span>
+            <div class="app-promo-title-group">
+              <h3 class="app-promo-title">Broadcast</h3>
+              <span class="app-promo-tag">Live TV Receiver</span>
+            </div>
+          </div>
           <div class="visual-test-pattern"></div>
         </div>
       </a>
@@ -177,7 +173,7 @@ import { musicArticles } from '../data/music';
   }
 
   .hero-name {
-    font-size: 3.75rem;
+    font-size: 4rem;
     font-weight: 700;
     letter-spacing: -0.03em;
     margin-bottom: 0.5rem;
@@ -188,7 +184,7 @@ import { musicArticles } from '../data/music';
   }
 
   .hero-role {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: var(--text-secondary);
     font-weight: 300;
     margin-bottom: 1.5rem;
@@ -216,39 +212,39 @@ import { musicArticles } from '../data/music';
   }
 
   .hero-desc {
-    max-width: 600px;
-    margin: 0 auto 2rem;
+    max-width: 640px;
+    margin: 0 auto 2.5rem;
     color: var(--text-secondary);
-    font-size: 1.05rem;
+    font-size: 1.15rem;
   }
 
   .hero-actions {
     display: flex;
-    gap: 1rem;
+    gap: 1.25rem;
     justify-content: center;
     flex-wrap: wrap;
   }
 
   /* Sections */
   .section {
-    margin-top: 3rem;
+    margin-top: 4rem;
   }
 
   .articles-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    gap: 2rem;
   }
 
   .section-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
   }
 
   .section-header h2 {
-    font-size: 1.625rem;
+    font-size: 1.8rem;
     margin-bottom: 0;
   }
 
@@ -297,13 +293,13 @@ import { musicArticles } from '../data/music';
   }
 
   .article-card-body p {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     margin-bottom: 0.75rem;
   }
 
   .article-date {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: var(--color-warm-gray);
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -313,19 +309,19 @@ import { musicArticles } from '../data/music';
   .explore-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    gap: 1.25rem;
   }
 
   /* App Promo Cards */
   .apps-container {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2rem;
   }
 
   .app-promo-card {
-    display: grid;
-    grid-template-columns: 1fr 240px;
+    display: flex;
+    flex-direction: column-reverse;
     background: white;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
@@ -333,7 +329,6 @@ import { musicArticles } from '../data/music';
     color: inherit;
     overflow: hidden;
     transition: all var(--transition-medium);
-    min-height: 200px;
   }
 
   .app-promo-card:hover {
@@ -343,91 +338,119 @@ import { musicArticles } from '../data/music';
   }
 
   .app-promo-content {
-    padding: 2.25rem;
+    padding: 2.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 
-  .app-promo-header {
+  .app-promo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 2.5rem;
     display: flex;
     align-items: center;
-    gap: 1.25rem;
-    margin-bottom: 1rem;
+    gap: 1.5rem;
+    z-index: 10;
+    background: linear-gradient(to right, rgba(0,0,0,0.4) 0%, transparent 70%);
   }
 
   .app-promo-icon {
-    font-size: 2.5rem;
+    font-size: 5rem;
   }
 
   .app-promo-title {
-    font-size: 1.75rem;
+    font-size: 2.25rem;
     margin: 0;
-    line-height: 1;
+    line-height: 1.1;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
   }
 
   .app-promo-tag {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    color: var(--color-warm-gray);
+    color: rgba(255,255,255,0.8);
+    display: block;
+    margin-top: 0.25rem;
   }
 
   .app-promo-desc {
-    font-size: 1.05rem;
+    font-size: 1.15rem;
     color: var(--text-secondary);
-    max-width: 560px;
-    margin-bottom: 1.5rem;
+    max-width: 680px;
+    margin-bottom: 0;
   }
 
   .app-promo-visual {
+    height: 300px;
     background: var(--bg-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
-    border-left: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
   }
 
   .app-promo-card--transistor .app-promo-visual {
-    background: linear-gradient(135deg, var(--color-dark), var(--accent-primary));
+    background: linear-gradient(135deg, var(--accent-primary), var(--color-sage));
   }
 
-  .app-promo-card--cathode .app-promo-visual {
-    background: linear-gradient(135deg, #264653, #3D405B);
+  .app-promo-card--broadcast .app-promo-visual {
+    background: linear-gradient(135deg, var(--color-charcoal), var(--color-teal));
+    justify-content: flex-end;
+    padding-right: 0;
   }
 
   /* Visual Elements */
-  .visual-circle {
-    width: 120px;
-    height: 120px;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 50%;
-    position: absolute;
+  .visual-waves {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+    padding-right: 0;
   }
 
   .visual-waves span {
-    display: block;
-    width: 160px;
-    height: 1px;
-    background: rgba(255,255,255,0.15);
-    margin: 10px 0;
-    transform: skewY(-15deg);
+    position: absolute;
+    right: -100px;
+    width: 200px;
+    height: 200px;
+    border: 4px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    animation: wavePulse 5s linear infinite;
+    opacity: 0;
+  }
+
+  .visual-waves span:nth-child(1) { animation-delay: 0s; }
+  .visual-waves span:nth-child(2) { animation-delay: 1.66s; }
+  .visual-waves span:nth-child(3) { animation-delay: 3.33s; }
+
+  @keyframes wavePulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    100% { transform: scale(8); opacity: 0; }
   }
 
   .visual-test-pattern {
-    width: 140px;
-    height: 140px;
+    width: 480px;
+    height: 480px;
+    margin-right: -120px;
     background: repeating-conic-gradient(
       from 0deg,
-      rgba(255,255,255,0.05) 0deg 90deg,
+      rgba(255,255,255,0.08) 0deg 90deg,
       transparent 90deg 180deg
     );
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 4px solid rgba(255,255,255,0.08);
     border-radius: 50%;
-    animation: atomicSpin 20s linear infinite;
+    animation: atomicSpin 35s linear infinite;
+    flex-shrink: 0;
   }
 
   .explore-card {
@@ -475,7 +498,7 @@ import { musicArticles } from '../data/music';
     .hero-name { font-size: 2.75rem; }
     .articles-grid { grid-template-columns: 1fr; }
     .explore-grid { grid-template-columns: repeat(2, 1fr); }
-    .app-promo-card { grid-template-columns: 1fr; }
-    .app-promo-visual { display: none; }
+    .app-promo-visual { height: 220px; }
   }
+
 </style>
