@@ -68,57 +68,25 @@ const currentJob = resumeData[0];
     </div>
   </section>
 
-  <!-- Recent Articles Preview -->
+  <!-- Recently Written -->
   <section class="section">
     <div class="section-header">
       <h2>Recently Written</h2>
       <a href="/blog" class="section-link">All Articles →</a>
     </div>
     <div class="articles-grid stagger">
-      <a href="/blog/city-pop" class="card article-card">
-        <div class="article-card-image" style="background: linear-gradient(135deg, #E76F51, #E9C46A)">
-          <span class="article-card-icon">♪</span>
-        </div>
-        <div class="article-card-body">
-          <span class="tag tag--coral">City Pop</span>
-          <h3>Tokyo's Neon Dreamscape</h3>
-          <p>The glossy, sun-drenched sound of 1980s Japanese City Pop and how it became a global phenomenon.</p>
-          <span class="article-date">May 2026</span>
-        </div>
-      </a>
-      <a href="/blog/enka" class="card article-card">
-        <div class="article-card-image" style="background: linear-gradient(135deg, #264653, #2A9D8F)">
-          <span class="article-card-icon">♫</span>
-        </div>
-        <div class="article-card-body">
-          <span class="tag">Enka</span>
-          <h3>The Soul of Japan</h3>
-          <p>A deep dive into Japan's ballad tradition that blends Western melodies with Japanese pentatonic scales.</p>
-          <span class="article-date">May 2026</span>
-        </div>
-      </a>
-      <a href="/blog/dangdut" class="card article-card">
-        <div class="article-card-image" style="background: linear-gradient(135deg, #F4A261, #E76F51)">
-          <span class="article-card-icon">♪</span>
-        </div>
-        <div class="article-card-body">
-          <span class="tag tag--mustard">Dangdut</span>
-          <h3>The People's Music of Indonesia</h3>
-          <p>From the streets of Jakarta to global diaspora  -  the rhythmic, rebellious sound of Dangdut.</p>
-          <span class="article-date">May 2026</span>
-        </div>
-      </a>
-      <a href="/blog/ruby-llm" class="card article-card">
-        <div class="article-card-image" style="background: linear-gradient(135deg, #CC342D, #E76F51)">
-          <span class="article-card-icon">◇</span>
-        </div>
-        <div class="article-card-body">
-          <span class="tag tag--coral">Technology</span>
-          <h3>Ruby and the Art of Talking to Machines</h3>
-          <p>Why Ruby's elegant syntax makes it surprisingly beautiful for working with LLMs.</p>
-          <span class="article-date">May 2026</span>
-        </div>
-      </a>
+      {musicArticles.slice(0, 4).map((article) => (
+        <a href={`/blog/${article.slug}`} class="card article-card">
+          <div class="article-card-image" style={`background: ${article.heroColor}`}>
+          </div>
+          <div class="article-card-body">
+            <span class="tag">{article.genre}</span>
+            <h3>{article.title}</h3>
+            <p>{article.excerpt}</p>
+            <span class="article-date">{article.date}</span>
+          </div>
+        </a>
+      ))}
     </div>
   </section>
 

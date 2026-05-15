@@ -14,7 +14,6 @@ import { musicArticles } from '../../data/music';
       {musicArticles.map((article) => (
         <a href={`/blog/${article.slug}`} class="card blog-card">
           <div class="blog-card-hero" style={`background: ${article.heroColor}`}>
-            <span class="blog-card-genre">{article.genre}</span>
           </div>
           <div class="blog-card-body">
             <div class="blog-card-tags">
