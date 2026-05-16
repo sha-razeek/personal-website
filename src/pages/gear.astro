@@ -14,7 +14,6 @@ const categories = ['Computing', 'Display', 'Peripherals', 'Audio', 'Storage'];
   <div class="gear-hero">
     <div class="hero-image-frame">
       <img src="/images/desk-setup.jpg" alt="Sha Razeek's Desk Setup" class="hero-image" />
-      <div class="hero-image-accent">✦</div>
     </div>
   </div>
 
@@ -56,7 +55,7 @@ const categories = ['Computing', 'Display', 'Peripherals', 'Audio', 'Storage'];
   .hero-image-frame {
     position: relative;
     width: 100%;
-    max-height: 450px;
+    max-height: 600px;
     border-radius: var(--radius-lg);
     overflow: hidden;
     border: 5px solid white;
@@ -78,24 +77,6 @@ const categories = ['Computing', 'Display', 'Peripherals', 'Audio', 'Storage'];
   .hero-image-frame:hover .hero-image {
     transform: scale(1.02);
     filter: none;
-  }
-
-  .hero-image-accent {
-    position: absolute;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    background: var(--accent-secondary);
-    color: white;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    box-shadow: var(--shadow-md);
-    animation: gentlePulse 4s ease-in-out infinite;
-    z-index: 10;
   }
 
   .gear-container {
