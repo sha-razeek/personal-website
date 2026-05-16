@@ -14,17 +14,11 @@ const navItems = [
     ]
   },
   { href: '/favorites', label: 'Favorites', icon: '★' },
+  { href: '/music/transistor', label: 'Transistor', icon: '📻', featured: true },
+  { href: '/projects/broadcast', label: 'Broadcast', icon: '📺', featured: true },
   { href: '/music', label: 'Music', icon: '♪' },
   { href: '/blog', label: 'Articles', icon: '✦' },
-  { 
-    href: '/projects', 
-    label: 'Projects', 
-    icon: '⬡',
-    children: [
-      { href: '/music/transistor', label: 'Transistor', icon: '📻' },
-      { href: '/projects/broadcast', label: 'Broadcast', icon: '📺' }
-    ]
-  },
+  { href: '/projects', label: 'Projects', icon: '⬡' },
   { href: '/trivia', label: 'Trivia', icon: '☆' },
 ];
 ---
@@ -77,12 +71,11 @@ const navItems = [
 
         return (
           <div class="nav-group">
-            <a href={item.href} class={`nav-link ${isActive ? 'active' : ''}`}>
+            <a href={item.href} class={`nav-link ${isActive ? 'active' : ''} ${item.featured ? 'nav-link--featured' : ''}`}>
               <span class="nav-icon">{item.icon}</span>
               <span class="nav-label">{item.label}</span>
               <span class="nav-arrow">→</span>
-            </a>
-            {showChildren && (
+            </a>            {showChildren && (
               <div class="nav-sub">
                 {item.children.map(child => {
                   const isChildActive = normalizedPath === child.href;
@@ -262,6 +255,29 @@ const navItems = [
     background: rgba(42, 157, 143, 0.1);
     color: var(--accent-primary);
     font-weight: 600;
+  }
+
+  .nav-link--featured {
+    background: rgba(231, 111, 81, 0.08); /* Light Coral background */
+    color: var(--accent-secondary);
+    border: 1px solid rgba(231, 111, 81, 0.15);
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  .nav-link--featured:hover {
+    background: rgba(231, 111, 81, 0.12);
+    border-color: var(--accent-secondary);
+  }
+
+  .nav-link--featured.active {
+    background: var(--accent-secondary);
+    color: white;
+    border-color: var(--accent-secondary);
+  }
+
+  .nav-link--featured.active .nav-arrow {
+    color: white;
   }
 
   .nav-link.active::before {

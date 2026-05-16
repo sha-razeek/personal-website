@@ -28,8 +28,8 @@ const currentJob = resumeData[0];
 
     </p>
     <div class="hero-actions">
-      <a href="/portfolio" class="btn btn--primary">View Portfolio</a>
-      <a href="/about" class="btn">About Me</a>
+      <a href="/resume" class="btn btn--primary">Resume</a>
+      <a href="/blog" class="btn">Articles</a>
     </div>
   </section>
 
@@ -175,14 +175,19 @@ const currentJob = resumeData[0];
     transition: transform var(--transition-medium);
   }
 
-  .hero-photo-container:hover .photo-frame-inner {
+  .hero-photo-container.is-scrolled .photo-frame-inner {
     transform: rotate(0deg) scale(1.05);
     border-color: var(--accent-primary);
   }
 
-  .hero-photo-container:hover .hero-photo {
+  .hero-photo-container.is-scrolled .hero-photo {
     transform: scale(1.1);
     filter: sepia(0) contrast(1.1);
+  }
+
+  .hero-photo-container:hover .photo-frame-inner,
+  .hero-photo-container:hover .hero-photo {
+    /* Maintain hover support if needed, or rely solely on scroll */
   }
 
   .photo-accent {
@@ -572,3 +577,35 @@ const currentJob = resumeData[0];
   }
 
 </style>
+
+<script>
+  // Hero Photo Scroll Animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const container = entry.target;
+      // If the photo is mostly scrolled out or the user has scrolled significantly
+      if (!entry.isIntersecting || window.scrollY > 100) {
+        container.classList.add('is-scrolled');
+      } else {
+        container.classList.remove('is-scrolled');
+      }
+    });
+  }, {
+    threshold: [0.1, 0.9],
+    rootMargin: "-50px 0px 0px 0px"
+  });
+
+  const photoContainer = document.querySelector('.hero-photo-container');
+  if (photoContainer) {
+    observer.observe(photoContainer);
+    
+    // Fallback for immediate scroll state on load
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        photoContainer.classList.add('is-scrolled');
+      } else {
+        photoContainer.classList.remove('is-scrolled');
+      }
+    }, { passive: true });
+  }
+</script>
