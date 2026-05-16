@@ -57,6 +57,7 @@ export const favorites: FavoriteItem[] = [
     type: 'movie',
     year: '2000',
     description: 'A visually ravishing and emotionally charged masterpiece of 1960s Hong Kong, exploring the subtle and restrained connection between two neighbors.',
+    coverImage: '/images/in-the-mood-for-love.jpg',
   },
 
   // TV Shows
