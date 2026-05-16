@@ -15,11 +15,12 @@ export const resumeData: ResumeEntry[] = [
     period: '2023 - Present',
     startYear: 2024,
     endYear: 'Present',
-    description: 'Leading analytics initiatives and strategic data solutions for financial services clients.',
+    description: 'Leading the UI UX Practice while managing the Asset Management and Private Markets vertical in Colombo for AD&D (AI, Data and Digital)',
     highlights: [
       'Overseeing UI / UX Development for client-facing applications',
       'Modernizing Office tooling for financial research teams and supervisory analysts',
       'Designing marketing collateral for in-house products and services',
+      'Managing delivery for Asset Management and Private Markets in Colombo',
     ],
   },
   {

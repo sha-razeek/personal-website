@@ -9,19 +9,19 @@ const currentJob = resumeData[0];
 <Layout title="Home">
   <!-- Hero Section -->
   <section class="hero">
-    <div class="hero-photo-container">
-      <div class="photo-frame-outer"></div>
-      <div class="photo-frame-inner">
-        <img src="/images/me.jpg" alt="Sha Razeek" class="hero-photo" />
-      </div>
-      <div class="photo-accent">✦</div>
-    </div>
     <div class="hero-atomic">✦</div>
     <p class="hero-greeting">Welcome to the orbital</p>
     <h1 class="hero-name starburst">Sha Razeek</h1>
     <p class="hero-role">Developer · Hypermedia Specialist · UI/UX Designer</p>
     <div class="hero-divider">
       <span class="divider-star">◈</span>
+    </div>
+    <div class="hero-photo-container">
+      <div class="photo-frame-outer"></div>
+      <div class="photo-frame-inner">
+        <img src="/images/me.jpg" alt="Sha Razeek" class="hero-photo" />
+      </div>
+      <div class="photo-accent">✦</div>
     </div>
     <p class="hero-desc">
       Just an ordinary guy who loves building beautiful things.
@@ -30,14 +30,12 @@ const currentJob = resumeData[0];
     <div class="hero-actions">
       <a href="/resume" class="btn btn--primary">Resume</a>
       <a href="/blog" class="btn">Articles</a>
+      <a href="mailto:sharazeek@atomicmail.io" class="btn">Contact Me</a>
     </div>
   </section>
 
   <!-- Projects Section -->
   <section class="section">
-    <div class="section-header">
-      <h2>Projects</h2>
-    </div>
     <div class="apps-container stagger">
       <a href="/music/transistor" class="app-promo-card app-promo-card--transistor">
         <div class="app-promo-content">
@@ -134,7 +132,7 @@ const currentJob = resumeData[0];
     position: relative;
     width: 220px;
     height: 220px;
-    margin: 0 auto 3rem;
+    margin: 3rem auto;
     z-index: 10;
   }
 
@@ -380,8 +378,8 @@ const currentJob = resumeData[0];
 
   /* App Promo Cards */
   .apps-container {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }
 
@@ -563,6 +561,7 @@ const currentJob = resumeData[0];
   @media (max-width: 640px) {
     .hero-name { font-size: 3.25rem; }
     .articles-grid { grid-template-columns: 1fr; }
+    .apps-container { grid-template-columns: 1fr; }
     .explore-grid { grid-template-columns: repeat(2, 1fr); }
     
     .app-promo-visual { height: 220px; }
