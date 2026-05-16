@@ -74,6 +74,7 @@ export const favorites: FavoriteItem[] = [
     type: 'tv',
     year: '2001 - 2009',
     description: 'A classic American sitcom following the humorous domestic life of Jim, a suburban father with a blues band and a unique perspective on marriage.',
+    coverImage: '/images/according-to-jim.jpg',
   },
   {
     title: 'OK-Jek',
@@ -81,6 +82,7 @@ export const favorites: FavoriteItem[] = [
     type: 'tv',
     year: '2015 - 2018',
     description: 'An Indonesian sitcom following the daily lives, struggles, and romances of drivers working for a motorcycle taxi service in Jakarta.',
+    coverImage: '/images/ok-jek.jpg',
   },
   {
     title: 'Be Strong, Geum-Soon!',
@@ -88,6 +90,7 @@ export const favorites: FavoriteItem[] = [
     type: 'tv',
     year: '2005',
     description: 'An inspiring South Korean drama about a young widow who overcomes numerous hardships to pursue her dream of becoming a hairdresser.',
+    coverImage: '/images/be-strong-geum-soon.jpg',
   },
   {
     title: 'Star Trek: Voyager',
@@ -95,6 +98,7 @@ export const favorites: FavoriteItem[] = [
     type: 'tv',
     year: '1995 - 2001',
     description: 'Captain Janeway leads the crew of the USS Voyager across 70,000 light-years of space to find their way home to Earth.',
+    coverImage: '/images/star-trek-voyager.jpg',
   },
   {
     title: 'Mind Your Language',
