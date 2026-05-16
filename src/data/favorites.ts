@@ -41,6 +41,7 @@ export const favorites: FavoriteItem[] = [
     type: 'movie',
     year: '2015',
     description: 'A successful lawyer dies in a clerical error and must live as a housewife and mother for a month before returning to her own life.',
+    coverImage: '/images/wonderful-nightmare.jpg',
   },
   {
     title: 'The Golden Cane Warrior',
