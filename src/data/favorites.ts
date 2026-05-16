@@ -15,6 +15,7 @@ export const favorites: FavoriteItem[] = [
     type: 'book',
     year: '2020',
     description: 'A spiritual journey that leverages the secrets of the Qur’an and ancient poetry to help readers reconnect with their faith and Divine Love.',
+    coverImage: '/images/secrets-of-divine-love.jpg',
   },
   {
     title: 'Krakatoa',
