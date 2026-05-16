@@ -150,13 +150,6 @@ export const favorites: FavoriteItem[] = [
 
   // Music
   {
-    title: 'Irresistible',
-    creator: 'Jessica Simpson',
-    type: 'music',
-    year: '2001',
-    description: 'A landmark early 2000s pop album featuring the hit title track, showcasing vocal versatility and polished production.',
-  },
-  {
     title: 'The Complete Singles',
     creator: 'Hiromi Iwasaki',
     type: 'music',
