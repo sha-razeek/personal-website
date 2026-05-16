@@ -10,18 +10,18 @@ export interface FavoriteItem {
 export const favorites: FavoriteItem[] = [
   // Books
   {
-    title: 'The Great Gatsby',
-    creator: 'F. Scott Fitzgerald',
+    title: 'Secrets of Divine Love',
+    creator: 'A. Helwa',
     type: 'book',
-    year: '1925',
-    description: 'A masterpiece of mid-century American literature, capturing the glitz and decay of the Jazz Age.',
+    year: '2020',
+    description: 'A spiritual journey that leverages the secrets of the Qur’an and ancient poetry to help readers reconnect with their faith and Divine Love.',
   },
   {
-    title: 'Brave New World',
-    creator: 'Aldous Huxley',
+    title: 'Krakatoa',
+    creator: 'Simon Winchester',
     type: 'book',
-    year: '1932',
-    description: 'A hauntingly relevant vision of a futuristic society driven by consumerism and technological control.',
+    year: '2003',
+    description: 'A riveting account of the 1883 volcanic eruption that changed the world, masterfully blending geology, history, and the birth of the global village.',
   },
   
   // Movies
