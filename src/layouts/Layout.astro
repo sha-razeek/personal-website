@@ -48,15 +48,6 @@ const { title, description = 'Sha Razeek  -  Developer, Hypermedia & UI/UX Speci
           overlay.classList.remove('active');
         });
       }
-
-      // Active page highlight
-      const currentPath = window.location.pathname;
-      document.querySelectorAll('.sidebar-nav a').forEach(link => {
-        const href = link.getAttribute('href');
-        if (href && currentPath === href || (href !== '/' && currentPath.startsWith(href || ''))) {
-          link.classList.add('active');
-        }
-      });
     });
   </script>
 </body>

@@ -9,6 +9,13 @@ const currentJob = resumeData[0];
 <Layout title="Home">
   <!-- Hero Section -->
   <section class="hero">
+    <div class="hero-photo-container">
+      <div class="photo-frame-outer"></div>
+      <div class="photo-frame-inner">
+        <img src="/images/me.jpg" alt="Sha Razeek" class="hero-photo" />
+      </div>
+      <div class="photo-accent">✦</div>
+    </div>
     <div class="hero-atomic">✦</div>
     <p class="hero-greeting">Welcome to the orbital</p>
     <h1 class="hero-name starburst">Sha Razeek</h1>
@@ -121,6 +128,78 @@ const currentJob = resumeData[0];
     text-align: center;
     padding: 4rem 0 3rem;
     position: relative;
+  }
+
+  .hero-photo-container {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto 3rem;
+    z-index: 10;
+  }
+
+  .photo-frame-outer {
+    position: absolute;
+    inset: -12px;
+    border: 4px solid var(--accent-primary);
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    animation: atomicSpin 25s linear infinite reverse;
+    opacity: 0.35;
+  }
+
+  .photo-frame-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    overflow: hidden;
+    border: 5px solid white;
+    box-shadow: var(--shadow-lg);
+    background: var(--bg-secondary);
+    transform: rotate(-2deg);
+    transition: all var(--transition-medium);
+  }
+
+  .photo-frame-inner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(244, 162, 97, 0.15), transparent);
+    pointer-events: none;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(0.2) contrast(1.1) brightness(1.05);
+    transition: transform var(--transition-medium);
+  }
+
+  .hero-photo-container:hover .photo-frame-inner {
+    transform: rotate(0deg) scale(1.05);
+    border-color: var(--accent-primary);
+  }
+
+  .hero-photo-container:hover .hero-photo {
+    transform: scale(1.1);
+    filter: sepia(0) contrast(1.1);
+  }
+
+  .photo-accent {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: var(--accent-secondary);
+    color: white;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    box-shadow: var(--shadow-sm);
+    animation: gentlePulse 3s ease-in-out infinite;
   }
 
   .hero-atomic {

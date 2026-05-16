@@ -1,9 +1,18 @@
 ---
+const { pathname } = Astro.url;
+const normalizedPath = pathname.replace(/\/$/, '') || '/';
+
 const navItems = [
   { href: '/', label: 'Home', icon: '◈' },
-  { href: '/about', label: 'About', icon: '◇' },
-  { href: '/resume', label: 'Resume', icon: '▣' },
-  { href: '/portfolio', label: 'Portfolio', icon: '◎' },
+  { 
+    href: '/about', 
+    label: 'About', 
+    icon: '◇',
+    children: [
+      { href: '/resume', label: 'Resume', icon: '▣' },
+      { href: '/portfolio', label: 'Portfolio', icon: '◎' },
+    ]
+  },
   { href: '/favorites', label: 'Favorites', icon: '★' },
   { href: '/music', label: 'Music', icon: '♪' },
   { href: '/blog', label: 'Articles', icon: '✦' },
@@ -57,25 +66,38 @@ const navItems = [
 
     <!-- Navigation -->
     <nav class="sidebar-nav">
-      {navItems.map(item => (
-        <div class="nav-group">
-          <a href={item.href} class="nav-link">
-            <span class="nav-icon">{item.icon}</span>
-            <span class="nav-label">{item.label}</span>
-            <span class="nav-arrow">→</span>
-          </a>
-          {item.children && (
-            <div class="nav-sub">
-              {item.children.map(child => (
-                <a href={child.href} class="nav-link nav-link--sub">
-                  <span class="nav-icon nav-icon--sub">{child.icon}</span>
-                  <span class="nav-label">{child.label}</span>
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
+      {navItems.map(item => {
+        const isCurrentParent = normalizedPath === item.href;
+        const hasActiveChild = item.children && item.children.some(c => c.href === normalizedPath);
+        const isActive = isCurrentParent || hasActiveChild;
+        
+        // For 'About', we only show children if we are in the About section (Parent or Child active)
+        // For others, we keep them always visible for better UX
+        const showChildren = item.children && (item.href === '/about' ? isActive : true);
+
+        return (
+          <div class="nav-group">
+            <a href={item.href} class={`nav-link ${isActive ? 'active' : ''}`}>
+              <span class="nav-icon">{item.icon}</span>
+              <span class="nav-label">{item.label}</span>
+              <span class="nav-arrow">→</span>
+            </a>
+            {showChildren && (
+              <div class="nav-sub">
+                {item.children.map(child => {
+                  const isChildActive = normalizedPath === child.href;
+                  return (
+                    <a href={child.href} class={`nav-link nav-link--sub ${isChildActive ? 'active' : ''}`}>
+                      <span class="nav-icon nav-icon--sub">{child.icon}</span>
+                      <span class="nav-label">{child.label}</span>
+                    </a>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </nav>
 
     <!-- Footer info -->
