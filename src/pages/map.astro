@@ -16,6 +16,7 @@ import Layout from '../layouts/Layout.astro';
     </div>
     
     <div id="map-viewport">
+      <div id="map-loading">Initialising global coordinates...</div>
       <svg id="world-map"></svg>
     </div>
 
@@ -32,24 +33,29 @@ import Layout from '../layouts/Layout.astro';
   // Map configuration
   const width = 900;
   const height = 500;
-  const geojsonUrl = 'https://d2ad6b4ur7yvpq.cloudfront.net/natural-earth-3.3.0/ne_110m_admin_0_countries.geojson';
+  // Using a more reliable GeoJSON source
+  const geojsonUrl = 'https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson';
 
   async function initMap() {
-    const svg = d3.select('#world-map')
-      .attr('viewBox', `0 0 ${width} ${height}`)
-      .attr('preserveAspectRatio', 'xMidYMid meet');
+    const svg = d3.select('#world-map');
+    const loading = document.getElementById('map-loading');
+    const infoDisplay = document.getElementById('country-name');
+    
+    if (!svg.node()) return;
+
+    svg.attr('viewBox', `0 0 ${width} ${height}`)
+       .attr('preserveAspectRatio', 'xMidYMid meet');
 
     const g = svg.append('g');
-    const infoDisplay = document.getElementById('country-name');
 
     // Projection
     const projection = d3.geoNaturalEarth1()
-      .scale(width / 1.6 / Math.PI)
+      .scale(160)
       .translate([width / 2, height / 2]);
 
     const path = d3.geoPath().projection(projection);
 
-    // Zoom
+    // Zoom behavior
     const zoom = d3.zoom()
       .scaleExtent([1, 8])
       .on('zoom', (event) => {
@@ -58,17 +64,18 @@ import Layout from '../layouts/Layout.astro';
 
     svg.call(zoom);
 
-    // Load data
     try {
       const data = await d3.json(geojsonUrl);
 
-      // Draw background sphere
+      if (loading) loading.style.display = 'none';
+
+      // Draw background
       g.append('path')
         .datum({type: 'Sphere'})
         .attr('class', 'sphere')
         .attr('d', path);
 
-      // Draw grid lines (graticule)
+      // Draw grid
       g.append('path')
         .datum(d3.geoGraticule())
         .attr('class', 'graticule')
@@ -82,41 +89,38 @@ import Layout from '../layouts/Layout.astro';
         .attr('class', 'country')
         .attr('d', path)
         .on('click', function(event, d) {
-          // Highlight selected
           d3.selectAll('.country').classed('selected', false);
           d3.select(this).classed('selected', true);
           
-          // Show name
           if (infoDisplay) {
-            infoDisplay.innerText = d.properties.name || d.properties.NAME || 'Unknown Territory';
+            infoDisplay.innerText = d.properties.name || 'Unknown Territory';
             infoDisplay.classList.remove('pulse');
-            void infoDisplay.offsetWidth; // Trigger reflow
+            void infoDisplay.offsetWidth;
             infoDisplay.classList.add('pulse');
           }
-          
           event.stopPropagation();
         });
 
       // Controls
-      document.getElementById('zoom-in')?.addEventListener('click', () => {
-        svg.transition().call(zoom.scaleBy, 1.5);
-      });
-      document.getElementById('zoom-out')?.addEventListener('click', () => {
-        svg.transition().call(zoom.scaleBy, 0.7);
-      });
-      document.getElementById('zoom-reset')?.addEventListener('click', () => {
-        svg.transition().call(zoom.transform, d3.zoomIdentity);
-      });
+      document.getElementById('zoom-in')?.addEventListener('click', () => svg.transition().call(zoom.scaleBy, 1.5));
+      document.getElementById('zoom-out')?.addEventListener('click', () => svg.transition().call(zoom.scaleBy, 0.7));
+      document.getElementById('zoom-reset')?.addEventListener('click', () => svg.transition().call(zoom.transform, d3.zoomIdentity));
 
     } catch (error) {
-      console.error('Error loading map data:', error);
+      console.error('Map loading failed:', error);
+      if (loading) {
+        loading.innerText = 'Unable to load map data. Please check your connection.';
+        loading.style.color = 'var(--color-coral)';
+      }
     }
   }
 
-  // Use dynamic import for D3 if needed, but since it's a script tag in Astro 
-  // it might be better to use a CDN or local install.
-  // Assuming 'd3' is installed in the project. Let me check package.json.
-  initMap();
+  // Ensure init runs
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMap);
+  } else {
+    initMap();
+  }
 </script>
 
 <style>
@@ -135,6 +139,19 @@ import Layout from '../layouts/Layout.astro';
     height: 60vh;
     min-height: 400px;
     cursor: grab;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #map-loading {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--color-warm-gray);
+    z-index: 5;
+    pointer-events: none;
   }
 
   #map-viewport:active {
