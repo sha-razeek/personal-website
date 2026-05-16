@@ -85,6 +85,11 @@ import Layout from '../../layouts/Layout.astro';
       </div>
     </div>
 
+    <!-- Fine Print -->
+    <div class="radio-fine-print">
+      <p>Note: Not all radio stations may be available at all times. Stream availability depends on your network conditions and the station's server status. Some channels may be restricted to certain geographic regions (geoblocked).</p>
+    </div>
+
     <!-- Audio element -->
     <audio id="audioPlayer" crossorigin="anonymous"></audio>
   </div>
@@ -532,6 +537,22 @@ import Layout from '../../layouts/Layout.astro';
     font-family: var(--font-mono);
     font-size: 0.85rem;
     color: var(--color-warm-gray);
+  }
+
+  .radio-fine-print {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-warm-gray);
+    line-height: 1.6;
+    text-align: center;
+    opacity: 0.8;
+  }
+
+  .radio-fine-print p {
+    margin: 0;
   }
 
   @media (max-width: 640px) {
