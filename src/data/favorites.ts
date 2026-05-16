@@ -155,6 +155,7 @@ export const favorites: FavoriteItem[] = [
     type: 'music',
     year: '2007',
     description: 'A comprehensive collection from one of Japan’s most technically gifted vocalists, spanning her legendary career from the 70s onwards.',
+    coverImage: '/images/hiromi-iwasaki-complete.jpg',
   },
   {
     title: 'Gently',
@@ -162,5 +163,6 @@ export const favorites: FavoriteItem[] = [
     type: 'music',
     year: '1992',
     description: 'A beautifully composed J-pop album known for its soft, melodic arrangements and Karashima’s emotive songwriting.',
+    coverImage: '/images/midori-karashima-gently.jpg',
   },
 ];
