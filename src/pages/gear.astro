@@ -1,0 +1,124 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { myGear } from '../data/gear';
+
+const categories = ['Computing', 'Display', 'Peripherals', 'Audio', 'Storage'];
+---
+
+<Layout title="My Gear" description="The hardware and tools behind my daily workflow and desk setup">
+  <div class="page-header">
+    <h1>My Gear</h1>
+    <p class="subtitle">The hardware and tools behind my daily workflow</p>
+  </div>
+
+  <div class="gear-container">
+    {categories.map(cat => {
+      const items = myGear.filter(item => item.category === cat);
+      if (items.length === 0) return null;
+      
+      return (
+        <section class="gear-section">
+          <h2 class="gear-section-title">
+            <span class="gear-section-icon">◇</span>
+            {cat}
+          </h2>
+          
+          <div class="gear-grid">
+            {items.map(item => (
+              <div class="card gear-card">
+                <div class="gear-header">
+                  <span class="gear-brand">{item.brand}</span>
+                  <h3>{item.name}</h3>
+                </div>
+                {item.specs && <p class="gear-specs">{item.specs}</p>}
+                {item.description && <p class="gear-desc">{item.description}</p>}
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    })}
+  </div>
+</Layout>
+
+<style>
+  .gear-container {
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  .gear-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+  }
+
+  .gear-section-icon {
+    color: var(--accent-primary);
+    font-size: 1.2rem;
+  }
+
+  .gear-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .gear-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border-left: 3px solid var(--border-color);
+    transition: all var(--transition-medium);
+  }
+
+  .gear-card:hover {
+    transform: translateX(4px);
+    border-left-color: var(--accent-primary);
+    box-shadow: var(--shadow-md);
+  }
+
+  .gear-brand {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-primary);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .gear-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+  }
+
+  .gear-specs {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px dashed var(--border-color);
+  }
+
+  .gear-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 640px) {
+    .gear-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
