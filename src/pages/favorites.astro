@@ -1,0 +1,221 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { favorites } from '../data/favorites';
+
+const categories = [
+  { id: 'all', label: 'All', icon: '◈' },
+  { id: 'book', label: 'Books', icon: '📖' },
+  { id: 'movie', label: 'Movies', icon: '🎬' },
+  { id: 'tv', label: 'TV Shows', icon: '📺' },
+  { id: 'music', label: 'Music', icon: '♪' },
+];
+---
+
+<Layout title="Favorites" description="Recommended books, movies, TV shows, and music albums by Sha Razeek">
+  <div class="page-header">
+    <h1>Favorites</h1>
+    <p class="subtitle">A curated collection of things that move, inspire, and entertain me</p>
+  </div>
+
+  <div class="favorites-container">
+    <!-- Category Filter (Static for now, can be enhanced with JS if needed) -->
+    <div class="favorites-filter">
+      {categories.map(cat => (
+        <button class="filter-btn" data-category={cat.id}>
+          <span class="filter-icon">{cat.icon}</span>
+          {cat.label}
+        </button>
+      ))}
+    </div>
+
+    <div class="favorites-grid" id="favoritesGrid">
+      {favorites.map((item) => (
+        <div class="card favorite-card" data-type={item.type}>
+          <div class="favorite-type-badge">
+            {item.type === 'book' && '📖'}
+            {item.type === 'movie' && '🎬'}
+            {item.type === 'tv' && '📺'}
+            {item.type === 'music' && '♪'}
+            <span class="type-label">{item.type}</span>
+          </div>
+          
+          <div class="favorite-header">
+            <h3>{item.title}</h3>
+            {item.year && <span class="favorite-year">{item.year}</span>}
+          </div>
+          
+          <p class="favorite-creator">{item.creator}</p>
+          
+          {item.description && <p class="favorite-desc">{item.description}</p>}
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<script>
+  // Simple filtering logic
+  const buttons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.favorite-card');
+
+  // Initialize with 'all' active
+  document.querySelector('[data-category="all"]')?.classList.add('active');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const category = btn.getAttribute('data-category');
+      
+      // Update active button
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Filter cards
+      cards.forEach(card => {
+        const itemType = card.getAttribute('data-type');
+        if (category === 'all' || itemType === category) {
+          (card as HTMLElement).style.display = 'flex';
+          card.classList.add('stagger-item');
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .favorites-container {
+    max-width: 960px;
+  }
+
+  /* Filter Buttons */
+  .favorites-filter {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--text-secondary);
+  }
+
+  .filter-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--text-primary);
+    background: rgba(42, 157, 143, 0.04);
+  }
+
+  .filter-btn.active {
+    background: var(--accent-primary);
+    color: white;
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .filter-icon {
+    font-size: 1rem;
+  }
+
+  /* Grid and Cards */
+  .favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .favorite-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+    height: 100%;
+    position: relative;
+    border-top: 4px solid var(--border-color);
+    transition: all var(--transition-medium);
+  }
+
+  .favorite-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-top-color: var(--accent-primary);
+  }
+
+  /* Category Badges */
+  .favorite-type-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.85rem;
+    color: var(--color-warm-gray);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .type-label {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.65rem;
+  }
+
+  .favorite-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .favorite-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0;
+    color: var(--text-primary);
+  }
+
+  .favorite-year {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-warm-gray);
+    white-space: nowrap;
+  }
+
+  .favorite-creator {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+  }
+
+  .favorite-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+  }
+
+  /* Specific border colors for types if you want more flair */
+  .favorite-card[data-type="book"] { border-top-color: var(--accent-warm); }
+  .favorite-card[data-type="movie"] { border-top-color: var(--accent-secondary); }
+  .favorite-card[data-type="tv"] { border-top-color: var(--color-charcoal); }
+  .favorite-card[data-type="music"] { border-top-color: var(--accent-primary); }
+
+  @media (max-width: 768px) {
+    .favorites-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

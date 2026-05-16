@@ -39,7 +39,7 @@ The site's visual language is inspired by the optimistic futurism of the 1950s a
 - **Portfolio:** Showcasing projects like SLIFA Magazine, Transistor Radio, and the Mid-Century Design System.
 - **Articles:** A blog platform featuring experiments in AI augmentation, culture (City Pop, Enka), and technical explorations.
 - **Trivia:** Weekly interactive quizzes with a custom retro-styled quiz engine.
-- **Chronos Tracker:** A personal time-tracking utility integrated into the dashboard.
+- **Time Tracker:** A personal time-tracking utility integrated into the dashboard.
 - **Music:** A curated section for music-related projects and playlists.
 
 ## Commands
