@@ -32,26 +32,26 @@ import Layout from '../layouts/Layout.astro';
 
   // Map configuration
   const width = 900;
-  const height = 500;
-  // Using a more reliable GeoJSON source
+  const height = 600;
   const geojsonUrl = 'https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson';
 
   async function initMap() {
+    const container = document.getElementById('map-viewport');
     const svg = d3.select('#world-map');
     const loading = document.getElementById('map-loading');
     const infoDisplay = document.getElementById('country-name');
     
-    if (!svg.node()) return;
+    if (!svg.node() || !container) return;
 
     svg.attr('viewBox', `0 0 ${width} ${height}`)
        .attr('preserveAspectRatio', 'xMidYMid meet');
 
     const g = svg.append('g');
 
-    // Projection
-    const projection = d3.geoNaturalEarth1()
-      .scale(160)
-      .translate([width / 2, height / 2]);
+    // Projection - Mercator for a more standard, non-elongated look
+    const projection = d3.geoMercator()
+      .scale(140)
+      .translate([width / 2, height / 1.5]);
 
     const path = d3.geoPath().projection(projection);
 
@@ -66,19 +66,22 @@ import Layout from '../layouts/Layout.astro';
 
     try {
       const data = await d3.json(geojsonUrl);
-
       if (loading) loading.style.display = 'none';
 
-      // Draw background
+      // Draw background (Sea)
       g.append('path')
         .datum({type: 'Sphere'})
-        .attr('class', 'sphere')
+        .attr('fill', '#f8f9fa')
+        .attr('stroke', '#e9ecef')
         .attr('d', path);
 
       // Draw grid
       g.append('path')
         .datum(d3.geoGraticule())
-        .attr('class', 'graticule')
+        .attr('fill', 'none')
+        .attr('stroke', '#dee2e6')
+        .attr('stroke-width', 0.5)
+        .attr('stroke-dasharray', '2,2')
         .attr('d', path);
 
       // Draw countries
@@ -88,9 +91,28 @@ import Layout from '../layouts/Layout.astro';
         .append('path')
         .attr('class', 'country')
         .attr('d', path)
+        .attr('fill', '#2A9D8F') // Teal
+        .attr('fill-opacity', 0.7)
+        .attr('stroke', '#ffffff')
+        .attr('stroke-width', 0.5)
+        .on('mouseover', function() {
+          d3.select(this).attr('fill-opacity', 1).attr('fill', '#E76F51'); // Coral
+        })
+        .on('mouseout', function() {
+          if (!d3.select(this).classed('selected')) {
+            d3.select(this).attr('fill-opacity', 0.7).attr('fill', '#2A9D8F');
+          }
+        })
         .on('click', function(event, d) {
-          d3.selectAll('.country').classed('selected', false);
-          d3.select(this).classed('selected', true);
+          d3.selectAll('.country')
+            .classed('selected', false)
+            .attr('fill', '#2A9D8F')
+            .attr('fill-opacity', 0.7);
+
+          d3.select(this)
+            .classed('selected', true)
+            .attr('fill', '#E9C46A') // Mustard
+            .attr('fill-opacity', 1);
           
           if (infoDisplay) {
             infoDisplay.innerText = d.properties.name || 'Unknown Territory';
@@ -109,18 +131,12 @@ import Layout from '../layouts/Layout.astro';
     } catch (error) {
       console.error('Map loading failed:', error);
       if (loading) {
-        loading.innerText = 'Unable to load map data. Please check your connection.';
-        loading.style.color = 'var(--color-coral)';
+        loading.innerText = 'Unable to load map data.';
       }
     }
   }
 
-  // Ensure init runs
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMap);
-  } else {
-    initMap();
-  }
+  initMap();
 </script>
 
 <style>
