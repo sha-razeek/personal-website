@@ -23,6 +23,7 @@ export const favorites: FavoriteItem[] = [
     type: 'book',
     year: '2003',
     description: 'A riveting account of the 1883 volcanic eruption that changed the world, masterfully blending geology, history, and the birth of the global village.',
+    coverImage: '/images/krakatoa.jpg',
   },
   
   // Movies
