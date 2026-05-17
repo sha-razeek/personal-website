@@ -14,7 +14,7 @@ import { portfolioItems } from '../../data/portfolio';
       {portfolioItems.map((item) => (
         <a href={`/portfolio/${item.slug}`} class="card portfolio-card">
           <div class="portfolio-card-top" style={`background: ${item.color}`}>
-            <span class="portfolio-card-icon">{item.icon}</span>
+            <span class="portfolio-card-icon" set:html={item.icon}></span>
           </div>
           <div class="portfolio-card-body">
             <div class="portfolio-tags">
@@ -69,6 +69,14 @@ import { portfolioItems } from '../../data/portfolio';
     font-size: 2.5rem;
     color: white;
     opacity: 0.9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .portfolio-card-icon :global(svg) {
+    width: 1em;
+    height: 1em;
   }
 
   .portfolio-card-body {
