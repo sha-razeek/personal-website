@@ -17,10 +17,9 @@ import Layout from '../../layouts/Layout.astro';
     </header>
 
     <div class="article-content">
-      <div class="article-image tech-hero">
-        <div class="img-overlay">
-          <span class="img-label">The Augmentation Equation</span>
-        </div>
+      <div class="article-image-container">
+        <img src="/images/ai-augmentation.png" alt="Illustration of a person and a robot working at a computer" class="article-hero-img" />
+        <div class="img-caption">The Augmentation Equation — Redefining Engineering in 2026</div>
       </div>
 
       <p class="article-lead">
@@ -296,6 +295,32 @@ import Layout from '../../layouts/Layout.astro';
     color: var(--text-secondary);
   }
 
+  /* Article Images */
+  .article-image-container {
+    margin: 2rem 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+  }
+
+  .article-hero-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .img-caption {
+    padding: 0.75rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-warm-gray);
+    background: white;
+    border-top: 1px solid var(--border-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
   /* Image placeholders */
   .article-image {
     width: 100%;
@@ -304,10 +329,6 @@ import Layout from '../../layouts/Layout.astro';
     margin: 2rem 0;
     position: relative;
     overflow: hidden;
-  }
-
-  .tech-hero {
-    background: linear-gradient(135deg, #3D405B, #2A9D8F, #E9C46A);
   }
 
   .tech-boomerang {

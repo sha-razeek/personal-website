@@ -19,11 +19,9 @@ import Layout from '../../layouts/Layout.astro';
     </header>
 
     <div class="article-content">
-      <!-- Decorative image placeholder -->
-      <div class="article-image enka-hero">
-        <div class="img-overlay">
-          <span class="img-label">日本の歌 / Songs of Japan</span>
-        </div>
+      <div class="article-image-container">
+        <img src="/images/enka.png" alt="Illustration of an Enka performance" class="article-hero-img" />
+        <div class="img-caption">日本の歌 / Songs of Japan — Enka Performance</div>
       </div>
 
       <p class="article-lead">
@@ -213,17 +211,38 @@ import Layout from '../../layouts/Layout.astro';
     opacity: 0.7;
   }
 
+  /* Article Images */
+  .article-image-container {
+    margin: 2rem 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+  }
+
+  .article-hero-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .img-caption {
+    padding: 0.75rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-warm-gray);
+    background: white;
+    border-top: 1px solid var(--border-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
   /* Image placeholders */
   .article-image {
     border-radius: var(--radius-lg);
     overflow: hidden;
     margin: 2rem 0;
     position: relative;
-  }
-
-  .enka-hero {
-    height: 220px;
-    background: linear-gradient(135deg, #264653, #2A9D8F, #A8DADC);
   }
 
   .enka-kimono {

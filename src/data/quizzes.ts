@@ -164,4 +164,212 @@ export const quizzes: QuizWeek[] = [
       { question: 'How old is the Earth?', answer: 'Approximately 4.54 billion years old.' },
     ],
   },
+  {
+    id: 5,
+    title: 'Week 5 - Quiz Club',
+    date: 'May 17, 2026',
+    description: 'A special 50-question marathon from the Quiz Club, covering global affairs, history, and science.',
+    questions: [
+      {
+        question: "A Room of One's Own is a 1929 speech by which writer, in which she advocated that \"a woman must have money and a room of her own if she is to write fiction\"?",
+        answer: "Virginia Wolfe"
+      },
+      {
+        question: "Alleged to have been stolen by the then Governor Robert Brownrigg from the last king of Kandy and then donated to the British Museum in the 1830s, the gilted statue of which female Buddha, venerated in Mahayana Buddhism, was seen as so dangerously erotic and voluptuous that it was kept in a store room for 30 years. A copy of the statue is on display at the National Museum of Sri Lanka.",
+        answer: "Tara (also known as the Mother of Liberation)"
+      },
+      {
+        question: "On May 8, to mark Sir David Attenborough's 100th birthday, scientists named a newly designated species after him, a tiny parasitic creature now known as Attenboroughnculus tau that devours other insects alive, Which type of animal was it?",
+        answer: "It joins over 50 other species already bearing his name, including an echidna, a fungus, and an extinct marine reptile. Wasp"
+      },
+      {
+        question: "Scientists have determined that a megatsunami which occured in Aug last year resulting in a wave 481 meters tall, was the second tallest tsunami ever recorded in history. Where did it happen?",
+        answer: "It is also not too far from the location where the tallest ever wave was recorded back in 1958. Alaska (Tracy Arm Fjord in Alaska, tallest in Lituya Bay)"
+      },
+      {
+        question: "Mahindra racing recently won its first victory in which FIA sanctioned motor racing championship, the highest class open-wheel single-seater motorsport championship for electric cars?",
+        answer: "Formula E"
+      },
+      {
+        question: "With a population of over 4 times that of California, what is the World's most populous state in the World?",
+        answer: "Uttar Pradesh"
+      },
+      {
+        question: "Banned in 2022 from participating in the Olympics after the Russian invasion of Ukraine, which country's ban was recently lifted by the IOC citing 'Athletes should not be limited by the actions of their governments'?",
+        answer: "Belarus"
+      },
+      {
+        question: "What is considered the world's smallest army? On May 6, 28 new members were sworn in at a ceremony held at Vatican CIty?",
+        answer: "Swiss Guard"
+      },
+      {
+        question: "Which influential art movement, emerging in Britain and America during the 1950s and 1960s, drew its imagery and techniques from mass media, advertising, comic books, and consumer culture through the works of artists like Andy Warhol and Roy Lichtenstein?",
+        answer: "Pop art"
+      },
+      {
+        question: "Marty Makary recently resigned as the head of the Food and Drug Administration in the US over the agency's decision to approve fruit flavored what?",
+        answer: "E-cigerettes (Vapes)"
+      },
+      {
+        question: "According to the TomTom traffic index for 2025, what is the second most congested city in the world. The first being Mexico City?",
+        answer: "An average of 168 hours is lost per year commuting 10km in this city during rush hour. Bangalore"
+      },
+      {
+        question: "Thought to have been derived by a Scythian name meaning 'Shimmering with snow', and home to roughly 50 distinct ethnic groups speaking over 50 languages and considered a living museum what name is given to the region between the Black Sea and the Caspian Sea which includes countries such as Georgia, Armenia and Azerbaijan?",
+        answer: "Caucasus"
+      },
+      {
+        question: "Overshadowed by controversy after Spain, the Netherlands and 3 other countries, boycotted the contest due to Israel's participation, this years Eurovision Song Contest, the smallest event in 20 years, was held on Saturday in Vienna, Austria. After a absence of three years in the competition, which country was the surprise winner of this years' competition with the song titled Bangaranga?",
+        answer: "Bulgaria"
+      },
+      {
+        question: "The Five Eyes (FVEY) is an intelligence alliance comprising of Canada, the United Kingdom, the United States and which other two countries?",
+        answer: "Australia and New Zealand"
+      },
+      {
+        question: "US government issues bonds are known as treasury bonds. By what name are UK government bonds known as?",
+        answer: "gilts (short for \"gilt-edged securities\")."
+      },
+      {
+        question: "In 2013, which heavy metal band performed to a group of 120 scientists and competition winners in Antarctica, becoming the first musical act to perform on all seven continents?",
+        answer: "Metallica"
+      },
+      {
+        question: "From which 1980 book does the following quote come: \"In the beginning the Universe was created. This has made a lot of people very angry and been widely regarded as a bad move\"?",
+        answer: "The Restaurant at the End of the Universe, the second book in the Hitchhiker's Guide to the Galaxy series by Douglas Adams"
+      },
+      {
+        question: "Which two-time Israeli Prime Minister - the first to ever be born in the region of British Palestine - was assassinated on 4th November 1995 by a far-right ultranationalist who opposed his peace initiatives?",
+        answer: "Yitzhak Rabin"
+      },
+      {
+        question: "Which famous author downgraded herself from billionaire to millionaire due to the vast sums she donated to charity, especially on medical causes and supporting at-risk women and children?",
+        answer: "J. K. Rowling"
+      },
+      {
+        question: "Brontology is the study of what meteorological phenomenon?",
+        answer: "Thunder (Brontophobia is the fear of thunder)"
+      },
+      {
+        question: "First awarded in 1901 the Nobel Prizes are currently awarded in 6 different categories including Physics, Peace, Chemistry, Literature, Medicine and what other category first introduced in 1968?",
+        answer: "Economics"
+      },
+      {
+        question: "In what famous work by the Greek philosopher Plato, authored around the 3rd century BC, would you find the Allegory of the cave?",
+        answer: "The Republic"
+      },
+      {
+        question: "Derived from the Greek word meaning 'Elder', Presbyterianism is a branch of reformed Protestantism that traces its roots to which country?",
+        answer: "Scotland"
+      },
+      {
+        question: "What famous stage name does William Jonathan Drayton Jr. use? A founding member of the band Public Enemy, he is known for wearing large clocks on a chain around his neck?",
+        answer: "Flavor Flav"
+      },
+      {
+        question: "Which Irish dramatist won the Nobel price for Literature in 1925. He is famous for works such as Man and Superman, Candida, Arms and the Man and Caesar and Cleopatra?",
+        answer: "George Bernard Shaw"
+      },
+      {
+        question: "Home to the oryx, springbox, desert-adapted lions and desert Elephants and spanning over 2000 sq.kms what is considered to be the World's oldest desert?",
+        answer: "Namib Desert (stretches from Angola to South Africa)"
+      },
+      {
+        question: "Remaining liquid even at absolute zero temperature and requiring about 25 atmospheres of pressurves to solidify, what element has the lowest melting point?",
+        answer: "Helium (Named after the greek god of Sun, makes voice squeeky)"
+      },
+      {
+        question: "Actor James McAvoy and Patrick Stewart have both portrayed which Marvel comics character?",
+        answer: "The character is a scientific genius and a leading authority in genetics. Professor Charles Xavier / Professor X"
+      },
+      {
+        question: "What term is used for the invisible material detected by its gravitational effect on other visible materials?",
+        answer: "Dark Matter"
+      },
+      {
+        question: "First entering the Mexican market in 1992 at a location in Mexico City, how many Taco Bell restaurants are currently in Mexico?",
+        answer: "0 (Second attempt at Monterrey in 2007-2010 also failed)"
+      },
+      {
+        question: "Which controversial figure, accused of murder, crypto pump-and-dump schemes and tax evasion and who committed suicide in a Spanish prison in 2021, was the creator of VirusScan in 1987, the first commercial antivirus software?",
+        answer: "John McAfee"
+      },
+      {
+        question: "Named after its inventor Zambonis traditionally appear during breaks in play of which sport?",
+        answer: "Ice Hockey (they are the machines that clean and smooth the ice)"
+      },
+      {
+        question: "A 1990s investigation by The Cricketer magazine found that a batter is most likely to get out when they are on what score?",
+        answer: "0"
+      },
+      {
+        question: "The Union Jack, the national flag of the United Kingdom was designed in 1606 representing its constituent nations under one soveriegn. Which of the nations of the United Kingdom is not represented on the Union Jack flag?",
+        answer: "Wales"
+      },
+      {
+        question: "Between 1981 and 1986, the Ronald Reagan administration secretly facilitated the illegal sale of arms to an embargoed Middle Eastern country, seeking to use the proceeds of the arms sale to fund an anti-Sandinista rebel group in Nicaragua, in a scandal known as what?",
+        answer: "Iran-Contra Affair"
+      },
+      {
+        question: "Which Sri Lankan all-round cricketer scored 35 runs with the bat in a single over in a match against South Africa in 2013, but gave up 34 with the ball in a single over in a match against New Zealand in 2018?",
+        answer: "Thisara Perera"
+      },
+      {
+        question: "In June 2023, who became the first player to captain a Test match-winning team without bowling, batting or keeping wicket at any point in any innings?",
+        answer: "Ben Stokes against Ireland"
+      },
+      {
+        question: "In the Official flag of the Western Province adopted in 1987, three symbolic animals represent each of the three districts. A golden lion represents Colombo and a golden bird represents Kalutara. What golden animal represents the Gampaha district?",
+        answer: "Three heades golden cobra"
+      },
+      {
+        question: "Depicting a congregation of ancient mathematicians, philosophers, and scientists, The School of Athens is a Fresco by which renaissance painter?",
+        answer: "Raphael"
+      },
+      {
+        question: "Established by a proclamation from the British colonial governor on August 2, 1800, what is the oldest government department in Sri Lanka.",
+        answer: "The Survey Department"
+      },
+      {
+        question: "Written by Simon De Silva, which 1905 novel is considered to be the very first Sinhala novel?",
+        answer: "Meena"
+      },
+      {
+        question: "What form of natural disaster can also mean an emphatic victory, particularly in an election?",
+        answer: "Landslide"
+      },
+      {
+        question: "Which Arabic phrase, typically used by Muslims as a blessing before an imminent action is featured in the song Bohemian Rhapsody by Queen. It means In the name of Allah.",
+        answer: "Bismillah"
+      },
+      {
+        question: "What celestial name is given to affluent individuals who finance business startups and early-stage companies using their own funds?",
+        answer: "Angel investors"
+      },
+      {
+        question: "With 7351 rooms, the First World Hotel is currently the largest hotel in the World. In which Asian country is it located?",
+        answer: "Malaysia, Genting Highlands"
+      },
+      {
+        question: "Since the official Chess World Championships began in 1886, it has only happened once in 1929, between then reigning champion Alexander Alekhine and challenger Efim Bogoljubov. What is it?",
+        answer: "King being checkmated"
+      },
+      {
+        question: "Which capital city shares its name with a popular type of grapesused to make raisins, and in Sri Lanka a traditional, sticky, and chewy confection similar to halwa.",
+        answer: "Muscat"
+      },
+      {
+        question: "Which European country and a member of the commonwealth voted in 1956 to become part of the United Kingdom, with 77% of those who voted favoring integration. Although ultimately it didn't quite work out for them?",
+        answer: "Malta"
+      },
+      {
+        question: "What is the most widely spoken language in the South of the equator?",
+        answer: "Portuguese (Second most spoken language is Indonesian)"
+      },
+      {
+        question: "Situated in the valley between two hills, the Black Mountain and Mount Ainslie, which capital city takes its name from the local Ngambri language for cleavage?",
+        answer: "The parliament for the country is located in the area where the womb is. Canberra"
+      }
+    ],
+  },
 ];

@@ -6,6 +6,7 @@ export interface MusicArticle {
   genre: string;
   tags: string[];
   heroColor: string;
+  heroImage?: string;
 }
 
 export const musicArticles: MusicArticle[] = [
@@ -17,6 +18,7 @@ export const musicArticles: MusicArticle[] = [
     genre: 'Dangdut',
     tags: ['Indonesia', 'Folk', 'Culture'],
     heroColor: 'linear-gradient(135deg, #F4A261, #E76F51)',
+    heroImage: '/images/dangdut.png',
   },
   {
     slug: 'ruby-llm',
@@ -26,6 +28,7 @@ export const musicArticles: MusicArticle[] = [
     genre: 'Tech',
     tags: ['Ruby', 'LLM', 'AI', 'Code'],
     heroColor: 'linear-gradient(135deg, #CC342D, #E76F51)',
+    heroImage: '/images/ruby-llm.png',
   },
   {
     slug: 'ai-augmentation',
@@ -35,6 +38,7 @@ export const musicArticles: MusicArticle[] = [
     genre: 'Tech',
     tags: ['AI', 'Software', 'Productivity'],
     heroColor: 'linear-gradient(135deg, #3D405B, #2A9D8F)',
+    heroImage: '/images/ai-augmentation.png',
   },
   {
     slug: 'enka',
@@ -44,6 +48,7 @@ export const musicArticles: MusicArticle[] = [
     genre: 'Enka',
     tags: ['Japan', 'Traditional', 'Ballad'],
     heroColor: 'linear-gradient(135deg, #264653, #2A9D8F)',
+    heroImage: '/images/enka.png',
   },
   {
     slug: 'city-pop',
@@ -53,5 +58,6 @@ export const musicArticles: MusicArticle[] = [
     genre: 'City Pop',
     tags: ['Japan', '1980s', 'Funk', 'Disco'],
     heroColor: 'linear-gradient(135deg, #E76F51, #E9C46A)',
+    heroImage: '/images/city-pop-hero.png',
   },
 ];
