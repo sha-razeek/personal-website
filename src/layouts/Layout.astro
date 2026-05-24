@@ -29,8 +29,9 @@ const { title, description = 'Sha Razeek  -  Developer, Hypermedia & UI/UX Speci
   </div>
 
   <script>
-    // Mobile sidebar toggle
+    // Mobile sidebar toggle & Scroll Animations
     document.addEventListener('DOMContentLoaded', () => {
+      // Sidebar logic
       const toggle = document.getElementById('sidebar-toggle');
       const sidebar = document.getElementById('sidebar');
       const overlay = document.getElementById('sidebar-overlay');
@@ -48,6 +49,23 @@ const { title, description = 'Sha Razeek  -  Developer, Hypermedia & UI/UX Speci
           overlay.classList.remove('active');
         });
       }
+
+      // Scroll animations for staggered elements
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px" // Trigger slightly before it hits the bottom
+      });
+
+      document.querySelectorAll('.stagger').forEach(el => {
+        revealObserver.observe(el);
+      });
     });
   </script>
 </body>
