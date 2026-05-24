@@ -135,101 +135,105 @@ puts bot.summarise`;
     </header>
 
     <div class="article-content">
-      <div class="article-image-container">
+      <div class="article-image-container wide-image stagger">
         <img src="/images/ruby-llm.png" alt="Illustration of a person programming in Ruby" class="article-hero-img" />
         <div class="img-caption">Matz made it beautiful. Now it talks to AI.</div>
       </div>
 
-      <p class="article-lead">
+      <p class="article-lead stagger">
         There's a quiet revolution happening in the Ruby community. While the headlines focus on
         Python's dominance in AI and the JavaScript ecosystem's relentless expansion, Ruby developers
         have been doing something rather elegant: making large language models feel like a natural
         extension of the language itself.
       </p>
 
-      <h2>The State of LLM Access Across Languages</h2>
-      <p>
+      <h2 class="stagger">The State of LLM Access Across Languages</h2>
+      <p class="stagger">
         If you've worked with LLMs in Python, you've written something that looks like this:
       </p>
 
-      <div class="code-block">
+      <div class="code-block stagger">
         <div class="code-lang">Python</div>
         <pre><code class="language-python" set:html={pythonCode}></code></pre>
       </div>
 
-      <p>
-        It works. It's functional. But look at it  -  nested dictionaries, explicit role strings,
+      <p class="stagger">
+        It works. It's functional. But look at it — nested dictionaries, explicit role strings,
         method chains that read like legal documents. There's nothing <em>wrong</em> with it,
         but there's nothing that delights, either.
       </p>
 
-      <p>Now consider the equivalent in TypeScript:</p>
+      <p class="stagger">Now consider the equivalent in TypeScript:</p>
 
-      <div class="code-block">
+      <div class="code-block stagger">
         <div class="code-lang">TypeScript</div>
         <pre><code class="language-typescript" set:html={tsCode}></code></pre>
       </div>
 
-      <p>
+      <p class="stagger">
         Similar structure, similar verbosity. The pattern is always the same: create a client,
         build a messages array with explicit role strings, call a method, dig into the response
         object. It's fine. Everything is fine. But it's not <em>joyful</em>.
       </p>
 
-      <div class="article-image ruby-syntax">
+      <div class="article-image ruby-syntax wide-image stagger">
         <div class="img-overlay">
           <span class="img-label">The Ruby way</span>
         </div>
       </div>
 
-      <h2>Now, Look at Ruby</h2>
-      <p>
+      <div class="jet-line stagger"><span>✦✦✦</span></div>
+
+      <h2 class="stagger">Now, Look at Ruby</h2>
+      <p class="stagger">
         Here's the same task in Ruby. Notice not just what it does, but how it <em>feels</em>:
       </p>
 
-      <div class="code-block">
+      <div class="code-block stagger">
         <div class="code-lang">Ruby</div>
         <pre><code class="language-ruby" set:html={rubyBasic}></code></pre>
       </div>
 
-      <p>
+      <p class="stagger">
         Already, something feels different. The <code>require "openai"</code> is honest and
-        unadorned. The method is called <code>chat</code>  -  not <code>chat.completions.create</code>,
+        unadorned. The method is called <code>chat</code> — not <code>chat.completions.create</code>,
         a three-word method chain that reads like a shipping manifest. Ruby favours directness.
       </p>
 
-      <p>
+      <p class="stagger">
         But this is just the official SDK. The real magic happens when the community starts wrapping
         these APIs in Ruby-idiomatic ways.
       </p>
 
-      <h2>The Gem Ecosystem: Where Elegance Compounds</h2>
-      <p>
+      <h2 class="stagger">The Gem Ecosystem: Where Elegance Compounds</h2>
+      <p class="stagger">
         Ruby's gem ecosystem has produced several LLM libraries that feel genuinely different
         from what you'd find in other languages. Take the <code>ruby-openai</code> gem, or
         community abstractions that wrap multiple providers behind a single, beautifully simple
         interface.
       </p>
 
-      <div class="code-block">
-        <div class="code-lang">Ruby  -  Multi-provider abstraction</div>
+      <div class="code-block stagger">
+        <div class="code-lang">Ruby — Multi-provider abstraction</div>
         <pre><code class="language-ruby" set:html={rubyAdvanced}></code></pre>
       </div>
 
-      <p>
-        Notice the block syntax. This is quintessential Ruby  -  passing a block to a method for
+      <p class="stagger">
+        Notice the block syntax. This is quintessential Ruby — passing a block to a method for
         streaming responses feels as natural as <code>each</code> or <code>map</code>. The
         language was practically designed for this pattern, even though Matz couldn't have known
         streaming AI responses would be a thing thirty years later.
       </p>
 
-      <h2>Why Ruby Suits LLM Work</h2>
-      <p>
+      <div class="jet-line stagger"><span>✦✦✦</span></div>
+
+      <h2 class="stagger">Why Ruby Suits LLM Work</h2>
+      <p class="stagger">
         There are several reasons Ruby feels particularly well-suited to LLM interactions, and
         they all stem from the same philosophy: <em>developer happiness</em>.
       </p>
 
-      <div class="listening-guide">
+      <div class="listening-guide stagger">
         <div class="listening-item">
           <strong>Blocks and Procs</strong>
           <p>Streaming tokens from an LLM maps perfectly onto Ruby's block syntax. Every streaming
@@ -250,68 +254,68 @@ puts bot.summarise`;
         </div>
         <div class="listening-item">
           <strong>DSL-Friendly Design</strong>
-          <p>Ruby excels at building domain-specific languages. LLM interaction is ripe for DSLs  - 
+          <p>Ruby excels at building domain-specific languages. LLM interaction is ripe for DSLs — 
           and the community has delivered. Libraries that let you define prompt templates, chain
           conversations, and manage context with syntax that reads like English.</p>
         </div>
       </div>
 
-      <h2>A Conversation Chain, the Ruby Way</h2>
-      <p>
-        Here's a more complex example  -  a multi-turn conversation with context management,
+      <h2 class="stagger">A Conversation Chain, the Ruby Way</h2>
+      <p class="stagger">
+        Here's a more complex example — a multi-turn conversation with context management,
         prompt templates, and structured output. In Python, this would be a class with
         decorators and type hints. In Ruby, it's almost poetry:
       </p>
 
-      <div class="code-block">
-        <div class="code-lang">Ruby  -  Conversation with context</div>
+      <div class="code-block stagger">
+        <div class="code-lang">Ruby — Conversation with context</div>
         <pre><code class="language-ruby" set:html={rubyConversation}></code></pre>
       </div>
 
-      <p>
+      <p class="stagger">
         There's no ceremony here. No abstract base classes, no dependency injection, no decorator
         patterns. Just a Ruby class that does what it says. The <code>include AI::Helpers</code>
         line pulls in convenience methods. The <code>ask</code> method is self-documenting.
         And the <code>to_s</code> method lets you <code>puts</code> the entire conversation
-        because of course it does  -  this is Ruby.
+        because of course it does — this is Ruby.
       </p>
 
-      <div class="article-image ruby-gem">
+      <div class="article-image ruby-gem wide-image stagger">
         <div class="img-overlay">
           <span class="img-label">There's a gem for that</span>
         </div>
       </div>
 
-      <h2>The Honest Comparison</h2>
-      <p>
+      <h2 class="stagger">The Honest Comparison</h2>
+      <p class="stagger">
         I should be fair. Python's advantage in the AI/ML space is real and well-earned.
-        The ecosystem is deeper: PyTorch, Hugging Face, LangChain  -  these are mature, battle-tested
+        The ecosystem is deeper: PyTorch, Hugging Face, LangChain — these are mature, battle-tested
         libraries with enormous communities. If you're training models, fine-tuning, or building
         production ML pipelines, Python is the pragmatic choice.
       </p>
-      <p>
-        But for the increasingly common task of <em>integrating</em> LLMs into applications  - 
-        building chatbots, content generators, code assistants, and intelligent workflows  - 
+      <p class="stagger">
+        But for the increasingly common task of <em>integrating</em> LLMs into applications — 
+        building chatbots, content generators, code assistants, and intelligent workflows — 
         Ruby offers something Python often doesn't: code that you actually want to read.
       </p>
-      <p>
+      <p class="stagger">
         And that matters more than people think. Software is read far more often than it is
         written. A codebase that brings joy to read is a codebase that gets maintained, extended,
         and loved. Ruby has always understood this.
       </p>
 
-      <blockquote>
+      <blockquote class="stagger">
         "Ruby doesn't just let you talk to machines. It makes the conversation feel like
         a dialogue between friends rather than a series of formal requests."
       </blockquote>
 
-      <h2>What's Available Now</h2>
-      <p>
+      <h2 class="stagger">What's Available Now</h2>
+      <p class="stagger">
         If you're curious about exploring LLM work in Ruby, the ecosystem is more capable than
         you might expect:
       </p>
 
-      <div class="listening-guide">
+      <div class="listening-guide stagger">
         <div class="listening-item">
           <strong>ruby-openai</strong>
           <p>The official OpenAI Ruby SDK. Clean, well-documented, and supports streaming, embeddings,
@@ -324,7 +328,7 @@ puts bot.summarise`;
         <div class="listening-item">
           <strong>langchainrb</strong>
           <p>Ruby's answer to LangChain. Agent frameworks, chain-of-thought prompting, tool use,
-          and memory  -  all wrapped in beautiful Ruby syntax.</p>
+          and memory — all wrapped in beautiful Ruby syntax.</p>
         </div>
         <div class="listening-item">
           <strong>ruby_llm</strong>
@@ -333,25 +337,25 @@ puts bot.summarise`;
         </div>
       </div>
 
-      <h2>The Bigger Picture</h2>
-      <p>
+      <h2 class="stagger">The Bigger Picture</h2>
+      <p class="stagger">
         Ruby's role in AI isn't about displacing Python. It's about proving that developer
         experience and cutting-edge technology aren't mutually exclusive. For decades, Ruby has
         been the language that makes you <em>feel good</em> about writing code. Now it's doing
         the same for the AI integration layer.
       </p>
-      <p>
+      <p class="stagger">
         And there's something rather lovely about that. In an industry obsessed with raw
         performance benchmarks and framework du jour, Ruby quietly demonstrates that how code
-        <em>feels</em> matters  -  not just how it runs. That elegance is a feature, not a luxury.
+        <em>feels</em> matters — not just how it runs. That elegance is a feature, not a luxury.
         And that Matz's original vision of a language that optimises for human happiness
         turns out to be remarkably well-suited for an era where humans and machines are learning
         to collaborate.
       </p>
 
-      <div class="jet-line"><span>◇</span></div>
+      <div class="jet-line stagger"><span>◈◈◈</span></div>
 
-      <div class="article-nav">
+      <div class="article-nav stagger">
         <a href="/blog/ai-augmentation" class="btn">← AI Augmentation</a>
         <a href="/blog" class="btn">All Articles</a>
       </div>
@@ -427,109 +431,44 @@ puts bot.summarise`;
     color: var(--color-warm-gray);
   }
 
-  .article-content {
-    line-height: 1.85;
-  }
-
-  .article-content h2 {
-    margin-top: 2.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-color);
-  }
-
-  .article-content h2:first-of-type {
-    border-top: none;
-    margin-top: 0;
-    padding-top: 0;
-  }
-
-  .article-lead {
-    font-size: 1.15rem;
-    line-height: 1.9;
-    color: var(--text-primary);
-    font-weight: 400;
-  }
-
-  .article-content blockquote {
-    font-size: 1.1rem;
-    font-style: italic;
-    line-height: 1.7;
-    border-left: 3px solid #CC342D;
-    padding: 1rem 1.5rem;
-    background: rgba(204, 52, 45, 0.04);
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    margin: 2rem 0;
-    color: var(--text-secondary);
-  }
-
   /* Code blocks */
   .code-block {
-    margin: 1.5rem 0;
-    border-radius: var(--radius-lg);
+    margin: 3rem 0;
+    border-radius: var(--radius-md);
     overflow: hidden;
     border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
   }
 
   .code-lang {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.825rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    padding: 0.5rem 1rem;
-    background: var(--color-dark);
-    color: var(--color-mustard);
+    padding: 0.75rem 1.25rem;
+    background: var(--bg-secondary);
+    color: var(--color-brown);
+    border-bottom: 1px solid var(--border-color);
   }
 
   .code-block :global(pre) {
     margin: 0;
-    padding: 1.25rem !important;
+    padding: 2rem !important;
     overflow-x: auto;
-    font-size: 0.82rem;
+    font-size: 0.95rem;
     line-height: 1.7;
     background: #fafafa !important;
   }
 
   .code-block :global(code) {
     font-family: var(--font-mono);
-    font-size: 0.82rem;
-    line-height: 1.7;
     background: none !important;
-  }
-
-  /* Article Images */
-  .article-image-container {
-    margin: 2rem 0;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-  }
-
-  .article-hero-img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .img-caption {
-    padding: 0.75rem 1.25rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--color-warm-gray);
-    background: white;
-    border-top: 1px solid var(--border-color);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
   }
 
   /* Image placeholders */
   .article-image {
-    width: 100%;
-    height: 220px;
-    border-radius: var(--radius-lg);
-    margin: 2rem 0;
+    height: 280px;
     position: relative;
-    overflow: hidden;
   }
 
   .ruby-syntax {
@@ -545,13 +484,13 @@ puts bot.summarise`;
     inset: 0;
     display: flex;
     align-items: flex-end;
-    padding: 1.25rem;
+    padding: 2rem;
     background: linear-gradient(0deg, rgba(0,0,0,0.35) 0%, transparent 60%);
   }
 
   .img-label {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     color: white;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -562,37 +501,47 @@ puts bot.summarise`;
   .listening-guide {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    margin: 1.5rem 0;
+    gap: 1.5rem;
+    margin: 3rem 0;
   }
 
   .listening-item {
-    padding: 1rem 1.25rem;
+    padding: 2rem;
     background: white;
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    border-left: 3px solid #CC342D;
+    border-radius: var(--radius-sm);
+    border-left: 4px solid #CC342D;
+    transition: transform var(--transition-fast);
+  }
+
+  .listening-item:hover {
+    transform: translateX(8px);
   }
 
   .listening-item strong {
     display: block;
-    margin-bottom: 0.25rem;
-    color: var(--text-primary);
-    font-family: var(--font-mono);
+    margin-bottom: 0.75rem;
+    color: var(--color-brown);
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    text-transform: uppercase;
   }
 
   .listening-item p {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     margin-bottom: 0;
     line-height: 1.7;
+    opacity: 0.85;
   }
 
   /* Article nav */
   .article-nav {
     display: flex;
     justify-content: space-between;
-    margin-top: 3rem;
-    padding-top: 1.5rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
     border-top: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 </style>

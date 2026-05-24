@@ -71,8 +71,8 @@ export const portfolioItems: PortfolioItem[] = [
     details: {
       role: 'Design Lead & Developer',
       year: '2024',
-      tools: ['Figma', 'Astro', 'Cloudflare Pages'],
-      overview: 'SLIFA Magazine is a digital-first publication that showcases Sri Lankan design, culture, and creative thinking. Built with a strong editorial sensibility and a visual language inspired by mid-century print design.',
+      tools: ['Affinity Publisher', 'Affinity Photo'],
+      overview: 'SLIFA Magazine is the official publication of SLIFA that highlights the events and activities of the association and its membership',
       features: [
         'Custom editorial layout system with flexible grid',
         'Typography-first design with curated font pairings',

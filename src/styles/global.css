@@ -4,6 +4,50 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Azeret+Mono:wght@300;400;500&display=swap');
 
+/* Maple Mono Webfont */
+@font-face {
+  font-family: 'Maple Mono';
+  src: url('/fonts/maple-mono/MapleMono-Regular.ttf.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Maple Mono';
+  src: url('/fonts/maple-mono/MapleMono-Italic.ttf.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Maple Mono';
+  src: url('/fonts/maple-mono/MapleMono-Bold.ttf.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Maple Mono';
+  src: url('/fonts/maple-mono/MapleMono-BoldItalic.ttf.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Maple Mono';
+  src: url('/fonts/maple-mono/MapleMono-Medium.ttf.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Maple Mono';
+  src: url('/fonts/maple-mono/MapleMono-Light.ttf.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ---- CSS Custom Properties ---- */
 :root {
   /* Modernist Earthy Palette */
@@ -33,7 +77,7 @@
   --font-heading: 'Figtree', sans-serif;
   --font-serif: 'Figtree', sans-serif;
   --font-body: 'Figtree', sans-serif;
-  --font-mono: 'Azeret Mono', monospace;
+  --font-mono: 'Maple Mono', 'Azeret Mono', monospace;
   
   /* Spacing */
   --sidebar-width: 160px;
@@ -394,11 +438,19 @@ code {
   50% { transform: scale(1.08); opacity: 0.8; }
 }
 
-/* Staggered animation children */
-.stagger > * {
+/* Staggered animation */
+.stagger {
   opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s var(--ease-out), transform 1s var(--ease-out);
 }
 
+.stagger.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered animation children (legacy support for grids) */
 .stagger.visible > * {
   animation: fadeInUp 0.4s var(--ease-out) forwards;
 }
@@ -411,6 +463,56 @@ code {
 .stagger.visible > *:nth-child(6) { animation-delay: 0.3s; }
 .stagger.visible > *:nth-child(7) { animation-delay: 0.35s; }
 .stagger.visible > *:nth-child(8) { animation-delay: 0.4s; }
+
+/* ---- Magazine Editorial Styles ---- */
+.article-content p {
+  font-size: clamp(1.1rem, 4vw, 1.35rem);
+  line-height: 1.9;
+  margin-bottom: 2.5rem;
+  color: var(--text-primary);
+  opacity: 0.9;
+}
+
+.article-lead::first-letter {
+  float: left;
+  font-size: 5rem;
+  line-height: 1;
+  font-weight: 800;
+  margin-right: 0.75rem;
+  color: var(--accent-primary);
+  font-family: var(--font-serif);
+}
+
+.article-content h2 {
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 800;
+  margin-top: 4rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-serif);
+}
+
+.article-content h3 {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 700;
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+  font-family: var(--font-serif);
+}
+
+.wide-image {
+  width: 110%;
+  margin-left: -5%;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.wide-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 
 /* ---- Scrollbar ---- */
 ::-webkit-scrollbar {
