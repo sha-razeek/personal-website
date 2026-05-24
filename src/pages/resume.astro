@@ -4,281 +4,366 @@ import { resumeData, education } from '../data/resume';
 ---
 
 <Layout title="Resume" description="Professional experience and career history of Sha Razeek">
-  <div class="page-header">
-    <h1>Resume</h1>
-    <p class="subtitle">Professional experience & career history</p>
-  </div>
-
-  <div class="resume-content">
-    <!-- Download button -->
-    <div class="resume-actions mb-4">
-      <button class="btn btn--small" onclick="window.print()">
-        ↗ Print / Save as PDF
-      </button>
-    </div>
-
-    <!-- Experience -->
-    <section class="resume-section">
-      <h2 class="resume-section-title">
-        <span class="resume-section-icon">▣</span>
-        Experience
-      </h2>
-      <div class="timeline stagger">
-        {resumeData.map((entry) => (
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content card">
-              <div class="timeline-header">
-                <div>
-                  <h3 class="timeline-role">{entry.role}</h3>
-                  <span class="timeline-company">{entry.company}</span>
-                </div>
-                <span class="timeline-period tag">{entry.period}</span>
-              </div>
-              <p class="timeline-desc">{entry.description}</p>
-              <ul class="timeline-highlights">
-                {entry.highlights.map((h) => (
-                  <li>{h}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-
-    <div class="jet-line"><span>◆</span></div>
-
-    <!-- Education -->
-    <section class="resume-section">
-      <h2 class="resume-section-title">
-        <span class="resume-section-icon">◇</span>
-        Education
-      </h2>
-      {education.map((edu) => (
-        <div class="card education-card">
-          <div class="education-header">
-            <h3>{edu.degree}</h3>
-            <span class="tag">{edu.year}</span>
-          </div>
-          <p class="education-school">{edu.institution}</p>
-          {edu.award && (
-            <div class="education-award">
-              <span class="award-icon">★</span>
-              <span>{edu.award}</span>
-            </div>
-          )}
+  <div class="modernist-grid">
+    <section class="grid-section hero-modernist-page">
+      <div class="hero-content">
+        <span class="hero-eyebrow">The Career Path</span>
+        <h1 class="hero-title">
+          <span class="gradient-text">Resume</span>
+        </h1>
+        <p class="hero-description">
+          Professional experience and career history spanning more than two decades in digital technology.
+        </p>
+        <div class="hero-btns mt-3">
+          <button class="btn btn--primary" onclick="window.print()">
+            Print / Save as PDF
+          </button>
         </div>
-      ))}
-    </section>
-
-    <div class="jet-line"><span>✦</span></div>
-
-    <!-- Skills Summary -->
-    <section class="resume-section">
-      <h2 class="resume-section-title">
-        <span class="resume-section-icon">◎</span>
-        Core Competencies
-      </h2>
-      <div class="skills-tags stagger">
-        <span class="tag">Microsoft 365 Automation</span>
-        <span class="tag tag--coral">Digital Graphics</span>
-        <span class="tag tag--mustard">UI/UX Design</span>
-        <span class="tag">Data Analysis</span>
-        <span class="tag tag--coral">Video Production</span>
-        <span class="tag tag--mustard">Hypermedia Systems</span>
-        <span class="tag">Process Automation</span>
-        <span class="tag tag--coral">Full-Stack Web Development</span>
-        <span class="tag tag--mustard">Design Systems</span>
-        <span class="tag">Digital Publishing</span>
       </div>
     </section>
+
+    <div class="resume-content-wrapper">
+      <!-- Experience -->
+      <section class="resume-section">
+        <div class="jet-line">
+          <span>Experience</span>
+        </div>
+        <div class="timeline-modern stagger">
+          {resumeData.map((entry) => (
+            <div class="timeline-item-modern">
+              <div class="timeline-meta">
+                <span class="timeline-period-label">{entry.period}</span>
+                <span class="timeline-company-label">{entry.company}</span>
+              </div>
+              <div class="timeline-info">
+                <h3 class="timeline-role-title">{entry.role}</h3>
+                <p class="timeline-desc-text">{entry.description}</p>
+                <ul class="timeline-highlights-list">
+                  {entry.highlights.map((h) => (
+                    <li>{h}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section class="resume-section">
+        <div class="jet-line">
+          <span>Education</span>
+        </div>
+        <div class="education-modern-grid">
+          {education.map((edu) => (
+            <div class="education-item-modern">
+              <div class="edu-meta">
+                <span class="edu-year">{edu.year}</span>
+              </div>
+              <div class="edu-info">
+                <h3>{edu.degree}</h3>
+                <p class="edu-school-name">{edu.institution}</p>
+                {edu.award && (
+                  <div class="edu-award-badge">
+                    <span class="award-star">✦</span>
+                    <span>{edu.award}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Skills Summary -->
+      <section class="resume-section">
+        <div class="jet-line">
+          <span>Core Competencies</span>
+        </div>
+        <div class="skills-grid-modern stagger">
+          <span class="skill-tag">Microsoft 365 Automation</span>
+          <span class="skill-tag">Digital Graphics</span>
+          <span class="skill-tag">UI/UX Design</span>
+          <span class="skill-tag">Data Analysis</span>
+          <span class="skill-tag">Video Production</span>
+          <span class="skill-tag">Hypermedia Systems</span>
+          <span class="skill-tag">Process Automation</span>
+          <span class="skill-tag">Full-Stack Web Development</span>
+          <span class="skill-tag">Design Systems</span>
+          <span class="skill-tag">Digital Publishing</span>
+        </div>
+      </section>
+    </div>
   </div>
 </Layout>
 
 <style>
-  .resume-content {
-    max-width: 840px;
-  }
-
-  .resume-actions {
+  .modernist-grid {
     display: flex;
-    gap: 0.75rem;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 4rem;
   }
 
-  .resume-section {
-    margin-bottom: 2.5rem;
+  .grid-section {
+    width: 100%;
   }
 
-  .resume-section-title {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    color: var(--text-primary);
+  .hero-modernist-page {
+    padding: 2rem 0 3rem;
   }
 
-  .resume-section-icon {
+  .hero-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
     color: var(--accent-primary);
+    margin-bottom: 1rem;
   }
 
-  /* Timeline */
-  .timeline {
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--color-brown);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg, 
+      var(--color-brown) 0%, 
+      var(--accent-primary) 25%, 
+      var(--accent-secondary) 50%, 
+      var(--accent-primary) 75%, 
+      var(--color-brown) 100%
+    );
+    background-size: 400% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmeryText 12s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes shimmeryText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    max-width: 600px;
+  }
+
+  .resume-content-wrapper {
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  /* Timeline Modern */
+  .timeline-modern {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .timeline-item-modern {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 3rem;
     position: relative;
-    padding-left: 2rem;
   }
 
-  .timeline::before {
+  .timeline-item-modern::before {
     content: '';
     position: absolute;
-    left: 5px;
-    top: 8px;
-    bottom: 8px;
+    left: 240px;
+    top: 0;
+    bottom: -1.5rem;
     width: 1px;
-    background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary), var(--accent-warm));
-    opacity: 0.3;
+    background: var(--border-color);
   }
 
-  .timeline-item {
-    position: relative;
-    margin-bottom: 1.5rem;
+  .timeline-item-modern:last-child::before {
+    bottom: 0;
   }
 
-  .timeline-dot {
-    position: absolute;
-    left: -2rem;
-    top: 1.5rem;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: var(--accent-primary);
-    border: 2px solid var(--bg-primary);
-    z-index: 1;
-  }
-
-  .timeline-item:first-child .timeline-dot {
-    background: var(--accent-secondary);
-    width: 13px;
-    height: 13px;
-    left: calc(-2rem - 1px);
-    top: 1.4rem;
-  }
-
-  .timeline-content {
-    padding: 1.5rem 1.75rem;
-  }
-
-  .timeline-header {
+  .timeline-meta {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  .timeline-role {
-    font-size: 1.2rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .timeline-company {
+  .timeline-period-label {
     font-family: var(--font-mono);
     font-size: 0.85rem;
+    font-weight: 500;
     color: var(--accent-primary);
+  }
+
+  .timeline-company-label {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: var(--color-brown);
   }
 
-  .timeline-period {
-    white-space: nowrap;
-    flex-shrink: 0;
+  .timeline-role-title {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
   }
 
-  .timeline-desc {
-    font-size: 1rem;
-    margin-bottom: 1rem;
+  .timeline-desc-text {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    color: var(--text-primary);
+    max-width: 650px;
   }
 
-  .timeline-highlights {
+  .timeline-highlights-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: grid;
+    gap: 0.5rem;
   }
 
-  .timeline-highlights li {
+  .timeline-highlights-list li {
     font-size: 0.95rem;
     color: var(--text-secondary);
-    padding: 0.25rem 0;
     padding-left: 1.25rem;
     position: relative;
   }
 
-  .timeline-highlights li::before {
-    content: '→';
+  .timeline-highlights-list li::before {
+    content: '✦';
     position: absolute;
     left: 0;
-    color: var(--accent-primary);
-    font-size: 0.9rem;
+    color: var(--accent-secondary);
+    font-size: 0.75rem;
   }
 
-  /* Education */
-  .education-header {
+  /* Education Modern */
+  .education-modern-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .education-item-modern {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 0.35rem;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    transition: transform var(--transition-medium);
   }
 
-  .education-card h3 {
-    font-size: 1.15rem;
-    margin-bottom: 0;
+  .education-item-modern:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
   }
 
-  .education-school {
+  .edu-meta {
+    flex-shrink: 0;
+  }
+
+  .edu-year {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent-primary);
+    font-weight: 600;
+  }
+
+  .education-item-modern h3 {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    color: var(--color-brown);
+    margin-bottom: 0.5rem;
+  }
+
+  .edu-school-name {
     font-size: 1rem;
+    color: var(--text-secondary);
     margin-bottom: 1rem;
   }
 
-  .education-award {
+  .edu-award-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.65rem 1rem;
-    background: rgba(233, 196, 106, 0.1);
-    border: 1px solid rgba(233, 196, 106, 0.3);
-    border-radius: var(--radius-md);
-    font-size: 0.95rem;
-    color: #8B6914;
-    font-weight: 500;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-secondary);
+    text-transform: uppercase;
+    background: rgba(208, 94, 60, 0.05);
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
   }
 
-  .award-icon {
-    color: var(--accent-warm);
-    font-size: 1rem;
-  }
-
-  /* Skills */
-  .skills-tags {
+  /* Skills Modern */
+  .skills-grid-modern {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.75rem;
+  }
+
+  .skill-tag {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 1rem;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--color-brown);
+    transition: all var(--transition-fast);
+  }
+
+  .skill-tag:hover {
+    background: var(--accent-primary);
+    color: white;
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
   }
 
   @media print {
-    .resume-actions { display: none; }
-    .sidebar, .sidebar-toggle, .sidebar-overlay { display: none !important; }
-    .main-content { margin-left: 0 !important; max-width: 100% !important; }
-    .card { break-inside: avoid; }
+    .hero-btns, .jet-line { display: none !important; }
+    .modernist-grid { padding-bottom: 0; }
+    .hero-modernist-page { padding-top: 0; }
+    .timeline-item-modern { grid-template-columns: 180px 1fr; gap: 2rem; }
+    .timeline-item-modern::before { left: 180px; }
   }
 
-  @media (max-width: 640px) {
-    .timeline-header {
-      flex-direction: column;
+  @media (max-width: 768px) {
+    .timeline-item-modern {
+      grid-template-columns: 1fr;
+      gap: 1rem;
     }
-    .timeline {
-      padding-left: 1.5rem;
+    .timeline-item-modern::before {
+      display: none;
+    }
+    .education-modern-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

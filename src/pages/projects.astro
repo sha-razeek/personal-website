@@ -3,55 +3,64 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Projects" description="Featured projects and experiments by Sha Razeek">
-  <div class="page-header">
-    <h1>Projects</h1>
-    <p class="subtitle">Things I've built, experiments, and ongoing work</p>
-  </div>
+  <div class="modernist-grid">
+    <section class="grid-section hero-modernist-page">
+      <div class="hero-content">
+        <span class="hero-eyebrow">The Laboratory</span>
+        <h1 class="hero-title">
+          <span class="gradient-text">Projects</span>
+        </h1>
+        <p class="hero-description">
+          Things I've built, experiments, and ongoing work in the digital realm.
+        </p>
+      </div>
+    </section>
 
-  <div class="projects-content">
-    <div class="projects-grid stagger">
-      <!-- Transistor Radio -->
-      <a href="/music/transistor" class="card project-card project-card--featured">
-        <div class="project-card-top" style="background: linear-gradient(135deg, var(--color-dark), var(--accent-primary))">
-          <span class="project-card-icon">📻</span>
-        </div>
-        <div class="project-card-body">
-          <span class="tag tag--coral">Live</span>
-          <h3>Transistor Radio</h3>
-          <p>A properly good wireless for the modern age. Search and tune into online radio stations from every corner of the globe at the flick of a switch.</p>
-          <div class="project-tech">
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">Web Audio API</span>
-            <span class="tech-tag">radio-browser.info</span>
+    <div class="projects-content">
+      <div class="projects-modern-grid stagger">
+        <!-- Transistor Radio -->
+        <a href="/music/transistor" class="project-item">
+          <div class="project-visual" style="background: linear-gradient(135deg, var(--color-dark), var(--accent-primary))">
+            <span class="project-icon">📻</span>
           </div>
-          <span class="project-link">Open Transistor →</span>
-        </div>
-      </a>
-
-      <!-- Broadcast -->
-      <a href="/projects/broadcast" class="card project-card project-card--featured">
-        <div class="project-card-top" style="background: linear-gradient(135deg, #CC342D, #E76F51)">
-          <span class="project-card-icon">📺</span>
-        </div>
-        <div class="project-card-body">
-          <span class="tag tag--coral">Live</span>
-          <h3>Broadcast</h3>
-          <p>Global telly, properly delivered. Search and tune into thousands of live television channels from across the world, all from the comfort of your browser.</p>
-          <div class="project-tech">
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">HLS.js</span>
-            <span class="tech-tag">iptv-org API</span>
+          <div class="project-info">
+            <div class="project-meta">
+              <span class="tag tag--coral">Live</span>
+              <span class="tech-stack">JS • Web Audio</span>
+            </div>
+            <h3>Transistor Radio</h3>
+            <p>A properly good wireless for the modern age. Search and tune into online radio stations from every corner of the globe.</p>
+            <span class="project-link">Open Transistor →</span>
           </div>
-          <span class="project-link">Open Broadcast →</span>
-        </div>
-      </a>
+        </a>
 
-      <!-- More coming soon -->
-      <div class="card project-card project-card--coming">
-        <div class="project-card-body">
-          <span class="project-coming-icon">✦</span>
-          <h3>More Projects Coming Soon</h3>
-          <p>New experiments and builds are always in progress. Check back for updates  -  or follow along on the Articles page for write-ups on what I'm working on.</p>
+        <!-- Broadcast -->
+        <a href="/projects/broadcast" class="project-item">
+          <div class="project-visual" style="background: linear-gradient(135deg, #CC342D, #E76F51)">
+            <span class="project-icon">📺</span>
+          </div>
+          <div class="project-info">
+            <div class="project-meta">
+              <span class="tag tag--coral">Live</span>
+              <span class="tech-stack">JS • HLS.js</span>
+            </div>
+            <h3>Broadcast</h3>
+            <p>Global telly, properly delivered. Search and tune into thousands of live television channels from across the world.</p>
+            <span class="project-link">Open Broadcast →</span>
+          </div>
+        </a>
+
+        <div class="jet-line"><span>✦✦✦</span></div>
+
+        <!-- More coming soon -->
+        <div class="project-item project-item--coming">
+          <div class="project-visual project-visual--empty">
+            <span class="project-icon">✦</span>
+          </div>
+          <div class="project-info">
+            <h3>More Projects Coming Soon</h3>
+            <p>New experiments and builds are always in progress. Check back for updates.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -59,77 +68,146 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
-  .projects-content {
-    max-width: 900px;
-  }
-
-  .projects-grid {
+  .modernist-grid {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    padding-bottom: 4rem;
   }
 
-  .project-card {
+  .grid-section {
+    width: 100%;
+  }
+
+  .hero-modernist-page {
+    padding: 2rem 0 3rem;
+  }
+
+  .hero-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--color-brown);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg, 
+      var(--color-brown) 0%, 
+      var(--accent-primary) 25%, 
+      var(--accent-secondary) 50%, 
+      var(--accent-primary) 75%, 
+      var(--color-brown) 100%
+    );
+    background-size: 400% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmeryText 12s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes shimmeryText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    max-width: 600px;
+  }
+
+  .projects-content {
+    max-width: 1000px;
+  }
+
+  .projects-modern-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .project-item {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 2.5rem;
     text-decoration: none;
     color: inherit;
-    padding: 0;
-    overflow: hidden;
+    transition: transform var(--transition-medium);
+    align-items: center;
   }
 
-  .project-card:hover {
-    color: inherit;
+  .project-item:hover {
+    transform: translateX(8px);
   }
 
-  .project-card--featured {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .project-card-top {
-    width: 160px;
-    flex-shrink: 0;
+  .project-visual {
+    width: 100%;
+    aspect-ratio: 16/10;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
   }
 
-  .project-card-icon {
-    font-size: 4.5rem;
-    filter: grayscale(0.1);
+  .project-visual--empty {
+    background: var(--bg-secondary);
+    border: 1px dashed var(--border-color);
+    box-shadow: none;
   }
 
-  .project-card-body {
-    padding: 1.75rem;
-    flex: 1;
+  .project-icon {
+    font-size: 4rem;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
   }
 
-  .project-card-body h3 {
-    font-size: 1.35rem;
-    margin: 0.5rem 0;
+  .project-info h3 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    color: var(--color-brown);
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
   }
 
-  .project-card-body p {
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
+  .project-info p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    max-width: 600px;
   }
 
-  .project-tech {
+  .project-meta {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
+    align-items: center;
+    gap: 1rem;
     margin-bottom: 1rem;
   }
 
-  .tech-tag {
+  .tech-stack {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
+    color: var(--color-warm-gray);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    padding: 0.2em 0.6em;
-    border-radius: 100px;
-    background: rgba(42, 157, 143, 0.06);
-    color: var(--color-charcoal);
-    border: 1px solid var(--border-color);
   }
 
   .project-link {
@@ -137,35 +215,24 @@ import Layout from '../layouts/Layout.astro';
     font-size: 0.8rem;
     color: var(--accent-primary);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
+    font-weight: 600;
   }
 
-  .project-card--coming {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 160px;
-    border-style: dashed;
+  .project-item--coming {
+    opacity: 0.7;
   }
 
-  .project-coming-icon {
-    font-size: 2rem;
-    color: var(--color-warm-gray);
-    display: block;
-    margin-bottom: 0.75rem;
-  }
-
-  .project-card--coming .project-card-body {
-    text-align: center;
-  }
-
-  @media (max-width: 640px) {
-    .project-card--featured {
-      flex-direction: column;
+  @media (max-width: 768px) {
+    .project-item {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
-    .project-card-top {
-      width: 100%;
-      height: 100px;
+    .project-item:hover {
+      transform: translateY(-4px);
+    }
+    .project-visual {
+      aspect-ratio: 16/9;
     }
   }
 </style>

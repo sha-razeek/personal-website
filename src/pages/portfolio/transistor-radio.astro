@@ -41,13 +41,8 @@ const item = portfolioItems.find(i => i.slug === 'transistor-radio')!;
     <h2>Overview</h2>
     <p>{item.details.overview}</p>
 
-    <div class="project-image-placeholder" style="background: linear-gradient(135deg, rgba(42,157,143,0.06), rgba(233,196,106,0.06));">
-      <div class="placeholder-pattern">
-        <span>📻</span>
-        <span>♪</span>
-        <span>◈</span>
-      </div>
-      <p>Transistor Radio interface</p>
+    <div class="project-main-image">
+      <img src="/images/radio.png" alt="Transistor Radio interface" />
     </div>
 
     <h2>Key Features</h2>
@@ -124,29 +119,22 @@ const item = portfolioItems.find(i => i.slug === 'transistor-radio')!;
     font-weight: 500;
   }
 
-  .project-image-placeholder {
+  .project-main-image {
     background: var(--bg-secondary);
-    border: 1px dashed var(--border-color);
+    border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
-    padding: 3rem;
-    text-align: center;
-    margin: 1.5rem 0;
-  }
-  .placeholder-pattern {
+    margin: 2rem 0;
+    overflow: hidden;
     display: flex;
     justify-content: center;
-    gap: 1.5rem;
-    font-size: 2rem;
-    color: var(--accent-primary);
-    opacity: 0.5;
-    margin-bottom: 0.75rem;
+    align-items: center;
+    padding: 2rem;
   }
-  .project-image-placeholder p {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--color-warm-gray);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+  .project-main-image img {
+    max-width: 100%;
+    height: auto;
+    box-shadow: var(--shadow-md);
+    border-radius: var(--radius-md);
   }
 
   .feature-list {

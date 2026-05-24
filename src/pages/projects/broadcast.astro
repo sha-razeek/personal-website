@@ -9,12 +9,23 @@ import Layout from '../../layouts/Layout.astro';
     <span class="breadcrumb-current">Broadcast</span>
   </nav>
 
-  <div class="page-header">
-    <h1>📺 Broadcast</h1>
-    <p class="subtitle">Live TV Receiver  -  Search and stream live channels</p>
-  </div>
+  <div class="modernist-grid">
+    <section class="grid-section hero-modernist-page">
+      <div class="hero-content">
+        <span class="hero-eyebrow">The Visual Wave</span>
+        <h1 class="hero-title">
+          <span class="gradient-text">Broadcast</span>
+        </h1>
+        <p class="hero-description">
+          Live TV Receiver — Search and stream live channels from around the world.
+        </p>
+      </div>
+      <div class="header-visual">
+        <img src="/images/tv.png" alt="Broadcast TV" class="tv-hero-img" />
+      </div>
+    </section>
 
-  <div class="tv-app">
+    <div class="tv-app grid-section">
     <!-- Player -->
     <div class="player-wrapper" id="playerWrapper" style="display: none;">
       <div class="player-now-playing">
@@ -57,6 +68,7 @@ import Layout from '../../layouts/Layout.astro';
       <p>Note: Not all television channels may be available at all times. Stream availability depends on your network conditions and the channel's source status. Some content may be restricted to certain geographic regions (geoblocked).</p>
     </div>
   </div>
+</div>
 </Layout>
 
 <style is:global>
@@ -72,12 +84,138 @@ import Layout from '../../layouts/Layout.astro';
   .breadcrumb a { color: var(--accent-primary); }
   .breadcrumb-sep { opacity: 0.5; }
 
+  .modernist-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .grid-section {
+    width: 100%;
+  }
+
+  .hero-modernist-page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem 0 3rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .hero-content {
+    flex: 1;
+  }
+
+  .hero-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--color-brown);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg, 
+      var(--color-brown) 0%, 
+      var(--accent-primary) 25%, 
+      var(--accent-secondary) 50%, 
+      var(--accent-primary) 75%, 
+      var(--color-brown) 100%
+    );
+    background-size: 400% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmeryText 12s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes shimmeryText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    max-width: 600px;
+  }
+
+  .header-visual {
+    width: 320px;
+    height: 320px;
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  .header-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-offwhite);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    z-index: -1;
+    animation: organicMorph 12s ease-in-out infinite alternate;
+  }
+
+  @keyframes organicMorph {
+    0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+    100% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+  }
+
+  .tv-hero-img {
+    width: 85%;
+    height: 85%;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    filter: drop-shadow(0 12px 25px rgba(0,0,0,0.12));
+    transition: transform var(--transition-medium);
+  }
+
+  .header-visual:hover .tv-hero-img {
+    transform: scale(1.08) translateY(-5px);
+  }
+
+  @media (max-width: 768px) {
+    .hero-modernist-page {
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+    }
+    .header-visual {
+      order: -1;
+      width: 240px;
+      height: 240px;
+    }
+  }
+
   .tv-app { max-width: 1000px; }
 
   /* Player */
   .player-wrapper {
     margin-bottom: 1.5rem;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     overflow: hidden;
     background: #000;
     box-shadow: var(--shadow-lg);
@@ -90,6 +228,7 @@ import Layout from '../../layouts/Layout.astro';
     padding: 0.75rem 1rem;
     background: var(--color-dark);
     color: white;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
   }
 
   .np-logo {
@@ -216,19 +355,19 @@ import Layout from '../../layouts/Layout.astro';
   /* Channel grid */
   .channel-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
   }
 
   .channel-card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.65rem;
-    padding: 1.1rem 0.85rem;
+    gap: 0.75rem;
+    padding: 1.5rem 1.25rem;
     background: white;
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     cursor: pointer;
     transition: all var(--transition-fast);
     text-align: center;
@@ -245,41 +384,12 @@ import Layout from '../../layouts/Layout.astro';
     background: rgba(42, 157, 143, 0.06);
   }
 
-  .channel-logo {
-    width: 56px;
-    height: 56px;
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--bg-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .channel-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  .channel-logo-placeholder {
-    width: 56px;
-    height: 56px;
-    border-radius: 12px;
-    background: rgba(42, 157, 143, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    color: var(--accent-primary);
-  }
-
   .channel-name {
     font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 0.9rem;
-    line-height: 1.3;
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.2;
+    color: var(--color-brown);
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -288,8 +398,9 @@ import Layout from '../../layouts/Layout.astro';
   }
 
   .channel-country {
-    font-size: 0.75rem;
+    font-size: 1rem;
     color: var(--text-secondary);
+    font-weight: 500;
   }
 
   .channel-quality {
@@ -339,8 +450,8 @@ import Layout from '../../layouts/Layout.astro';
     margin-top: 2rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border-color);
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
     color: var(--color-warm-gray);
     line-height: 1.6;
     text-align: center;
@@ -496,10 +607,6 @@ import Layout from '../../layouts/Layout.astro';
 
     channelGrid.innerHTML = display.map(ch => `
       <div class="channel-card ${currentChannel?.channel.id === ch.channel.id ? 'active' : ''}" data-id="${ch.channel.id}">
-        ${ch.logo
-          ? `<div class="channel-logo"><img src="${ch.logo}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="channel-logo-placeholder" style="display:none">📺</div></div>`
-          : `<div class="channel-logo-placeholder">📺</div>`
-        }
         <div class="channel-name">${escapeHtml(ch.channel.name)}</div>
         <div class="channel-country">${ch.countryFlag} ${escapeHtml(ch.countryName)}</div>
         ${ch.stream.quality ? `<span class="channel-quality">${ch.stream.quality}</span>` : ''}

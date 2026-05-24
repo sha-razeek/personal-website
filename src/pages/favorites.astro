@@ -13,38 +13,43 @@ const getItemsByType = (type: string) => favorites.filter(item => item.type === 
 ---
 
 <Layout title="Favorites" description="Recommended books, movies, TV shows, and music albums by Sha Razeek">
-  <div class="page-header">
-    <h1>Favorites</h1>
-    <p class="subtitle">A curated collection of beautiful things that have inspired, and entertained me</p>
-  </div>
+  <div class="modernist-grid">
+    <section class="grid-section hero-modernist-page">
+      <div class="hero-content">
+        <span class="hero-eyebrow">The Curated List</span>
+        <h1 class="hero-title">
+          <span class="gradient-text">Favorites</span>
+        </h1>
+        <p class="hero-description">
+          A collection of beautiful things that have inspired, moved, and entertained me.
+        </p>
+      </div>
+    </section>
 
-  <div class="favorites-content">
-    {sections.map(section => {
-      const items = getItemsByType(section.id);
-      if (items.length === 0) return null;
-      
-      return (
-        <section class="fav-section">
-          <div class="section-header">
-            <h2 class="fav-section-title">
-              <span class="fav-section-icon">{section.icon}</span>
-              {section.label}
-            </h2>
-          </div>
-          
-          <div class="favorites-grid">
-            {items.map((item) => (
-              <div class="card favorite-card" data-type={item.type}>
-                <div class="favorite-image-container">
-                  <img 
-                    src={item.coverImage || `https://placehold.co/${item.type === 'music' ? '400x400' : '400x600'}/f4f1ea/264653?text=${encodeURIComponent(item.title)}`} 
-                    alt={item.title} 
-                    class="favorite-img"
-                  />
-                </div>
-                
-                  <div class="favorite-card-body">
-                    <div class="favorite-header">
+    <div class="favorites-content">
+      {sections.map(section => {
+        const items = getItemsByType(section.id);
+        if (items.length === 0) return null;
+        
+        return (
+          <section class="fav-section">
+            <div class="jet-line">
+              <span>{section.label}</span>
+            </div>
+            
+            <div class="favorites-modern-grid">
+              {items.map((item) => (
+                <div class="favorite-item" data-type={item.type}>
+                  <div class="favorite-visual">
+                    <img 
+                      src={item.coverImage || `https://placehold.co/${item.type === 'music' ? '400x400' : '400x600'}/f4f1ea/264653?text=${encodeURIComponent(item.title)}`} 
+                      alt={item.title} 
+                      class="favorite-img"
+                    />
+                  </div>
+                  
+                  <div class="favorite-info">
+                    <div class="favorite-header-row">
                       <h3>{item.title}</h3>
                       {item.year && <span class="favorite-year">{item.year}</span>}
                     </div>
@@ -53,89 +58,128 @@ const getItemsByType = (type: string) => favorites.filter(item => item.type === 
                     
                     {item.description && <p class="favorite-desc">{item.description}</p>}
 
-                    {item.country && (
-                      <div class="favorite-meta">
-                        <span class="country-tag">📍 {item.country}</span>
-                      </div>
-                    )}
+                    <div class="favorite-meta">
+                      <span class="type-tag">{item.type}</span>
+                      {item.country && <span class="country-label">{item.country}</span>}
+                    </div>
                   </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      );
-    })}
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+      })}
+    </div>
   </div>
 </Layout>
 
 <style>
+  .modernist-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .grid-section {
+    width: 100%;
+  }
+
+  .hero-modernist-page {
+    padding: 2rem 0 3rem;
+  }
+
+  .hero-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--color-brown);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg, 
+      var(--color-brown) 0%, 
+      var(--accent-primary) 25%, 
+      var(--accent-secondary) 50%, 
+      var(--accent-primary) 75%, 
+      var(--color-brown) 100%
+    );
+    background-size: 400% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmeryText 12s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes shimmeryText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    max-width: 600px;
+  }
+
   .favorites-content {
-    max-width: 960px;
+    max-width: 1000px;
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    gap: 2rem;
   }
 
-  .fav-section {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .fav-section-title {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-    color: var(--text-primary);
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.75rem;
-  }
-
-  .fav-section-icon {
-    font-size: 1.5rem;
-  }
-
-  /* Grid and Cards */
-  .favorites-grid {
+  .favorites-modern-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    gap: 2.5rem;
   }
 
-  .favorite-card {
+  .favorite-item {
     display: flex;
     flex-direction: column;
-    padding: 0;
-    height: 100%;
-    position: relative;
-    border-top: 4px solid var(--border-color);
-    transition: all var(--transition-medium);
-    overflow: hidden;
+    gap: 1.5rem;
+    transition: transform var(--transition-medium);
   }
 
-  .favorite-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-    border-top-color: var(--accent-primary);
+  .favorite-item:hover {
+    transform: translateY(-8px);
   }
 
-  .favorite-image-container {
+  .favorite-visual {
     width: 100%;
-    background: var(--bg-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    aspect-ratio: 16/10;
+    border-radius: var(--radius-sm);
     overflow: hidden;
+    box-shadow: var(--shadow-md);
+    background: var(--bg-secondary);
   }
 
-  /* Aspect ratios: 1:1 for music, 2:3 for others */
-  .favorite-card[data-type="music"] .favorite-image-container {
-    aspect-ratio: 1 / 1;
+  .favorite-item[data-type="book"] .favorite-visual,
+  .favorite-item[data-type="movie"] .favorite-visual,
+  .favorite-item[data-type="tv"] .favorite-visual {
+    aspect-ratio: 2/3;
   }
-  
-  .favorite-card:not([data-type="music"]) .favorite-image-container {
-    aspect-ratio: 2 / 3;
+
+  .favorite-item[data-type="music"] .favorite-visual {
+    aspect-ratio: 1;
   }
 
   .favorite-img {
@@ -145,63 +189,35 @@ const getItemsByType = (type: string) => favorites.filter(item => item.type === 
     transition: transform var(--transition-medium);
   }
 
-  .favorite-card:hover .favorite-img {
+  .favorite-item:hover .favorite-img {
     transform: scale(1.05);
   }
 
-  .favorite-card-body {
-    padding: 1.5rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+  .favorite-info h3 {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    color: var(--color-brown);
+    margin-bottom: 0.25rem;
+    line-height: 1.1;
   }
 
-  .favorite-header {
+  .favorite-header-row {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 1rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .favorite-card h3 {
-    font-size: 1.25rem;
-    margin-bottom: 0;
-    color: var(--text-primary);
+    margin-bottom: 0.5rem;
   }
 
   .favorite-year {
     font-family: var(--font-mono);
     font-size: 0.8rem;
     color: var(--color-warm-gray);
-    white-space: nowrap;
-  }
-
-  .favorite-meta {
-    margin-top: auto;
-    padding-top: 1rem;
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .country-tag {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent-primary);
-    background: rgba(42, 157, 143, 0.06);
-    padding: 0.2rem 0.5rem;
-    border-radius: var(--radius-sm);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
   }
 
   .favorite-creator {
-    font-family: var(--font-heading);
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 500;
     color: var(--accent-primary);
     margin-bottom: 1rem;
@@ -211,26 +227,37 @@ const getItemsByType = (type: string) => favorites.filter(item => item.type === 
     font-size: 0.95rem;
     line-height: 1.6;
     color: var(--text-secondary);
-    margin-bottom: 0;
+    margin-bottom: 1.25rem;
   }
 
-  /* Specific border colors for types */
-  .favorite-card[data-type="book"] { border-top-color: var(--accent-warm); }
-  .favorite-card[data-type="movie"] { border-top-color: var(--accent-secondary); }
-  .favorite-card[data-type="tv"] { border-top-color: var(--color-charcoal); }
-  .favorite-card[data-type="music"] { border-top-color: var(--accent-primary); }
+  .favorite-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: auto;
+  }
+
+  .type-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-secondary);
+    padding: 0.2rem 0.5rem;
+    background: rgba(208, 94, 60, 0.06);
+    border-radius: var(--radius-sm);
+  }
+
+  .country-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-warm-gray);
+    text-transform: uppercase;
+  }
 
   @media (max-width: 768px) {
-    .favorites-grid {
+    .favorites-modern-grid {
       grid-template-columns: 1fr;
-    }
-    
-    .favorites-content {
-      gap: 3rem;
-    }
-
-    .fav-section-title {
-      font-size: 1.5rem;
     }
   }
 </style>

@@ -4,108 +4,197 @@ import { portfolioItems } from '../../data/portfolio';
 ---
 
 <Layout title="Portfolio" description="Selected works and projects by Sha Razeek">
-  <div class="page-header">
-    <h1>Portfolio</h1>
-    <p class="subtitle">Selected works and projects</p>
-  </div>
+  <div class="modernist-grid">
+    <section class="grid-section hero-modernist-page">
+      <div class="hero-content">
+        <span class="hero-eyebrow">The Collection</span>
+        <h1 class="hero-title">
+          <span class="gradient-text">Portfolio</span>
+        </h1>
+        <p class="hero-description">
+          Selected works and projects spanning two decades of digital craftsmanship.
+        </p>
+      </div>
+    </section>
 
-  <div class="portfolio-content">
-    <div class="portfolio-grid stagger">
-      {portfolioItems.map((item) => (
-        <a href={`/portfolio/${item.slug}`} class="card portfolio-card">
-          <div class="portfolio-card-top" style={`background: ${item.color}`}>
-            <span class="portfolio-card-icon" set:html={item.icon}></span>
-          </div>
-          <div class="portfolio-card-body">
-            <div class="portfolio-tags">
-              {item.tags.map((tag) => (
-                <span class="tag">{tag}</span>
-              ))}
+    <div class="portfolio-content">
+      <div class="portfolio-modern-grid stagger">
+        {portfolioItems.map((item) => (
+          <a href={`/portfolio/${item.slug}`} class="portfolio-item">
+            <div class="portfolio-visual" style={`background: ${item.color}`}>
+              <div class="portfolio-icon" set:html={item.icon}></div>
             </div>
-            <h3>{item.title}</h3>
-            <p class="portfolio-tagline">{item.tagline}</p>
-            <p class="portfolio-desc">{item.description}</p>
-            <span class="portfolio-link">View Project →</span>
-          </div>
-        </a>
-      ))}
+            <div class="portfolio-info">
+              <div class="portfolio-meta">
+                {item.tags.slice(0, 2).map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+                <span class="year-label">{item.details.year}</span>
+              </div>
+              <h3>{item.title}</h3>
+              <p class="portfolio-tagline">{item.tagline}</p>
+              <p class="portfolio-desc">{item.description}</p>
+              <span class="portfolio-link">View Case Study →</span>
+            </div>
+          </a>
+        ))}
+      </div>
     </div>
   </div>
 </Layout>
 
 <style>
-  .portfolio-content {
-    max-width: 900px;
-  }
-
-  .portfolio-grid {
+  .modernist-grid {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    padding-bottom: 4rem;
   }
 
-  .portfolio-card {
+  .grid-section {
+    width: 100%;
+  }
+
+  .hero-modernist-page {
+    padding: 2rem 0 3rem;
+  }
+
+  .hero-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--color-brown);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg, 
+      var(--color-brown) 0%, 
+      var(--accent-primary) 25%, 
+      var(--accent-secondary) 50%, 
+      var(--accent-primary) 75%, 
+      var(--color-brown) 100%
+    );
+    background-size: 400% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmeryText 12s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes shimmeryText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    max-width: 600px;
+  }
+
+  .portfolio-content {
+    max-width: 1000px;
+  }
+
+  .portfolio-modern-grid {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .portfolio-item {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 3rem;
     text-decoration: none;
     color: inherit;
-    padding: 0;
+    transition: transform var(--transition-medium);
+    align-items: center;
+  }
+
+  .portfolio-item:hover {
+    transform: translateX(8px);
+  }
+
+  .portfolio-visual {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
+    box-shadow: var(--shadow-md);
   }
 
-  .portfolio-card:hover {
-    color: inherit;
-  }
-
-  .portfolio-card-top {
-    width: 140px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .portfolio-card-icon {
-    font-size: 2.5rem;
+  .portfolio-icon {
+    font-size: 5rem;
     color: white;
-    opacity: 0.9;
     display: flex;
     align-items: center;
     justify-content: center;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
   }
 
-  .portfolio-card-icon :global(svg) {
-    width: 1em;
-    height: 1em;
+  .portfolio-icon :global(svg) {
+    width: 1.2em;
+    height: 1.2em;
   }
 
-  .portfolio-card-body {
-    padding: 1.5rem;
-    flex: 1;
-  }
-
-  .portfolio-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .portfolio-card-body h3 {
-    font-size: 1.25rem;
-    margin-bottom: 0.25rem;
+  .portfolio-info h3 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: var(--color-brown);
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
   }
 
   .portfolio-tagline {
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     font-weight: 500;
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
   }
 
   .portfolio-desc {
-    font-size: 0.9rem;
-    margin-bottom: 0.75rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    max-width: 600px;
+    color: var(--text-secondary);
+  }
+
+  .portfolio-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .year-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-warm-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   .portfolio-link {
@@ -113,16 +202,23 @@ import { portfolioItems } from '../../data/portfolio';
     font-size: 0.8rem;
     color: var(--accent-primary);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
+    font-weight: 600;
   }
 
-  @media (max-width: 640px) {
-    .portfolio-card {
-      flex-direction: column;
+  @media (max-width: 768px) {
+    .portfolio-item {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
-    .portfolio-card-top {
-      width: 100%;
-      height: 80px;
+    .portfolio-item:hover {
+      transform: translateY(-4px);
+    }
+    .portfolio-visual {
+      aspect-ratio: 16/9;
+    }
+    .portfolio-icon {
+      font-size: 4rem;
     }
   }
 </style>

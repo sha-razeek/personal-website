@@ -6,37 +6,39 @@
 
 /* ---- CSS Custom Properties ---- */
 :root {
-  /* Mid-Century Jet Age Palette */
+  /* Modernist Earthy Palette */
   --color-dark: #264653;
-  --color-teal: #2A9D8F;
-  --color-coral: #E76F51;
-  --color-mustard: #E9C46A;
-  --color-cream: #FAF3E0;
-  --color-offwhite: #F4F1DE;
+  --color-brown: #4A3020;
+  --color-teal: #49848A;
+  --color-coral: #D05E3C;
+  --color-mustard: #D8A048;
+  --color-cream: #F2EBE1;
+  --color-offwhite: #E8E0D5;
   --color-sage: #A8DADC;
-  --color-warm-gray: #B7B7A4;
+  --color-warm-gray: #A3A198;
   --color-charcoal: #3D405B;
-  --color-blush: #F4A261;
+  --color-blush: #EAA374;
   
   /* Functional colors */
   --bg-primary: var(--color-cream);
   --bg-secondary: var(--color-offwhite);
-  --text-primary: var(--color-dark);
-  --text-secondary: var(--color-charcoal);
+  --text-primary: var(--color-brown);
+  --text-secondary: #5A5752;
   --accent-primary: var(--color-teal);
   --accent-secondary: var(--color-coral);
   --accent-warm: var(--color-mustard);
-  --border-color: rgba(38, 70, 83, 0.12);
+  --border-color: rgba(74, 48, 32, 0.15);
   
   /* Typography */
   --font-heading: 'Figtree', sans-serif;
+  --font-serif: 'Figtree', sans-serif;
   --font-body: 'Figtree', sans-serif;
   --font-mono: 'Azeret Mono', monospace;
   
   /* Spacing */
-  --sidebar-width: 260px;
-  --content-max: 940px;
-  --page-padding: 2.25rem;
+  --sidebar-width: 160px;
+  --content-max: 1200px;
+  --page-padding: 2.5rem;
   
   /* Transitions */
   --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -46,14 +48,15 @@
   --transition-slow: 500ms var(--ease-out);
   
   /* Shadows - subtle mid-century */
-  --shadow-sm: 0 1px 3px rgba(38, 70, 83, 0.06);
-  --shadow-md: 0 4px 12px rgba(38, 70, 83, 0.08);
-  --shadow-lg: 0 8px 30px rgba(38, 70, 83, 0.1);
+  --shadow-sm: 0 2px 8px rgba(74, 48, 32, 0.05);
+  --shadow-md: 0 8px 24px rgba(74, 48, 32, 0.08);
+  --shadow-lg: 0 16px 40px rgba(74, 48, 32, 0.12);
   
   /* Border radius */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+  --radius-pill: 50px;
 }
 
 /* ---- Reset & Base ---- */
@@ -248,11 +251,13 @@ code {
   align-items: center;
   gap: 0.5rem;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  padding: 0.65rem 1.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1.75rem;
   border: 1.5px solid var(--accent-primary);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-pill);
   background: transparent;
   color: var(--accent-primary);
   cursor: pointer;
@@ -270,11 +275,22 @@ code {
 .btn--primary {
   background: var(--accent-primary);
   color: white;
+  border-color: var(--accent-primary);
 }
 
 .btn--primary:hover {
-  background: var(--color-dark);
-  border-color: var(--color-dark);
+  background: var(--color-brown);
+  border-color: var(--color-brown);
+}
+
+.btn--outline {
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+}
+
+.btn--outline:hover {
+  background: var(--text-primary);
+  color: white;
 }
 
 .btn--coral {
@@ -288,8 +304,8 @@ code {
 }
 
 .btn--small {
-  font-size: 0.85rem;
-  padding: 0.45rem 0.95rem;
+  font-size: 0.8rem;
+  padding: 0.5rem 1.25rem;
 }
 
 /* ---- Divider ---- */
@@ -421,7 +437,7 @@ code {
 }
 
 /* ---- Responsive ---- */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   :root {
     --sidebar-width: 0px;
     --page-padding: 1.25rem;
@@ -439,6 +455,9 @@ code {
   .grid-2, .grid-3 {
     grid-template-columns: 1fr;
   }
+}
+
+@media (max-width: 768px) {
 }
 
 @media (max-width: 480px) {

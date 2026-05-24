@@ -1,0 +1,199 @@
+---
+const quotes = [
+    { text: "For indeed, with hardship [will be] ease.", author: "Quran (94:5)" },
+    { text: "The heart that is not content is like a lamp exposed to the wind; its flame wavers constantly.", author: "Imam Al-Ghazali" },
+    { text: "The quieter you become, the more you are able to hear.", author: "Rumi" },
+    { text: "Verily, in the remembrance of God do hearts find rest.", author: "Quran (13:28)" },
+    { text: "Be like a tree and let the dead leaves drop.", author: "Rumi" },
+    { text: "The wound is the place where the Light enters you.", author: "Rumi" },
+    { text: "Patience is the key to contentment.", author: "Prophet Muhammad (PBUH)" },
+    { text: "The greatest jihad (struggle) is to battle your own soul, to fight the evil within yourself.", author: "Prophet Muhammad (PBUH)" },
+    { text: "Your task is not to seek for love, but merely to seek and find all the barriers within yourself that you have built against it.", author: "Rumi" },
+    { text: "Be tolerant with others and strict with yourself.", author: "Ibn Arabi" },
+    { text: "Yesterday I was clever, so I wanted to change the world. Today I am wise, so I am changing myself.", author: "Rumi" },
+    { text: "The cure for pain is in the pain.", author: "Rumi" },
+    { text: "What you seek is seeking you.", author: "Rumi" },
+    { text: "Raise your words, not voice. It is rain that grows flowers, not thunder.", author: "Rumi" },
+    { text: "You were born with wings, why prefer to crawl through life?", author: "Rumi" },
+    { text: "Silence is the language of God, all else is poor translation.", author: "Rumi" },
+    { text: "The art of knowing is knowing what to ignore.", author: "Rumi" },
+    { text: "Patience does not mean to passively endure. It means to be farsighted enough to trust the end result of a process.", author: "Rumi" },
+    { text: "The universe is not outside of you. Look inside yourself; everything that you want, you already are.", author: "Rumi" },
+    { text: "Knowledge which is acquired from the people dies as they die, but the knowledge which serves God lasts forever.", author: "Imam Ali" },
+    { text: "He who knows himself knows his Lord.", author: "Prophet Muhammad (PBUH)" },
+    { text: "The best richness is the richness of the soul.", author: "Prophet Muhammad (PBUH)" },
+    { text: "The ink of the scholar is more sacred than the blood of the martyr.", author: "Prophet Muhammad (PBUH)" },
+    { text: "Seek knowledge from the cradle to the grave.", author: "Prophet Muhammad (PBUH)" },
+    { text: "The world is three days: As for yesterday, it has vanished. As for tomorrow, you may never see it. As for today, it is yours, so work on it.", author: "Hassan Al-Basri" },
+    { text: "Do not be content with the joy of a single moment of obedience, for it may be followed by eternal sorrow.", author: "Ibn Ata'Allah" },
+    { text: "The more you struggle to live, the less you live. Give up the notion that you must be sure of what you are doing. Instead, surrender to what is real within you, for that alone is sure.", author: "Bayazid Bastami" },
+    { text: "If you want to know where your heart is, look to where your mind goes when it wanders.", author: "Ibn Qayyim Al-Jawziyya" },
+    { text: "The difference between the impossible and the possible lies in a person's determination.", author: "Tommy Lasorda" },
+    { text: "Your heart is the size of an ocean. Go find yourself in its hidden depths.", author: "Rumi" }
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sakinah - Tranquility</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500&display=swap');
+
+        :root {
+            --font-body: 'Figtree', sans-serif;
+            --color-cream: #F2EBE1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: #000;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2); /* Very subtle overlay */
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .quote-container {
+            max-width: 800px;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .quote-text {
+            font-size: 2.5rem;
+            font-weight: 300;
+            line-height: 1.3;
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .quote-author {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .back-link {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            z-index: 20;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .quote-text {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="/videos/sakinah-bg.mp4" type="video/mp4" />
+        </video>
+    </div>
+    <div class="overlay"></div>
+
+    <main class="content">
+        <div id="quote-display" class="quote-container">
+            <p id="text" class="quote-text"></p>
+            <p id="author" class="quote-author"></p>
+        </div>
+    </main>
+
+    <a href="/" class="back-link">← Return to Orbit</a>
+
+    <script define:vars={{ quotes }}>
+        let currentIndex = 0;
+        const display = document.getElementById('quote-display');
+        const textEl = document.getElementById('text');
+        const authorEl = document.getElementById('author');
+
+        function updateQuote() {
+            display.style.opacity = '0';
+            
+            setTimeout(() => {
+                const quote = quotes[currentIndex];
+                textEl.textContent = quote.text;
+                authorEl.textContent = quote.author;
+                display.style.opacity = '1';
+                
+                currentIndex = (currentIndex + 1) % quotes.length;
+            }, 1000);
+        }
+
+        // Initial call
+        updateQuote();
+
+        // Interval
+        setInterval(updateQuote, 10000);
+    </script>
+</body>
+</html>

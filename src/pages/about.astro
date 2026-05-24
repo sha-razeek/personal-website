@@ -2,101 +2,159 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="About" description="About Sha Razeek  -  Developer, Hypermedia and UI/UX Specialist">
-  <div class="page-header">
-    <h1>About</h1>
-    <p class="subtitle">A spot of background on yours truly</p>
-  </div>
-
-  <div class="about-content">
-    <div class="about-intro">
-      <div class="about-photo">
-        <div class="about-photo-frame">
-          <img src="/images/me.jpg" alt="Sha Razeek" class="about-img" />
-          <div class="about-photo-accent"></div>
-        </div>
-      </div>
-      <div class="about-text">
-        <p class="about-lead">
-          I'm Sha Razeek, a developer, hypermedia specialist, and UI/UX designer with the better part
-          of two decades under my belt, spanning full-stack web development, video production,  digital publishing, 
-          and creative technology.
+<Layout title="About" description="About Sha Razeek - Developer, Hypermedia and UI/UX Specialist">
+  <div class="modernist-grid">
+    <section class="grid-section hero-modernist-page">
+      <div class="hero-content">
+        <span class="hero-eyebrow">The Background</span>
+        <h1 class="hero-title">
+          <span class="gradient-text">About</span>
+        </h1>
+        <p class="hero-description">
+          A self-taught designer and developer with more than two decades of experience.
         </p>
-        <p>
-          With a background in statistics and computer science and a penchant for all things beautiful in digital
-          design, I've treaded the intersection of technology and design, building digital experiences
-          that are every bit as elegant as they are functional.
-        </p>
-        <p>
-          Nowadays, I concentrate on hypermedia systems, web development, and the art of crafting
-          interfaces that channel the optimism and refinement of mid-century modern design, all whilst
-          leveraging contemporary web standards.
-        </p>
-      </div>
-    </div>
-
-    <div class="jet-line"><span>✦</span></div>
-
-    <section class="about-section">
-      <h2>What I Do</h2>
-      <div class="skills-grid stagger">
-        <div class="skill-card">
-          <span class="skill-icon">◈</span>
-          <h3>Development</h3>
-          <p>Full-stack web development with modern frameworks, APIs, and cloud-native architectures.</p>
-        </div>
-        <div class="skill-card">
-          <span class="skill-icon">◎</span>
-          <h3>UI/UX Design</h3>
-          <p>User-centred design with a keen focus on typography, motion, and visual systems.</p>
-        </div>
-        <div class="skill-card">
-          <span class="skill-icon">✦</span>
-          <h3>Hypermedia</h3>
-          <p>Building interconnected digital experiences that make proper use of the web's native linking capabilities.</p>
-        </div>
-        <div class="skill-card">
-          <span class="skill-icon">♫</span>
-          <h3>Creative Tech</h3>
-          <p>Exploring the boundaries between art, music, and technology through interactive projects.</p>
-        </div>
       </div>
     </section>
 
-    <div class="jet-line"><span>◆</span></div>
+    <div class="about-content">
+      <div class="about-intro">
+        <div class="about-photo">
+          <div class="about-photo-frame">
+            <img src="/images/me.jpg" alt="Sha Razeek" class="about-img" />
+            <div class="about-photo-accent"></div>
+          </div>
+        </div>
+        <div class="about-text">
+          <p class="about-lead">
+            I'm Sha Razeek, a developer, hypermedia specialist, and UI/UX designer with the better part
+            of two decades under my belt, spanning full-stack web development, video production, digital publishing, 
+            and creative technology.
+          </p>
+          <p>
+            With a background in statistics and computer science and a penchant for all things beautiful in digital
+            design, I've treaded the intersection of technology and design, building digital experiences
+            that are every bit as elegant as they are functional.
+          </p>
+          <p>
+            Nowadays, I concentrate on hypermedia systems, web development, and the art of crafting
+            interfaces that channel the optimism and refinement of mid-century modern design, all whilst
+            leveraging contemporary web standards.
+          </p>
+        </div>
+      </div>
 
-    <section class="about-section">
-      <h2>Philosophy</h2>
-      <blockquote class="about-quote">
-        "I hold the conviction that the web is the finest hypermedia system ever conceived. Every page
-        ought to feel like a proper destination, not merely a waypoint. Design should be invisible when
-        it works and utterly unforgettable when it doesn't."
-      </blockquote>
-      <p>
-        My philosophy draws rather heavily from mid-century modernism  -  the notion that form follows
-        function, that simplicity is the pinnacle of sophistication, and that technology ought to
-        feel fundamentally human.
-      </p>
-    </section>
+      <div class="jet-line"><span>✦✦✦</span></div>
 
-    <div class="about-cta mt-4">
-      <a href="/resume" class="btn btn--primary">View Resume</a>
-      <a href="/portfolio" class="btn">See My Work</a>
-      <a href="mailto:sharazeek@atomicmail.io" class="btn">Contact Me</a>
+      <section class="about-section">
+        <h2 class="serif-label">What I Do</h2>
+        <div class="skills-grid stagger">
+          <div class="skill-card">
+            <span class="skill-icon">◈</span>
+            <h3>Development</h3>
+            <p>Full-stack web development with modern frameworks, APIs, and cloud-native architectures.</p>
+          </div>
+          <div class="skill-card">
+            <span class="skill-icon">◎</span>
+            <h3>UI/UX Design</h3>
+            <p>User-centred design with a keen focus on typography, motion, and visual systems.</p>
+          </div>
+          <div class="skill-card">
+            <span class="skill-icon">✦</span>
+            <h3>Hypermedia</h3>
+            <p>Building interconnected digital experiences that make proper use of the web's native linking capabilities.</p>
+          </div>
+          <div class="skill-card">
+            <span class="skill-icon">♫</span>
+            <h3>Creative Tech</h3>
+            <p>Exploring the boundaries between art, music, and technology through interactive projects.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="about-cta mt-4">
+        <a href="/resume" class="btn btn--primary">View Resume</a>
+        <a href="/portfolio" class="btn">See My Work</a>
+        <a href="mailto:sharazeek@atomicmail.io" class="btn">Contact Me</a>
+      </div>
     </div>
   </div>
 </Layout>
 
 <style>
+  .modernist-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .grid-section {
+    width: 100%;
+  }
+
+  .hero-modernist-page {
+    padding: 2rem 0 3rem;
+  }
+
+  .hero-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--color-brown);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg, 
+      var(--color-brown) 0%, 
+      var(--accent-primary) 25%, 
+      var(--accent-secondary) 50%, 
+      var(--accent-primary) 75%, 
+      var(--color-brown) 100%
+    );
+    background-size: 400% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmeryText 12s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes shimmeryText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    max-width: 600px;
+  }
+
   .about-content {
-    max-width: 800px;
+    max-width: 900px;
   }
 
   .about-intro {
     display: flex;
-    gap: 2rem;
+    gap: 3rem;
     align-items: flex-start;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
 
   .about-photo {
@@ -105,8 +163,8 @@ import Layout from '../layouts/Layout.astro';
 
   .about-photo-frame {
     position: relative;
-    width: 140px;
-    height: 140px;
+    width: 180px;
+    height: 180px;
     z-index: 5;
   }
 
@@ -128,7 +186,7 @@ import Layout from '../layouts/Layout.astro';
 
   .about-photo-accent {
     position: absolute;
-    inset: -6px;
+    inset: -8px;
     border: 1.5px solid var(--accent-primary);
     border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
     opacity: 0.4;
@@ -137,32 +195,37 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .about-lead {
-    font-size: 1.2rem;
-    line-height: 1.8;
+    font-size: 1.3rem;
+    line-height: 1.7;
     color: var(--text-primary);
-    font-weight: 400;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
   }
 
-  .about-section h2 {
-    font-size: 1.6rem;
+  .serif-label {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    color: var(--color-brown);
+    margin-bottom: 2rem;
   }
 
   .skills-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
+    gap: 1.5rem;
   }
 
   .skill-card {
-    padding: 1.5rem;
+    padding: 2rem;
     background: white;
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-sm);
     transition: all var(--transition-medium);
   }
 
   .skill-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
     box-shadow: var(--shadow-md);
   }
 
@@ -170,38 +233,25 @@ import Layout from '../layouts/Layout.astro';
     font-size: 1.5rem;
     color: var(--accent-primary);
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
   }
 
   .skill-card h3 {
-    font-size: 1.15rem;
-    margin-bottom: 0.35rem;
-  }
-
-  .skill-card p {
-    font-size: 1rem;
-    margin-bottom: 0;
-  }
-
-  .about-quote {
-    font-size: 1.2rem;
-    font-style: italic;
-    line-height: 1.7;
-    border-left: 3px solid var(--accent-primary);
-    padding: 1.25rem 1.75rem;
-    background: rgba(42, 157, 143, 0.04);
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    margin: 2rem 0;
-    color: var(--text-secondary);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-brown);
   }
 
   .about-cta {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    margin-top: 3rem;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     .about-intro {
       flex-direction: column;
       align-items: center;
@@ -209,6 +259,10 @@ import Layout from '../layouts/Layout.astro';
     }
     .skills-grid {
       grid-template-columns: 1fr;
+    }
+    .about-photo-frame {
+      width: 160px;
+      height: 160px;
     }
   }
 </style>

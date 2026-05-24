@@ -181,14 +181,12 @@ import Layout from '../../layouts/Layout.astro';
   .article-page { max-width: 840px; }
 
   .article-header {
-    border-radius: var(--radius-lg);
-    padding: 3rem 2rem;
-    margin-bottom: 2rem;
-    color: white;
+    padding: 0;
+    margin-bottom: 3.5rem;
   }
 
   .enka-header {
-    background: linear-gradient(135deg, #264653, #2A9D8F);
+    /* Gradient moved to h1 */
   }
 
   .article-category {
@@ -196,19 +194,25 @@ import Layout from '../../layouts/Layout.astro';
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    opacity: 0.8;
+    color: var(--color-warm-gray);
   }
 
   .article-header h1 {
-    color: white;
-    font-size: 2.5rem;
-    margin: 0.5rem 0;
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    line-height: 1.1;
+    margin: 1rem 0;
+    background: linear-gradient(135deg, #264653, #2A9D8F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+    font-weight: 800;
   }
 
   .article-meta {
     font-family: var(--font-mono);
     font-size: 0.8rem;
-    opacity: 0.7;
+    color: var(--color-warm-gray);
   }
 
   /* Article Images */

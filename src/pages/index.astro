@@ -7,244 +7,202 @@ const currentJob = resumeData[0];
 ---
 
 <Layout title="Home">
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-atomic">✦</div>
-    <p class="hero-greeting">Welcome to the orbital</p>
-    <h1 class="hero-name starburst">Sha Razeek</h1>
-    <p class="hero-role">Developer · Hypermedia Specialist · UI/UX Designer</p>
-    <div class="hero-divider">
-      <span class="divider-star">◈</span>
-    </div>
-    <div class="hero-photo-container">
-      <div class="photo-frame-outer"></div>
-      <div class="photo-frame-inner">
-        <img src="/images/me.jpg" alt="Sha Razeek" class="hero-photo" />
+  <div class="modernist-grid">
+    <!-- Top Row: Hero & Main Visual -->
+    <section class="grid-section hero-modernist">
+      <div class="hero-right">
+        <div class="abstract-container">
+          <div class="shape shape-circle"></div>
+          <div class="shape shape-rect"></div>
+          <div class="hero-main-img-frame">
+            <img src="/images/me.webp" alt="Sha Razeek" class="hero-main-img" />
+          </div>
+        </div>
       </div>
-      <div class="photo-accent">✦</div>
-    </div>
-    <p class="hero-desc">
-      Just an ordinary guy who loves building beautiful things.
+      <div class="hero-left">
+        <span class="hero-eyebrow">Digital Craftsman</span>
+        <h1 class="hero-title">
+          <span class="gradient-text">The Orbital</span> <br/>
+          <span class="hero-title-sub">by Sha Razeek</span>
+        </h1>
+        <p class="hero-description">
+          A self-taught designer and developer with more than two decades of experience.
+        </p>
+        <div class="hero-btns">
+          <a href="/blog" class="btn btn--primary">Explore Collection</a>
+          <a href="/projects" class="btn btn--outline">View Portfolio</a>
+        </div>
+      </div>
+    </section>
 
-    </p>
-    <div class="hero-actions">
-      <a href="/resume" class="btn btn--primary">Resume</a>
-      <a href="/blog" class="btn">Articles</a>
-      <a href="mailto:sharazeek@atomicmail.io" class="btn">Contact Me</a>
-    </div>
-  </section>
+    <!-- Middle Row: Apps (Side by Side) -->
+    <section class="grid-section apps-section-modern">
+      <a href="/music/transistor" class="mini-promo-card transistor-mini">
+        <div class="mini-promo-visual" style="background-image: url('/images/radio.png')"></div>
+        <div class="mini-promo-content">
+          <h3>Transistor</h3>
+          <span class="mini-promo-tag">Radio</span>
+        </div>
+      </a>
+      <a href="/projects/broadcast" class="mini-promo-card broadcast-mini">
+        <div class="mini-promo-visual" style="background-image: url('/images/tv.png')"></div>
+        <div class="mini-promo-content">
+          <h3>Broadcast</h3>
+          <span class="mini-promo-tag">Live TV</span>
+        </div>
+      </a>
+    </section>
 
-  <!-- Projects Section -->
-  <section class="section">
-    <div class="apps-container stagger">
-      <a href="/music/transistor" class="app-promo-card app-promo-card--transistor">
-        <div class="app-promo-visual">
-          <div class="app-promo-overlay">
-            <span class="app-promo-icon">📻</span>
-            <div class="app-promo-title-group">
-              <h3 class="app-promo-title">Transistor</h3>
-              <span class="app-promo-tag">Radio Receiver</span>
-              <p class="app-promo-desc">Wireless for the modern age. Search and tune into online radio stations from across the globe at the flick of a switch.</p>
-            </div>
-          </div>
-          <div class="visual-waves">
-            <span></span><span></span><span></span>
+    <!-- Bottom Section: Feature + Acquisitions -->
+    <section class="grid-section bottom-composite">
+      <a href="/sakinah" class="feature-block-main">
+        <div class="feature-img-container">
+          <img src="/images/sakinah.png" alt="Sakinah" class="feature-img" />
+          <div class="feature-label-overlay">
+            <span class="feature-eyebrow">Featured</span>
+            <h3>Sakinah</h3>
           </div>
         </div>
       </a>
 
-      <a href="/projects/broadcast" class="app-promo-card app-promo-card--broadcast">
-        <div class="app-promo-visual">
-          <div class="app-promo-overlay">
-            <span class="app-promo-icon">📺</span>
-            <div class="app-promo-title-group">
-              <h3 class="app-promo-title">Broadcast</h3>
-              <span class="app-promo-tag">Live TV Receiver</span>
-              <p class="app-promo-desc">Global telly, properly delivered. Search and tune into thousands of live television channels from every corner of the world.</p>
-            </div>
-          </div>
-          <div class="visual-test-pattern"></div>
+      <div class="acquisitions-side">
+        <div class="acquisitions-header">
+          <h2 class="serif-label">Recent Articles</h2>
+          <a href="/blog" class="section-link">Archives →</a>
         </div>
-      </a>
-    </div>
-  </section>
+        <div class="acquisitions-compact-grid stagger">
+          {musicArticles.slice(0, 3).map((article) => (
+            <a href={`/blog/${article.slug}`} class="acquisition-item">
+              <div class="acquisition-thumb" style={`background: ${article.heroColor}`}>
+                {article.heroImage && <img src={article.heroImage} alt="" />}
+              </div>
+              <div class="acquisition-info">
+                <h4>{article.title}</h4>
+                <p>{article.date}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
 
-  <!-- Recently Written -->
-  <section class="section">
-    <div class="section-header">
-      <h2>Recently Written</h2>
-      <a href="/blog" class="section-link">All Articles →</a>
-    </div>
-    <div class="articles-grid stagger">
-      {musicArticles.slice(0, 4).map((article) => (
-        <a href={`/blog/${article.slug}`} class="card article-card">
-          <div 
-            class="article-card-image" 
-            style={`background: ${article.heroColor}; ${article.heroImage ? `background-image: url('${article.heroImage}'); background-size: cover; background-position: top;` : ''}`}
-          >
-          </div>
-          <div class="article-card-body">
-            <h3>{article.title}</h3>
-            <p>{article.excerpt}</p>
-            <span class="article-date">{article.date}</span>
-          </div>
+    <!-- Explore Grid -->
+    <section class="grid-section">
+      <div class="explore-grid stagger">
+        <a href="/music" class="explore-card">
+          <span class="explore-icon">
+            <svg width="20" height="20" viewBox="0 0 164 153" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M99.1721 13.564C99.3179 13.5731 99.4635 13.5837 99.6091 13.5958C102.251 13.8165 102.96 15.5127 104.211 17.5868C105.815 20.2447 107.383 23.1732 109.508 25.4607C112.233 28.4162 115.633 30.6685 119.417 32.0254C122.672 33.1866 128.989 34.488 126.517 39.4104C125.627 41.1835 124.601 41.5477 122.788 42.1171C114.185 40.6196 110.737 37.8718 103.963 32.7557C104.165 45.1096 103.876 57.7554 103.969 70.163C104.03 78.142 104.345 87.649 103.296 95.4482C102.787 99.2327 100.609 104.138 98.1743 107.103C92.1085 114.491 86.7581 117.132 77.5628 118.259C69.7081 118.647 62.826 116.707 56.8529 111.446C51.225 106.552 47.7703 99.6238 47.2481 92.184C46.7593 84.4211 48.981 77.0913 54.1697 71.2232C59.1521 65.6068 66.164 62.2032 73.659 61.763C81.6607 61.2856 89.0358 63.9075 95.0335 69.2261C95.2888 57.7363 94.9645 45.9583 95.086 34.4412C95.1362 29.0507 94.9268 23.6458 95.1882 18.261C95.3421 15.0902 96.0907 14.1279 99.1721 13.564Z" fill="currentColor"/><path d="M73.5962 70.5726C84.331 69.5289 93.8802 77.3832 94.9274 88.1176C95.9745 98.8521 88.1234 108.404 77.3893 109.454C66.6503 110.506 57.0932 102.65 56.0455 91.9107C54.9978 81.1713 62.8565 71.6168 73.5962 70.5726Z" fill="currentColor"/></g></svg>
+          </span>
+          <span class="explore-label">Music</span>
         </a>
-      ))}
-    </div>
-  </section>
-
-  <!-- Quick Links -->
-  <section class="section">
-    <div class="section-header">
-      <h2>Explore</h2>
-    </div>
-    <div class="explore-grid stagger">
-      <a href="/music" class="explore-card">
-        <span class="explore-icon">
-          <svg width="24" height="24" viewBox="0 0 164 153" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block;"><g><path d="M99.1721 13.564C99.3179 13.5731 99.4635 13.5837 99.6091 13.5958C102.251 13.8165 102.96 15.5127 104.211 17.5868C105.815 20.2447 107.383 23.1732 109.508 25.4607C112.233 28.4162 115.633 30.6685 119.417 32.0254C122.672 33.1866 128.989 34.488 126.517 39.4104C125.627 41.1835 124.601 41.5477 122.788 42.1171C114.185 40.6196 110.737 37.8718 103.963 32.7557C104.165 45.1096 103.876 57.7554 103.969 70.163C104.03 78.142 104.345 87.649 103.296 95.4482C102.787 99.2327 100.609 104.138 98.1743 107.103C92.1085 114.491 86.7581 117.132 77.5628 118.259C69.7081 118.647 62.826 116.707 56.8529 111.446C51.225 106.552 47.7703 99.6238 47.2481 92.184C46.7593 84.4211 48.981 77.0913 54.1697 71.2232C59.1521 65.6068 66.164 62.2032 73.659 61.763C81.6607 61.2856 89.0358 63.9075 95.0335 69.2261C95.2888 57.7363 94.9645 45.9583 95.086 34.4412C95.1362 29.0507 94.9268 23.6458 95.1882 18.261C95.3421 15.0902 96.0907 14.1279 99.1721 13.564Z" fill="currentColor"/><path d="M73.5962 70.5726C84.331 69.5289 93.8802 77.3832 94.9274 88.1176C95.9745 98.8521 88.1234 108.404 77.3893 109.454C66.6503 110.506 57.0932 102.65 56.0455 91.9107C54.9978 81.1713 62.8565 71.6168 73.5962 70.5726Z" fill="currentColor"/></g></svg>
-        </span>
-        <span class="explore-label">Music</span>
-        <span class="explore-desc">Lists & Player</span>
-      </a>
-      <a href="/trivia" class="explore-card">
-        <span class="explore-icon">⬡</span>
-        <span class="explore-label">Trivia</span>
-        <span class="explore-desc">Weekly quizzes</span>
-      </a>
-      <a href="/favorites" class="explore-card">
-        <span class="explore-icon">★</span>
-        <span class="explore-label">Favorites</span>
-        <span class="explore-desc">Curated recs</span>
-      </a>
-      <a href="/gear" class="explore-card">
-        <span class="explore-icon">⌨</span>
-        <span class="explore-label">My Gear</span>
-        <span class="explore-desc">Desk setup</span>
-      </a>
-    </div>
-  </section>
+        <a href="/trivia" class="explore-card">
+          <span class="explore-icon">⬡</span>
+          <span class="explore-label">Trivia</span>
+        </a>
+        <a href="/favorites" class="explore-card">
+          <span class="explore-icon">★</span>
+          <span class="explore-label">Favorites</span>
+        </a>
+        <a href="/gear" class="explore-card">
+          <span class="explore-icon">⌨</span>
+          <span class="explore-label">My Gear</span>
+        </a>
+      </div>
+    </section>
+  </div>
 </Layout>
 
 <style>
-  /* Hero */
-  .hero {
-    text-align: center;
-    padding: 4rem 0 3rem;
-    position: relative;
+  .modernist-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 4rem;
   }
 
-  .hero-photo-container {
-    position: relative;
-    width: 220px;
-    height: 220px;
-    margin: 3rem auto;
-    z-index: 10;
-  }
-
-  .photo-frame-outer {
-    position: absolute;
-    inset: -12px;
-    border: 4px solid var(--accent-primary);
-    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    animation: atomicSpin 25s linear infinite reverse;
-    opacity: 0.35;
-  }
-
-  .photo-frame-inner {
+  .grid-section {
     width: 100%;
-    height: 100%;
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    overflow: hidden;
-    border: 5px solid white;
-    box-shadow: var(--shadow-lg);
-    background: var(--bg-secondary);
-    transform: rotate(-2deg);
-    transition: all var(--transition-medium);
   }
 
-  .photo-frame-inner::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(244, 162, 97, 0.15), transparent);
-    pointer-events: none;
-  }
-
-  .hero-photo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: sepia(0.2) contrast(1.1) brightness(1.05);
-    transition: transform var(--transition-medium);
-  }
-
-  .hero-photo-container.is-scrolled .photo-frame-inner {
-    transform: rotate(0deg) scale(1.05);
-    border-color: var(--accent-primary);
-  }
-
-  .hero-photo-container.is-scrolled .hero-photo {
-    transform: scale(1.1);
-    filter: sepia(0) contrast(1.1);
-  }
-
-  .hero-photo-container:hover .photo-frame-inner,
-  .hero-photo-container:hover .hero-photo {
-    /* Maintain hover support if needed, or rely solely on scroll */
-  }
-
-  .photo-accent {
-    position: absolute;
-    bottom: -5px;
-    right: -5px;
-    background: var(--accent-secondary);
-    color: white;
-    width: 32px;
-    height: 32px;
+  /* Modernist Hero */
+  .hero-modernist {
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: 1.2rem;
-    box-shadow: var(--shadow-sm);
-    animation: gentlePulse 3s ease-in-out infinite;
+    gap: 3rem;
+    padding: 2rem 0 4rem;
+    position: relative;
+    flex-wrap: wrap;
   }
 
-  .hero-atomic {
-    font-size: 1.5rem;
-    color: var(--accent-secondary);
-    animation: atomicSpin 10s linear infinite;
-    margin-bottom: 1.5rem;
-    display: inline-block;
+  .hero-left {
+    flex: 2; /* Increased flex to give title more room */
+    z-index: 10;
+    order: 2;
   }
 
-  .hero-greeting {
+  .hero-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    order: 1;
+  }
+
+  @media (min-width: 1025px) {
+    .hero-modernist {
+      flex-wrap: nowrap; /* Prevent wrapping on desktop */
+      align-items: flex-start;
+    }
+    .hero-left { order: 1; }
+    .hero-right { order: 2; }
+  }
+
+  .hero-eyebrow {
+    display: block;
     font-family: var(--font-mono);
-    font-size: 0.85rem;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--color-warm-gray);
-    margin-bottom: 0.75rem;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
   }
 
-  .hero-name {
-    font-size: 5.5rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    margin-bottom: 0.5rem;
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 12vw, 10rem); /* Slightly more conservative max size to avoid squashing */
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--color-brown);
+    text-transform: uppercase;
+    margin-bottom: 2rem; /* More space for sub-title */
+    letter-spacing: -0.05em;
+  }
+
+  .hero-title-sub {
+    font-size: 1.8rem; /* Slightly bigger */
+    display: block;
+    margin-top: 0.75rem; /* More breathing room */
+    opacity: 0.9;
+    font-weight: 400;
+    text-transform: none; /* Keep it normal case if it was */
+    letter-spacing: normal;
+  }
+
+  .gradient-text {
     background: linear-gradient(
       135deg, 
-      var(--color-dark) 0%, 
+      var(--color-brown) 0%, 
       var(--accent-primary) 25%, 
       var(--accent-secondary) 50%, 
       var(--accent-primary) 75%, 
-      var(--color-dark) 100%
+      var(--color-brown) 100%
     );
     background-size: 400% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: shimmeryText 12s linear infinite;
+    display: inline-block;
   }
 
   @keyframes shimmeryText {
@@ -252,360 +210,296 @@ const currentJob = resumeData[0];
     100% { background-position: 400% 50%; }
   }
 
-  .hero-role {
-    font-size: 1.3rem;
+  .hero-description {
+    font-size: 1.05rem;
+    line-height: 1.5;
     color: var(--text-secondary);
-    font-weight: 300;
-    margin-bottom: 1.5rem;
+    max-width: 480px;
+    margin-bottom: 2rem;
   }
 
-  .hero-divider {
+  .hero-btns {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin: 1.5rem 0;
-  }
-
-  .hero-divider::before,
-  .hero-divider::after {
-    content: '';
-    width: 60px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--color-warm-gray), transparent);
-  }
-
-  .divider-star {
-    color: var(--accent-primary);
-    font-size: 0.75rem;
-  }
-
-  .hero-desc {
-    max-width: 640px;
-    margin: 0 auto 2.5rem;
-    color: var(--text-secondary);
-    font-size: 1.15rem;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 1.25rem;
-    justify-content: center;
+    gap: 0.75rem;
     flex-wrap: wrap;
   }
 
-  /* Sections */
-  .section {
-    margin-top: 4rem;
+  /* Abstract Composition */
+  .abstract-container {
+    position: relative;
+    width: 340px;
+    height: 520px;
   }
 
-  .articles-grid {
+  .shape {
+    position: absolute;
+    z-index: 1;
+  }
+
+  .shape-circle {
+    width: 280px;
+    height: 280px;
+    background: #E8E0D5;
+    border-radius: 50%;
+    top: -30px;
+    right: -10px;
+  }
+
+  .shape-rect {
+    width: 120px;
+    height: 140px;
+    background: var(--accent-secondary);
+    bottom: 30px;
+    right: 0;
+  }
+
+  .hero-main-img-frame {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 320px;
+    height: 480px;
+    z-index: 5;
+    overflow: hidden;
+    border-radius: 160px; /* Pill shape */
+    border: 1px solid var(--border-color);
+  }
+
+  .hero-main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(0.1) contrast(1.05);
+  }
+
+  /* Mini Apps Section */
+  .apps-section-modern {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
-  .section-header {
+  .mini-promo-card {
+    display: flex;
+    background: white;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--border-color);
+    transition: transform var(--transition-medium);
+  }
+
+  .mini-promo-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+  .mini-promo-visual {
+    width: 140px;
+    height: 100px;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+  }
+
+  .mini-promo-content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .mini-promo-content h3 {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+    color: var(--color-brown);
+  }
+
+  .mini-promo-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-warm-gray);
+    text-transform: uppercase;
+  }
+
+  /* Bottom Composite Section */
+  .bottom-composite {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 1.5rem;
+  }
+
+  .feature-block-main {
+    background: var(--accent-warm);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    position: relative;
+    display: block;
+    transition: transform var(--transition-medium);
+  }
+
+  .feature-block-main:hover {
+    transform: translateY(-4px);
+  }
+
+  .feature-img-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .feature-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+    transition: opacity var(--transition-medium);
+  }
+
+  .feature-block-main:hover .feature-img {
+    opacity: 1;
+  }
+
+  .feature-label-overlay {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    color: var(--color-brown);
+  }
+
+  .feature-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .feature-label-overlay h3 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .acquisitions-side {
+    background: white;
+    padding: 2.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+  }
+
+  .acquisitions-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
   }
 
-  .section-header h2 {
-    font-size: 1.8rem;
-    margin-bottom: 0;
+  .serif-label {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: var(--color-brown);
   }
 
   .section-link {
     font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: var(--accent-primary);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
   }
 
-  /* Article Cards */
-  .article-card {
+  .acquisitions-compact-grid {
     display: flex;
     flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-    padding: 0;
-    overflow: hidden;
+    gap: 1.75rem;
   }
 
-  .article-card:hover {
-    color: inherit;
-  }
-
-  .article-card-image {
-    height: 120px;
+  .acquisition-item {
     display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .article-card-icon {
-    font-size: 2rem;
-    color: white;
-    opacity: 0.9;
-  }
-
-  .article-card-body {
-    padding: 1.25rem;
-  }
-
-  .article-card-body h3 {
-    font-size: 1.4rem;
-    margin-bottom: 0.65rem;
-    line-height: 1.3;
-  }
-
-  .article-card-body p {
-    font-size: 1.05rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .article-date {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--color-warm-gray);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  /* Explore Grid */
-  .explore-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-  }
-
-  /* App Promo Cards */
-  .apps-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
-
-  .app-promo-card {
-    display: block;
-    background: white;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    text-decoration: none;
-    color: inherit;
-    overflow: hidden;
-    transition: all var(--transition-medium);
-  }
-
-  .app-promo-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--accent-primary);
-  }
-
-  .app-promo-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding: 2.5rem;
-    display: flex;
-    align-items: center;
     gap: 1.5rem;
-    z-index: 10;
-    background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, transparent 80%);
-  }
-
-  .app-promo-icon {
-    font-size: 5rem;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-  }
-
-  .app-promo-title {
-    font-size: 2.25rem;
-    margin: 0;
-    line-height: 1.1;
-    color: white;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  }
-
-  .app-promo-tag {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.7);
-    display: block;
-    margin-top: 0.25rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .app-promo-desc {
-    font-size: 1rem;
-    color: rgba(255,255,255,0.9);
-    max-width: 320px;
-    margin-bottom: 0;
-    line-height: 1.5;
-  }
-
-  .app-promo-visual {
-    height: 340px;
-    background: var(--bg-secondary);
-    display: flex;
     align-items: center;
-    justify-content: center;
-    position: relative;
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast);
+  }
+
+  .acquisition-item:hover { 
+    transform: translateX(4px);
+  }
+
+  .acquisition-thumb {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-md);
     overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
   }
 
-  .app-promo-card--transistor .app-promo-visual {
-    background: linear-gradient(135deg, var(--accent-primary), var(--color-sage));
-  }
-
-  .app-promo-card--broadcast .app-promo-visual {
-    background: linear-gradient(135deg, var(--color-charcoal), var(--color-teal));
-    justify-content: flex-end;
-    padding-right: 0;
-  }
-
-  /* Visual Elements */
-  .visual-waves {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  .acquisition-thumb img {
     width: 100%;
     height: 100%;
-    padding-right: 0;
+    object-fit: cover;
   }
 
-  .visual-waves span {
-    position: absolute;
-    right: -100px;
-    width: 200px;
-    height: 200px;
-    border: 4px solid rgba(255,255,255,0.3);
-    border-radius: 50%;
-    animation: wavePulse 5s linear infinite;
-    opacity: 0;
+  .acquisition-info h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.35rem;
+    color: var(--color-brown);
   }
 
-  .visual-waves span:nth-child(1) { animation-delay: 0s; }
-  .visual-waves span:nth-child(2) { animation-delay: 1.66s; }
-  .visual-waves span:nth-child(3) { animation-delay: 3.33s; }
-
-  @keyframes wavePulse {
-    0% { transform: scale(1); opacity: 0.7; }
-    100% { transform: scale(8); opacity: 0; }
-  }
-
-  .visual-test-pattern {
-    width: 480px;
-    height: 480px;
-    margin-right: -120px;
-    background: repeating-conic-gradient(
-      from 0deg,
-      rgba(255,255,255,0.08) 0deg 90deg,
-      transparent 90deg 180deg
-    );
-    border: 4px solid rgba(255,255,255,0.08);
-    border-radius: 50%;
-    animation: atomicSpin 35s linear infinite;
-    flex-shrink: 0;
-  }
-
-  .explore-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 1.5rem 1rem;
-    background: white;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    text-decoration: none;
-    color: var(--text-primary);
-    transition: all var(--transition-medium);
-    text-align: center;
-  }
-
-  .explore-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--accent-primary);
-    color: var(--text-primary);
-  }
-
-  .explore-icon {
-    font-size: 1.5rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .explore-label {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 1rem;
-  }
-
-  .explore-desc {
+  .acquisition-info p {
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--color-warm-gray);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    margin-bottom: 0;
+  }
+
+  /* Explore Grid */
+  .explore-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+
+  .explore-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: #E8E0D5;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--color-brown);
+    transition: all var(--transition-medium);
+  }
+
+  .explore-card:hover { background: var(--color-brown); color: white; }
+  .explore-icon { font-size: 1rem; }
+  .explore-label { font-family: var(--font-mono); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .hero-modernist { flex-direction: column; text-align: center; }
+    .hero-left { order: 2; width: 100%; }
+    .hero-right { order: 1; width: 100%; justify-content: center; }
+    .hero-description { margin-left: auto; margin-right: auto; }
+    .hero-btns { justify-content: center; }
+    .bottom-composite { grid-template-columns: 1fr; }
+    .feature-block-main { height: 240px; }
+  }
+
+  @media (max-width: 768px) {
+    .apps-section-modern { grid-template-columns: 1fr; }
+    .explore-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
   @media (max-width: 640px) {
-    .hero { padding-top: 1.5rem; }
-    .hero-name { font-size: 3.25rem; }
-    .articles-grid { grid-template-columns: 1fr; }
-    .apps-container { grid-template-columns: 1fr; }
-    .explore-grid { grid-template-columns: repeat(2, 1fr); }
-    
-    .app-promo-visual { height: 280px; }
-    .app-promo-overlay { padding: 1.5rem; gap: 1rem; }
-    .app-promo-icon { font-size: 3.5rem; }
-    .app-promo-title { font-size: 1.6rem; }
-    .app-promo-tag { font-size: 0.7rem; margin-bottom: 0.5rem; }
-    .app-promo-desc { font-size: 0.9rem; max-width: 220px; }
-    
-    .visual-waves span { right: -50px; width: 150px; height: 150px; }
-    .visual-test-pattern { width: 340px; height: 340px; margin-right: -80px; }
+    .abstract-container { width: 280px; height: 420px; }
+    .hero-main-img-frame { width: 240px; height: 380px; border-radius: 120px; }
+    .shape-circle { width: 220px; height: 220px; }
   }
-
 </style>
-
-<script>
-  // Hero Photo Scroll Animation
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const container = entry.target;
-      // If the photo is mostly scrolled out or the user has scrolled significantly
-      if (!entry.isIntersecting || window.scrollY > 100) {
-        container.classList.add('is-scrolled');
-      } else {
-        container.classList.remove('is-scrolled');
-      }
-    });
-  }, {
-    threshold: [0.1, 0.9],
-    rootMargin: "-50px 0px 0px 0px"
-  });
-
-  const photoContainer = document.querySelector('.hero-photo-container');
-  if (photoContainer) {
-    observer.observe(photoContainer);
-    
-    // Fallback for immediate scroll state on load
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        photoContainer.classList.add('is-scrolled');
-      } else {
-        photoContainer.classList.remove('is-scrolled');
-      }
-    }, { passive: true });
-  }
-</script>

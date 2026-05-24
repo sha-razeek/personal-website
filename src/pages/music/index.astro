@@ -6,190 +6,276 @@ const musicOnly = musicArticles.filter(a => a.genre !== 'Tech');
 ---
 
 <Layout title="Music" description="Music writing, playlists, and the Transistor radio player">
-  <div class="page-header">
-    <h1>Music</h1>
-    <p class="subtitle">Writing about music, discovering sounds, and tuning in</p>
-  </div>
-
-  <div class="music-content">
-    <!-- Transistor Radio promo -->
-    <a href="/music/transistor" class="card transistor-promo">
-      <div class="transistor-promo-left">
-        <span class="transistor-icon">📻</span>
-      </div>
-      <div class="transistor-promo-right">
-        <span class="tag tag--coral">Live Now</span>
-        <h2>Transistor Radio</h2>
-        <p>Listen to thousands of radio stations from around the world. Search, save favorites, and discover new sounds.</p>
-        <span class="transistor-cta">Open Transistor →</span>
-      </div>
-    </a>
-
-    <div class="jet-line">
-      <span>
-        <svg width="24" height="24" viewBox="0 0 164 153" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block;"><path d="M99.1721 13.564C99.3179 13.5731 99.4635 13.5837 99.6091 13.5958C102.251 13.8165 102.96 15.5127 104.211 17.5868C105.815 20.2447 107.383 23.1732 109.508 25.4607C112.233 28.4162 115.633 30.6685 119.417 32.0254C122.672 33.1866 128.989 34.488 126.517 39.4104C125.627 41.1835 124.601 41.5477 122.788 42.1171C114.185 40.6196 110.737 37.8718 103.963 32.7557C104.165 45.1096 103.876 57.7554 103.969 70.163C104.03 78.142 104.345 87.649 103.296 95.4482C102.787 99.2327 100.609 104.138 98.1743 107.103C92.1085 114.491 86.7581 117.132 77.5628 118.259C69.7081 118.647 62.826 116.707 56.8529 111.446C51.225 106.552 47.7703 99.6238 47.2481 92.184C46.7593 84.4211 48.981 77.0913 54.1697 71.2232C59.1521 65.6068 66.164 62.2032 73.659 61.763C81.6607 61.2856 89.0358 63.9075 95.0335 69.2261C95.2888 57.7363 94.9645 45.9583 95.086 34.4412C95.1362 29.0507 94.9268 23.6458 95.1882 18.261C95.3421 15.0902 96.0907 14.1279 99.1721 13.564Z" fill="currentColor"/><path d="M73.5962 70.5726C84.331 69.5289 93.8802 77.3832 94.9274 88.1176C95.9745 98.8521 88.1234 108.404 77.3893 109.454C66.6503 110.506 57.0932 102.65 56.0455 91.9107C54.9978 81.1713 62.8565 71.6168 73.5962 70.5726Z" fill="currentColor"/></svg>
-      </span>
-    </div>
-
-    <!-- Music Articles -->
-    <section>
-      <div class="section-header">
-        <h2>Music Writing</h2>
-      </div>
-      <div class="music-articles stagger">
-        {musicOnly.map((article) => (
-          <a href={`/blog/${article.slug}`} class="card music-card">
-            <div class="music-card-hero" style={`background: ${article.heroColor}`}>
-            </div>
-            <div class="music-card-body">
-              <div class="music-article-tags">
-                {article.tags.map((tag) => (
-                  <span class="tag">{tag}</span>
-                ))}
-              </div>
-              <h3>{article.title}</h3>
-              <p>{article.excerpt}</p>
-              <span class="music-article-date">{article.date}</span>
-            </div>
-          </a>
-        ))}
+  <div class="modernist-grid">
+    <section class="grid-section hero-modernist-page">
+      <div class="hero-content">
+        <span class="hero-eyebrow">The Soundscape</span>
+        <h1 class="hero-title">
+          <span class="gradient-text">Music</span>
+        </h1>
+        <p class="hero-description">
+          Writing about music, discovering sounds, and tuning in to global frequencies.
+        </p>
       </div>
     </section>
+
+    <div class="music-content">
+      <!-- Transistor Radio promo -->
+      <a href="/music/transistor" class="feature-block-main transistor-feature">
+        <div class="feature-img-container">
+          <img src="/images/radio.png" alt="Transistor Radio" class="feature-img" />
+          <div class="feature-label-overlay">
+            <span class="feature-eyebrow">Live Now</span>
+            <h3>Transistor Radio</h3>
+          </div>
+        </div>
+      </a>
+
+      <div class="jet-line">
+        <span>
+          <svg width="24" height="24" viewBox="0 0 164 153" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block;"><path d="M99.1721 13.564C99.3179 13.5731 99.4635 13.5837 99.6091 13.5958C102.251 13.8165 102.96 15.5127 104.211 17.5868C105.815 20.2447 107.383 23.1732 109.508 25.4607C112.233 28.4162 115.633 30.6685 119.417 32.0254C122.672 33.1866 128.989 34.488 126.517 39.4104C125.627 41.1835 124.601 41.5477 122.788 42.1171C114.185 40.6196 110.737 37.8718 103.963 32.7557C104.165 45.1096 103.876 57.7554 103.969 70.163C104.03 78.142 104.345 87.649 103.296 95.4482C102.787 99.2327 100.609 104.138 98.1743 107.103C92.1085 114.491 86.7581 117.132 77.5628 118.259C69.7081 118.647 62.826 116.707 56.8529 111.446C51.225 106.552 47.7703 99.6238 47.2481 92.184C46.7593 84.4211 48.981 77.0913 54.1697 71.2232C59.1521 65.6068 66.164 62.2032 73.659 61.763C81.6607 61.2856 89.0358 63.9075 95.0335 69.2261C95.2888 57.7363 94.9645 45.9583 95.086 34.4412C95.1362 29.0507 94.9268 23.6458 95.1882 18.261C95.3421 15.0902 96.0907 14.1279 99.1721 13.564Z" fill="currentColor"/><path d="M73.5962 70.5726C84.331 69.5289 93.8802 77.3832 94.9274 88.1176C95.9745 98.8521 88.1234 108.404 77.3893 109.454C66.6503 110.506 57.0932 102.65 56.0455 91.9107C54.9978 81.1713 62.8565 71.6168 73.5962 70.5726Z" fill="currentColor"/></svg>
+        </span>
+      </div>
+
+      <!-- Music Articles -->
+      <section>
+        <h2 class="serif-label">Music Writing</h2>
+        <div class="music-articles-grid stagger">
+          {musicOnly.map((article) => (
+            <a href={`/blog/${article.slug}`} class="article-item-modern">
+              <div class="article-thumb" style={`background: ${article.heroColor}`}>
+                {article.heroImage && <img src={article.heroImage} alt="" />}
+              </div>
+              <div class="article-info">
+                <h4>{article.title}</h4>
+                <p>{article.date}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    </div>
   </div>
 </Layout>
 
 <style>
-  .music-content { max-width: 820px; }
-
-  .transistor-promo {
-    display: flex;
-    text-decoration: none;
-    color: inherit;
-    padding: 0;
-    overflow: hidden;
-    background: linear-gradient(135deg, var(--color-dark), #1a3a47);
-  }
-
-  .transistor-promo:hover {
-    color: white;
-  }
-
-  .transistor-promo-left {
-    width: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255,255,255,0.05);
-    flex-shrink: 0;
-  }
-
-  .transistor-icon {
-    font-size: 2.5rem;
-    filter: grayscale(0.2);
-  }
-
-  .transistor-promo-right {
-    padding: 1.5rem;
-    color: white;
-  }
-
-  .transistor-promo-right h2 {
-    color: white;
-    margin: 0.5rem 0;
-    font-size: 1.3rem;
-  }
-
-  .transistor-promo-right p {
-    color: rgba(255,255,255,0.7);
-    font-size: 0.9rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .transistor-cta {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--color-mustard);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .section-header {
-    margin-bottom: 1.25rem;
-  }
-
-  .section-header h2 {
-    font-size: 1.4rem;
-    margin-bottom: 0;
-  }
-
-  .music-articles {
+  .modernist-grid {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.5rem;
+    padding-bottom: 4rem;
   }
 
-  .music-article-card {
+  .grid-section {
+    width: 100%;
+  }
+
+  .hero-modernist-page {
+    padding: 2rem 0 3rem;
+  }
+
+  .hero-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 12vw, 10rem);
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--color-brown);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    letter-spacing: -0.05em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg, 
+      var(--color-brown) 0%, 
+      var(--accent-primary) 25%, 
+      var(--accent-secondary) 50%, 
+      var(--accent-primary) 75%, 
+      var(--color-brown) 100%
+    );
+    background-size: 400% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmeryText 12s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes shimmeryText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    max-width: 600px;
+  }
+
+  .music-content { max-width: 900px; }
+
+  /* Feature Block (Transistor) */
+  .transistor-feature {
+    height: 280px;
+    margin-bottom: 3rem;
+  }
+
+  .feature-block-main {
+    background: var(--color-dark);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    position: relative;
+    display: block;
+    transition: transform var(--transition-medium);
+    border: 1px solid var(--border-color);
+  }
+
+  .feature-block-main:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .feature-img-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .feature-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: opacity var(--transition-medium);
+  }
+
+  .feature-block-main:hover .feature-img {
+    opacity: 1;
+  }
+
+  .feature-label-overlay {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .feature-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--accent-warm);
+  }
+
+  .feature-label-overlay h3 {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .serif-label {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    color: var(--color-brown);
+    margin-bottom: 2rem;
+  }
+
+  .music-articles-grid {
     display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .article-item-modern {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
     text-decoration: none;
     color: inherit;
-    padding: 0;
+    transition: transform var(--transition-fast);
+  }
+
+  .article-item-modern:hover { 
+    transform: translateX(6px);
+  }
+
+  .article-thumb {
+    width: 140px;
+    height: 140px;
+    border-radius: var(--radius-sm);
     overflow: hidden;
-  }
-
-  .music-article-card:hover {
-    color: inherit;
-  }
-
-  .music-article-hero {
-    width: 160px;
     flex-shrink: 0;
-    display: flex;
-    align-items: flex-end;
-    padding: 1rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
   }
 
-  .music-article-genre {
-    font-family: var(--font-heading);
+  .article-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .article-info h4 {
     font-size: 1.5rem;
     font-weight: 700;
-    color: white;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
-  }
-
-  .music-article-body {
-    padding: 1.25rem;
-    flex: 1;
-  }
-
-  .music-article-tags {
-    display: flex;
-    gap: 0.35rem;
-    flex-wrap: wrap;
+    line-height: 1.2;
     margin-bottom: 0.5rem;
+    color: var(--color-brown);
   }
 
-  .music-article-body h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .music-article-body p {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .music-article-date {
+  .article-info p {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     color: var(--color-warm-gray);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
+  @media (max-width: 768px) {
+    .article-item-modern {
+      gap: 1.5rem;
+    }
+    .article-thumb {
+      width: 100px;
+      height: 100px;
+    }
+    .article-info h4 {
+      font-size: 1.25rem;
+    }
+  }
+
   @media (max-width: 640px) {
-    .transistor-promo { flex-direction: column; }
-    .transistor-promo-left { width: 100%; height: 80px; }
-    .music-article-card { flex-direction: column; }
-    .music-article-hero { width: 100%; height: 80px; }
+    .article-item-modern {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .article-thumb {
+      width: 100%;
+      height: 160px;
+    }
+    .transistor-feature {
+      height: 200px;
+    }
+    .feature-label-overlay h3 {
+      font-size: 1.8rem;
+    }
   }
 </style>

@@ -4,130 +4,205 @@ import { musicArticles } from '../../data/music';
 ---
 
 <Layout title="Articles" description="Writing about music, technology, and design">
-  <div class="page-header">
-    <h1>Articles</h1>
-    <p class="subtitle">Writing about music, technology, and the things that move me</p>
-  </div>
+  <div class="modernist-grid">
+    <section class="grid-section hero-modernist-page">
+      <div class="hero-content">
+        <span class="hero-eyebrow">The Archives</span>
+        <h1 class="hero-title">
+          <span class="gradient-text">Articles</span>
+        </h1>
+        <p class="hero-description">
+          Writing about music, technology, and the things that move me.
+        </p>
+      </div>
+    </section>
 
-  <div class="blog-content">
-    <div class="blog-grid stagger">
-      {musicArticles.map((article) => (
-        <a href={`/blog/${article.slug}`} class="card blog-card">
-          <div 
-            class="blog-card-hero" 
-            style={`background: ${article.heroColor}; ${article.heroImage ? `background-image: url('${article.heroImage}'); background-size: cover; background-position: top;` : ''}`}
-          >
-          </div>
-          <div class="blog-card-body">
-            <h3>{article.title}</h3>
-            <p>{article.excerpt}</p>
-            <div class="blog-card-footer">
-              <span class="blog-card-date">{article.date}</span>
-              <span class="blog-card-read">Read →</span>
+    <div class="blog-content">
+      <div class="blog-modern-grid stagger">
+        {musicArticles.map((article) => (
+          <a href={`/blog/${article.slug}`} class="blog-item">
+            <div 
+              class="blog-visual" 
+              style={`background: ${article.heroColor}; ${article.heroImage ? `background-image: url('${article.heroImage}'); background-size: cover; background-position: top;` : ''}`}
+            >
             </div>
-          </div>
-        </a>
-      ))}
+            <div class="blog-info">
+              <div class="blog-meta">
+                <span class="blog-date">{article.date}</span>
+                <span class="blog-tag">Essay</span>
+              </div>
+              <h3>{article.title}</h3>
+              <p>{article.excerpt}</p>
+              <span class="blog-link">Read Article →</span>
+            </div>
+          </a>
+        ))}
+      </div>
     </div>
   </div>
 </Layout>
 
 <style>
-  .blog-content { max-width: 840px; }
-
-  .blog-grid {
+  .modernist-grid {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    padding-bottom: 4rem;
   }
 
-  .blog-card {
-    display: flex;
-    text-decoration: none;
-    color: inherit;
-    padding: 0;
-    overflow: hidden;
+  .grid-section {
+    width: 100%;
   }
 
-  .blog-card:hover {
-    color: inherit;
+  .hero-modernist-page {
+    padding: 2rem 0 3rem;
   }
 
-  .blog-card-hero {
-    width: 180px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: flex-end;
-    padding: 1.25rem;
-    position: relative;
-    overflow: hidden;
+  .hero-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
   }
 
-  .blog-card-hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(0deg, rgba(0,0,0,0.2) 0%, transparent 60%);
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--color-brown);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
   }
 
-  .blog-card-genre {
-    font-family: var(--font-heading);
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: white;
-    text-shadow: 0 1px 6px rgba(0,0,0,0.3);
-    position: relative;
-    z-index: 1;
+  .gradient-text {
+    background: linear-gradient(
+      135deg, 
+      var(--color-brown) 0%, 
+      var(--accent-primary) 25%, 
+      var(--accent-secondary) 50%, 
+      var(--accent-primary) 75%, 
+      var(--color-brown) 100%
+    );
+    background-size: 400% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmeryText 12s linear infinite;
+    display: inline-block;
   }
 
-  .blog-card-body {
-    padding: 1.5rem;
-    flex: 1;
+  @keyframes shimmeryText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    max-width: 600px;
+  }
+
+  .blog-content {
+    max-width: 1000px;
+  }
+
+  .blog-modern-grid {
     display: flex;
     flex-direction: column;
+    gap: 3rem;
   }
 
-  .blog-card-body h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.65rem;
-    line-height: 1.3;
-  }
-
-  .blog-card-body p {
-    font-size: 0.9rem;
-    flex: 1;
-    margin-bottom: 0.75rem;
-  }
-
-  .blog-card-footer {
-    display: flex;
-    justify-content: space-between;
+  .blog-item {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 3rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-medium);
     align-items: center;
   }
 
-  .blog-card-date {
+  .blog-item:hover {
+    transform: translateX(8px);
+  }
+
+  .blog-visual {
+    width: 100%;
+    aspect-ratio: 16/10;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .blog-info h3 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: var(--color-brown);
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
+  }
+
+  .blog-info p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    max-width: 600px;
+    color: var(--text-secondary);
+  }
+
+  .blog-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .blog-date {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: var(--color-warm-gray);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
-  .blog-card-read {
+  .blog-tag {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--accent-primary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    padding: 0.2rem 0.5rem;
+    background: rgba(42, 157, 143, 0.06);
+    border-radius: var(--radius-sm);
   }
 
-  @media (max-width: 640px) {
-    .blog-card {
-      flex-direction: column;
+  .blog-link {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .blog-item {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
-    .blog-card-hero {
-      width: 100%;
-      height: 100px;
+    .blog-item:hover {
+      transform: translateY(-4px);
+    }
+    .blog-visual {
+      aspect-ratio: 16/9;
     }
   }
 </style>
