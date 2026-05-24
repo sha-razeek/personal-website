@@ -38,15 +38,13 @@ const currentJob = resumeData[0];
   <section class="section">
     <div class="apps-container stagger">
       <a href="/music/transistor" class="app-promo-card app-promo-card--transistor">
-        <div class="app-promo-content">
-          <p class="app-promo-desc">Wireless for the modern age. Search and tune into online radio stations from across the globe at the flick of a switch.</p>
-        </div>
         <div class="app-promo-visual">
           <div class="app-promo-overlay">
             <span class="app-promo-icon">📻</span>
             <div class="app-promo-title-group">
               <h3 class="app-promo-title">Transistor</h3>
               <span class="app-promo-tag">Radio Receiver</span>
+              <p class="app-promo-desc">Wireless for the modern age. Search and tune into online radio stations from across the globe at the flick of a switch.</p>
             </div>
           </div>
           <div class="visual-waves">
@@ -56,15 +54,13 @@ const currentJob = resumeData[0];
       </a>
 
       <a href="/projects/broadcast" class="app-promo-card app-promo-card--broadcast">
-        <div class="app-promo-content">
-          <p class="app-promo-desc">Global telly, properly delivered. Search and tune into thousands of live television channels from every corner of the world.</p>
-        </div>
         <div class="app-promo-visual">
           <div class="app-promo-overlay">
             <span class="app-promo-icon">📺</span>
             <div class="app-promo-title-group">
               <h3 class="app-promo-title">Broadcast</h3>
               <span class="app-promo-tag">Live TV Receiver</span>
+              <p class="app-promo-desc">Global telly, properly delivered. Search and tune into thousands of live television channels from every corner of the world.</p>
             </div>
           </div>
           <div class="visual-test-pattern"></div>
@@ -394,8 +390,7 @@ const currentJob = resumeData[0];
   }
 
   .app-promo-card {
-    display: flex;
-    flex-direction: column-reverse;
+    display: block;
     background: white;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
@@ -411,13 +406,6 @@ const currentJob = resumeData[0];
     border-color: var(--accent-primary);
   }
 
-  .app-promo-content {
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
   .app-promo-overlay {
     position: absolute;
     top: 0;
@@ -429,11 +417,12 @@ const currentJob = resumeData[0];
     align-items: center;
     gap: 1.5rem;
     z-index: 10;
-    background: linear-gradient(to right, rgba(0,0,0,0.4) 0%, transparent 70%);
+    background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, transparent 80%);
   }
 
   .app-promo-icon {
     font-size: 5rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
   }
 
   .app-promo-title {
@@ -449,27 +438,28 @@ const currentJob = resumeData[0];
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.8);
+    color: rgba(255,255,255,0.7);
     display: block;
     margin-top: 0.25rem;
+    margin-bottom: 0.75rem;
   }
 
   .app-promo-desc {
-    font-size: 1.15rem;
-    color: var(--text-secondary);
-    max-width: 680px;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.9);
+    max-width: 320px;
     margin-bottom: 0;
+    line-height: 1.5;
   }
 
   .app-promo-visual {
-    height: 300px;
+    height: 340px;
     background: var(--bg-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
-    border-bottom: 1px solid var(--border-color);
   }
 
   .app-promo-card--transistor .app-promo-visual {
@@ -575,12 +565,12 @@ const currentJob = resumeData[0];
     .apps-container { grid-template-columns: 1fr; }
     .explore-grid { grid-template-columns: repeat(2, 1fr); }
     
-    .app-promo-visual { height: 220px; }
+    .app-promo-visual { height: 280px; }
     .app-promo-overlay { padding: 1.5rem; gap: 1rem; }
     .app-promo-icon { font-size: 3.5rem; }
-    .app-promo-title { font-size: 1.75rem; }
-    .app-promo-tag { font-size: 0.75rem; }
-    .app-promo-content { padding: 1.75rem; }
+    .app-promo-title { font-size: 1.6rem; }
+    .app-promo-tag { font-size: 0.7rem; margin-bottom: 0.5rem; }
+    .app-promo-desc { font-size: 0.9rem; max-width: 220px; }
     
     .visual-waves span { right: -50px; width: 150px; height: 150px; }
     .visual-test-pattern { width: 340px; height: 340px; margin-right: -80px; }
