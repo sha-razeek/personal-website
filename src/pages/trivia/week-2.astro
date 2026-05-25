@@ -6,41 +6,48 @@ const quiz = quizzes.find(q => q.id === 2)!;
 ---
 
 <Layout title={quiz.title} description={quiz.description}>
-  <nav class="breadcrumb">
-    <a href="/trivia">Trivia</a>
-    <span class="breadcrumb-sep">→</span>
-    <span class="breadcrumb-current">{quiz.title}</span>
-  </nav>
+  <div class="modernist-grid">
+    <nav class="breadcrumb">
+      <a href="/trivia">Trivia</a>
+      <span class="breadcrumb-sep">→</span>
+      <span class="breadcrumb-current">{quiz.title}</span>
+    </nav>
 
-  <div class="quiz-container">
-    <div class="quiz-header">
-      <span class="quiz-date tag">{quiz.date}</span>
-      <h1>{quiz.title}</h1>
-      <p>{quiz.description}</p>
-    </div>
+    <section class="grid-section hero-modernist-page">
+      <div class="hero-content">
+        <span class="hero-eyebrow">Trivia Collective</span>
+        <h1 class="hero-title">
+          <span class="gradient-text">{quiz.title}</span>
+        </h1>
+        <p class="hero-description">{quiz.description}</p>
+        <p class="quiz-meta-info">{quiz.date} • {quiz.questions.length} Questions</p>
+      </div>
+    </section>
 
-    <div class="quiz-slide-wrapper" id="quizWrapper">
-      {quiz.questions.map((q, i) => (
-        <div class={`quiz-slide ${i === 0 ? 'active' : ''}`} data-index={i}>
-          <div class="quiz-question-num">
-            <span class="q-num">{i + 1}</span>
-            <span class="q-total">/ {quiz.questions.length}</span>
+    <div class="quiz-content-modern grid-section">
+      <div class="quiz-slide-wrapper" id="quizWrapper">
+        {quiz.questions.map((q, i) => (
+          <div class={`quiz-slide ${i === 0 ? 'active' : ''}`} data-index={i}>
+            <div class="quiz-question-num">
+              <span class="q-num">{i + 1}</span>
+              <span class="q-total">/ {quiz.questions.length}</span>
+            </div>
+            <h2 class="quiz-question">{q.question}</h2>
+            <button class="btn reveal-btn" onclick={`document.getElementById('answer-${i}').classList.toggle('visible')`}>
+              Reveal Answer
+            </button>
+            <div class="quiz-answer" id={`answer-${i}`}>
+              <p>{q.answer}</p>
+            </div>
           </div>
-          <h2 class="quiz-question">{q.question}</h2>
-          <button class="btn reveal-btn" onclick={`document.getElementById('answer-${i}').classList.toggle('visible')`}>
-            Reveal Answer
-          </button>
-          <div class="quiz-answer" id={`answer-${i}`}>
-            <p>{q.answer}</p>
-          </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
 
-    <div class="quiz-nav">
-      <button class="btn" id="btnPrev" disabled>← Previous</button>
-      <span class="quiz-progress" id="quizProgress">1 / {quiz.questions.length}</span>
-      <button class="btn btn--primary" id="btnNext">Next →</button>
+      <div class="quiz-nav">
+        <button class="btn" id="btnPrev" disabled>← Previous</button>
+        <span class="quiz-progress" id="quizProgress">1 / {quiz.questions.length}</span>
+        <button class="btn btn--primary" id="btnNext">Next →</button>
+      </div>
     </div>
   </div>
 </Layout>
@@ -69,6 +76,7 @@ const quiz = quizzes.find(q => q.id === 2)!;
     if (current < total - 1) { current++; showSlide(current); }
   });
 
+  // Keyboard navigation
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
       if (current < total - 1) { current++; showSlide(current); }
@@ -79,21 +87,190 @@ const quiz = quizzes.find(q => q.id === 2)!;
 </script>
 
 <style>
-  .breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 1.5rem; color: var(--color-warm-gray); }
+  .modernist-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .grid-section {
+    width: 100%;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-warm-gray);
+    margin-bottom: 1rem;
+  }
   .breadcrumb a { color: var(--accent-primary); }
   .breadcrumb-sep { opacity: 0.5; }
-  .quiz-header { margin-bottom: 2.5rem; }
-  .quiz-header h1 { font-size: 1.75rem; margin: 0.75rem 0 0.5rem; }
-  .quiz-slide { display: none; animation: fadeIn 0.3s var(--ease-out); min-height: 300px; }
-  .quiz-slide.active { display: block; }
-  .quiz-question-num { display: flex; align-items: baseline; gap: 0.35rem; margin-bottom: 1.5rem; }
-  .q-num { font-family: var(--font-heading); font-size: 2.5rem; font-weight: 700; color: var(--accent-primary); line-height: 1; }
-  .q-total { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-warm-gray); }
-  .quiz-question { font-size: 1.5rem; line-height: 1.5; margin-bottom: 1.5rem; color: var(--text-primary); }
-  .reveal-btn { margin-bottom: 1rem; }
-  .quiz-answer { display: none; padding: 1.25rem; background: rgba(42, 157, 143, 0.06); border-left: 3px solid var(--accent-primary); border-radius: 0 var(--radius-md) var(--radius-md) 0; animation: fadeInUp 0.3s var(--ease-out); }
-  .quiz-answer.visible { display: block; }
-  .quiz-answer p { font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0; font-weight: 500; }
-  .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); }
-  .quiz-progress { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-warm-gray); }
+
+  .hero-modernist-page {
+    padding: 2rem 0 3rem;
+  }
+
+  .hero-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--color-brown);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg, 
+      var(--color-brown) 0%, 
+      var(--accent-primary) 25%, 
+      var(--accent-secondary) 50%, 
+      var(--accent-primary) 75%, 
+      var(--color-brown) 100%
+    );
+    background-size: 400% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmeryText 12s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes shimmeryText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
+  }
+
+  .hero-description {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+    max-width: 700px;
+    margin-bottom: 1rem;
+  }
+
+  .quiz-meta-info {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-warm-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .quiz-content-modern {
+    max-width: 800px;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .quiz-slide {
+    display: none;
+    animation: fadeIn 0.4s var(--ease-out);
+    min-height: 300px;
+  }
+
+  .quiz-slide.active {
+    display: block;
+  }
+
+  .quiz-question-num {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .q-num {
+    font-family: var(--font-serif);
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--accent-primary);
+    line-height: 1;
+  }
+
+  .q-total {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--color-warm-gray);
+  }
+
+  .quiz-question {
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .reveal-btn {
+    margin-bottom: 1.5rem;
+  }
+
+  .quiz-answer {
+    display: none;
+    padding: 2rem;
+    background: rgba(42, 157, 143, 0.04);
+    border-left: 4px solid var(--accent-primary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    animation: fadeInUp 0.4s var(--ease-out);
+    margin-top: 1rem;
+  }
+
+  .quiz-answer.visible {
+    display: block;
+  }
+
+  .quiz-answer p {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: 0;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .quiz-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .quiz-progress {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-warm-gray);
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 768px) {
+    .quiz-content-modern {
+      padding: 1.5rem;
+    }
+    .q-num { font-size: 3rem; }
+    .quiz-question { font-size: 1.75rem; }
+  }
 </style>

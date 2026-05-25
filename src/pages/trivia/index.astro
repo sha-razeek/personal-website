@@ -4,117 +4,189 @@ import { quizzes } from '../../data/quizzes';
 ---
 
 <Layout title="Trivia" description="Bi-weekly quizzes on general knowledge and interesting facts">
-  <div class="page-header">
-    <h1>Trivia</h1>
-    <p class="subtitle">Bi-weekly quizzes on general knowledge and interesting facts</p>
-  </div>
+  <div class="modernist-grid">
+    <section class="grid-section hero-modernist-page">
+      <div class="hero-content">
+        <span class="hero-eyebrow">The Collective</span>
+        <h1 class="hero-title">
+          <span class="gradient-text">Trivia</span>
+        </h1>
+        <p class="hero-description">
+          Test your knowledge with these curated quizzes spanning science, history, culture, nature, and the peculiar corners of human knowledge.
+        </p>
+      </div>
+    </section>
 
-  <div class="trivia-content">
-    <p class="trivia-intro">
-      Test your knowledge with these curated quizzes. Each week features a collection of questions
-      spanning science, history, culture, nature, and the peculiar corners of human knowledge.
-      No multiple choice, just you and the answer.
-    </p>
+    <div class="trivia-content grid-section">
+      <p class="trivia-intro stagger">
+        Each week features a new collection of questions designed to challenge and delight. 
+        No multiple choice, just you and the answer.
+      </p>
 
-    <div class="quiz-list stagger">
-      {quizzes.map((quiz) => (
-        <a href={`/trivia/week-${quiz.id}`} class="card quiz-card">
-          <div class="quiz-card-number">
-            <span class="quiz-week-num">W{quiz.id}</span>
-          </div>
-          <div class="quiz-card-body">
-            <div class="quiz-card-header">
+      <div class="quiz-list stagger">
+        {quizzes.map((quiz) => (
+          <a href={`/trivia/week-${quiz.id}`} class="quiz-item-modern">
+            <div class="quiz-number-visual">
+              <span class="quiz-week-num">W{quiz.id}</span>
+            </div>
+            <div class="quiz-info">
+              <div class="quiz-meta">
+                <span class="quiz-date">{quiz.date}</span>
+                <span class="quiz-count">{quiz.questions.length} Questions</span>
+              </div>
               <h3>{quiz.title}</h3>
-              <span class="quiz-card-date tag">{quiz.date}</span>
+              <p>{quiz.description}</p>
+              <span class="quiz-link">Launch Quiz →</span>
             </div>
-            <p>{quiz.description}</p>
-            <div class="quiz-card-meta">
-              <span class="quiz-card-count">{quiz.questions.length} questions</span>
-              <span class="quiz-card-arrow">Launch Quiz →</span>
-            </div>
-          </div>
-        </a>
-      ))}
+          </a>
+        ))}
+      </div>
     </div>
   </div>
 </Layout>
 
 <style>
+  .modernist-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .grid-section {
+    width: 100%;
+  }
+
+  .hero-modernist-page {
+    padding: 2rem 0 3rem;
+  }
+
+  .hero-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 10vw, 10rem);
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--color-brown);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg, 
+      var(--color-brown) 0%, 
+      var(--accent-primary) 25%, 
+      var(--accent-secondary) 50%, 
+      var(--accent-primary) 75%, 
+      var(--color-brown) 100%
+    );
+    background-size: 400% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmeryText 12s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes shimmeryText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    max-width: 600px;
+  }
+
   .trivia-content {
-    max-width: 800px;
+    max-width: 1000px;
   }
 
   .trivia-intro {
-    font-size: 1rem;
-    margin-bottom: 2rem;
-    line-height: 1.8;
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+    margin-bottom: 3.5rem;
+    max-width: 800px;
   }
 
   .quiz-list {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 3rem;
   }
 
-  .quiz-card {
-    display: flex;
+  .quiz-item-modern {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 3rem;
     text-decoration: none;
     color: inherit;
-    padding: 0;
-    overflow: hidden;
+    transition: transform var(--transition-medium);
+    align-items: center;
   }
 
-  .quiz-card:hover {
-    color: inherit;
+  .quiz-item-modern:hover {
+    transform: translateX(8px);
   }
 
-  .quiz-card-number {
-    width: 80px;
-    flex-shrink: 0;
+  .quiz-number-visual {
+    width: 140px;
+    height: 140px;
     background: linear-gradient(135deg, var(--color-dark), var(--accent-primary));
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: var(--shadow-md);
   }
 
   .quiz-week-num {
-    font-family: var(--font-heading);
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    font-weight: 800;
     color: white;
     opacity: 0.9;
   }
 
-  .quiz-card-body {
-    padding: 1.25rem 1.5rem;
-    flex: 1;
-  }
-
-  .quiz-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 0.75rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .quiz-card-body h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0;
-  }
-
-  .quiz-card-body p {
-    font-size: 0.9rem;
+  .quiz-info h3 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: var(--color-brown);
     margin-bottom: 0.75rem;
+    line-height: 1.1;
   }
 
-  .quiz-card-meta {
+  .quiz-info p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    max-width: 600px;
+    color: var(--text-secondary);
+  }
+
+  .quiz-meta {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
 
-  .quiz-card-count {
+  .quiz-date {
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--color-warm-gray);
@@ -122,16 +194,35 @@ import { quizzes } from '../../data/quizzes';
     letter-spacing: 0.05em;
   }
 
-  .quiz-card-arrow {
+  .quiz-count {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--accent-primary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    padding: 0.2rem 0.5rem;
+    background: rgba(42, 157, 143, 0.06);
+    border-radius: var(--radius-sm);
   }
 
-  @media (max-width: 640px) {
-    .quiz-card { flex-direction: column; }
-    .quiz-card-number { width: 100%; padding: 0.75rem; }
+  .quiz-link {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .quiz-item-modern {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .quiz-number-visual {
+      width: 100px;
+      height: 100px;
+    }
+    .quiz-week-num { font-size: 2rem; }
   }
 </style>

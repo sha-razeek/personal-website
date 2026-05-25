@@ -61,6 +61,7 @@ const currentJob = resumeData[0];
           <div class="feature-label-overlay">
             <span class="feature-eyebrow">Featured</span>
             <h3>Sakinah</h3>
+            <p class="feature-subtitle">Thoughts to Reflect on</p>
           </div>
         </div>
       </a>
@@ -90,21 +91,19 @@ const currentJob = resumeData[0];
     <section class="grid-section">
       <div class="explore-grid stagger">
         <a href="/music" class="explore-card">
-          <span class="explore-icon">
-            <svg width="20" height="20" viewBox="0 0 164 153" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M99.1721 13.564C99.3179 13.5731 99.4635 13.5837 99.6091 13.5958C102.251 13.8165 102.96 15.5127 104.211 17.5868C105.815 20.2447 107.383 23.1732 109.508 25.4607C112.233 28.4162 115.633 30.6685 119.417 32.0254C122.672 33.1866 128.989 34.488 126.517 39.4104C125.627 41.1835 124.601 41.5477 122.788 42.1171C114.185 40.6196 110.737 37.8718 103.963 32.7557C104.165 45.1096 103.876 57.7554 103.969 70.163C104.03 78.142 104.345 87.649 103.296 95.4482C102.787 99.2327 100.609 104.138 98.1743 107.103C92.1085 114.491 86.7581 117.132 77.5628 118.259C69.7081 118.647 62.826 116.707 56.8529 111.446C51.225 106.552 47.7703 99.6238 47.2481 92.184C46.7593 84.4211 48.981 77.0913 54.1697 71.2232C59.1521 65.6068 66.164 62.2032 73.659 61.763C81.6607 61.2856 89.0358 63.9075 95.0335 69.2261C95.2888 57.7363 94.9645 45.9583 95.086 34.4412C95.1362 29.0507 94.9268 23.6458 95.1882 18.261C95.3421 15.0902 96.0907 14.1279 99.1721 13.564Z" fill="currentColor"/><path d="M73.5962 70.5726C84.331 69.5289 93.8802 77.3832 94.9274 88.1176C95.9745 98.8521 88.1234 108.404 77.3893 109.454C66.6503 110.506 57.0932 102.65 56.0455 91.9107C54.9978 81.1713 62.8565 71.6168 73.5962 70.5726Z" fill="currentColor"/></g></svg>
-          </span>
+          <div class="explore-visual" style="background-image: url('/images/music.png')"></div>
           <span class="explore-label">Music</span>
         </a>
         <a href="/trivia" class="explore-card">
-          <span class="explore-icon">⬡</span>
+          <div class="explore-visual" style="background-image: url('/images/trivia.png')"></div>
           <span class="explore-label">Trivia</span>
         </a>
         <a href="/favorites" class="explore-card">
-          <span class="explore-icon">★</span>
+          <div class="explore-visual" style="background-image: url('/images/favorites.png')"></div>
           <span class="explore-label">Favorites</span>
         </a>
         <a href="/gear" class="explore-card">
-          <span class="explore-icon">⌨</span>
+          <div class="explore-visual" style="background-image: url('/images/gear.png')"></div>
           <span class="explore-label">My Gear</span>
         </a>
       </div>
@@ -352,6 +351,7 @@ const currentJob = resumeData[0];
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
     opacity: 0.9;
     transition: opacity var(--transition-medium);
   }
@@ -397,6 +397,21 @@ const currentJob = resumeData[0];
     font-weight: 200;
     letter-spacing: 0.05em;
     text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  .feature-subtitle {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-brown);
+    background: white;
+    padding: 0.35rem 1rem;
+    border-radius: var(--radius-pill);
+    text-transform: uppercase;
+    margin-top: 1rem;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
 
   .acquisitions-side {
@@ -459,6 +474,9 @@ const currentJob = resumeData[0];
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
+    transform: scale(2);
+    transform-origin: top center;
   }
 
   .acquisition-info h4 {
@@ -479,24 +497,47 @@ const currentJob = resumeData[0];
   }
 
   /* Explore Grid */
-  .explore-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+  .explore-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
 
   .explore-card {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
-    padding: 1.25rem;
+    gap: 1rem;
+    padding: 2rem 1rem;
     background: #E8E0D5;
     border-radius: var(--radius-sm);
     text-decoration: none;
     color: var(--color-brown);
     transition: all var(--transition-medium);
+    text-align: center;
   }
 
-  .explore-card:hover { background: var(--color-brown); color: white; }
-  .explore-icon { font-size: 1rem; }
-  .explore-label { font-family: var(--font-mono); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .explore-card:hover { background: var(--color-teal); color: white; }
+  
+  .explore-visual {
+    width: 160px;
+    height: 160px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-medium);
+  }
+
+  .explore-card:hover .explore-visual {
+    transform: scale(1.15);
+  }
+
+  .explore-label { 
+    font-family: var(--font-mono); 
+    font-weight: 600; 
+    font-size: 1rem; 
+    text-transform: uppercase; 
+    letter-spacing: 0.1em; 
+  }
 
   /* Responsive */
   @media (max-width: 1024px) {
@@ -511,7 +552,7 @@ const currentJob = resumeData[0];
 
   @media (max-width: 768px) {
     .apps-section-modern { grid-template-columns: 1fr; }
-    .explore-grid { grid-template-columns: repeat(2, 1fr); }
+    .explore-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 640px) {
