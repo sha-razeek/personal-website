@@ -5,7 +5,7 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="World Map" description="A zoomable vector world map in mid-century modern style">
   <div class="page-header">
     <h1>Cartography</h1>
-    <p class="subtitle">Global vector coordinates  -  Admin 0 Boundaries</p>
+    <p class="subtitle">Global vector coordinates, Admin 0 Boundaries</p>
   </div>
 
   <div class="map-container">
@@ -48,7 +48,7 @@ import Layout from '../layouts/Layout.astro';
 
     const g = svg.append('g');
 
-    // Projection - Mercator for a more standard, non-elongated look
+    // Projection, Mercator for a more standard, non-elongated look
     const projection = d3.geoMercator()
       .scale(140)
       .translate([width / 2, height / 1.5]);

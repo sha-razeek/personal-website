@@ -168,7 +168,7 @@ import Layout from '../layouts/Layout.astro';
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
     // Offset: Mon=0, Tue=1, ... Sun=6
-    const startOffset = firstDay === 0 ? 6 : firstDay - 1;
+    const startOffset = firstDay === 0 ? 6 : firstDay, 1;
 
     // Empty cells before
     for (let i = 0; i < startOffset; i++) {
@@ -211,7 +211,7 @@ import Layout from '../layouts/Layout.astro';
     dialogDate.textContent = formatDateDisplay(dateKey);
 
     if (entry && entry.checkin) {
-      // Already has check-in  -  allow editing
+      // Already has check-in, allow editing
       dialogTitle.textContent = 'Update Times';
       checkinTime.value = entry.checkin;
       checkoutField.style.display = 'block';

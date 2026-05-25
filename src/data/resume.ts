@@ -12,7 +12,7 @@ export const resumeData: ResumeEntry[] = [
   {
     role: 'Architect',
     company: 'Acuity Analytics',
-    period: '2023 - Present',
+    period: '2023, Present',
     startYear: 2024,
     endYear: 'Present',
     description: 'Leading the UI UX Practice while managing the Asset Management and Private Markets vertical in Colombo for AD&D (AI, Data and Digital)',
@@ -26,7 +26,7 @@ export const resumeData: ResumeEntry[] = [
   {
     role: 'Senior Software Engineer',
     company: 'Acuity Knowledge Partners / Moodys Analytics Knowledge Services',
-    period: '2012 - 2023',
+    period: '2012, 2023',
     startYear: 2012,
     endYear: 2023,
     description: 'Developed tools and templates for the investment research arm of a European Bank.',
@@ -41,7 +41,7 @@ export const resumeData: ResumeEntry[] = [
   {
     role: 'Software Engineer',
     company: 'Amba Research',
-    period: '2007 - 2013',
+    period: '2007, 2013',
     startYear: 2007,
     endYear: 2013,
     description: 'From large-scale data migrations to Office automation, I wore many hats in the financial research space.',
@@ -53,7 +53,7 @@ export const resumeData: ResumeEntry[] = [
     ],
   },
   {
-    role: 'Intern - Department of Census and Statistics',
+    role: 'Intern, Department of Census and Statistics',
     company: 'Government of Sri Lanka',
     period: '2006',
     startYear: 2006,
@@ -78,7 +78,7 @@ export const resumeData: ResumeEntry[] = [
   {
     role: 'Crescent Gems',
     company: 'Crescent Gems',
-    period: '2005 - 2007',
+    period: '2005, 2007',
     startYear: 2005,
     endYear: 2007,
     description: 'Full-Stack Developer, managing design and development of e-commerce platforms.',
