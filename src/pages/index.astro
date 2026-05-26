@@ -133,6 +133,12 @@ const currentJob = resumeData[0];
     flex-wrap: wrap;
   }
 
+  @media (max-width: 768px) {
+    .hero-modernist {
+      padding: 1rem 0 1.5rem;
+    }
+  }
+
   .hero-left {
     flex: 2; /* Increased flex to give title more room */
     z-index: 10;
@@ -147,7 +153,7 @@ const currentJob = resumeData[0];
     order: 1;
   }
 
-  @media (min-width: 1025px) {
+  @media (min-width: 1441px) {
     .hero-modernist {
       flex-wrap: nowrap; /* Prevent wrapping on desktop */
       align-items: flex-start;
@@ -540,7 +546,7 @@ const currentJob = resumeData[0];
   }
 
   /* Responsive */
-  @media (max-width: 1024px) {
+  @media (max-width: 1440px) {
     .hero-modernist { flex-direction: column; text-align: center; }
     .hero-left { order: 2; width: 100%; }
     .hero-right { order: 1; width: 100%; justify-content: center; }

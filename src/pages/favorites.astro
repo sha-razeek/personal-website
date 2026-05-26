@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import { favorites } from '../data/favorites';
 
-// Find the first index of each type to allow jumping
 const categories = [
   { id: 'book', label: 'Books' },
   { id: 'movie', label: 'Movies' },
@@ -10,190 +9,92 @@ const categories = [
   { id: 'music', label: 'Music' }
 ].filter(cat => favorites.some(f => f.type === cat.id));
 
-// Group favorites to ensure they are sequential for jumping
-const sortedFavorites = [
-  ...favorites.filter(f => f.type === 'book'),
-  ...favorites.filter(f => f.type === 'movie'),
-  ...favorites.filter(f => f.type === 'tv'),
-  ...favorites.filter(f => f.type === 'music')
-];
+const getFavoritesByType = (type: string) => favorites.filter(f => f.type === type);
 
 ---
 
 <Layout title="Favorites" description="Recommended books, movies, TV shows, and music albums by Sha Razeek">
-  <div class="scroll-wrapper" id="scroll-wrapper">
-    <div class="sticky-container">
-      
-      <section class="grid-section hero-modernist-page">
-        <div class="hero-content">
-          <span class="hero-eyebrow">The Curated List</span>
-          <h1 class="hero-title">
-            <span class="gradient-text">Favorites</span>
-          </h1>
-          <p class="hero-description">
-            A collection of beautiful things that have inspired, moved, and entertained me. Scroll down to explore.
-          </p>
-          
-          <div class="category-nav">
-            {categories.map(cat => (
-              <button class="cat-btn" data-target={cat.id}>{cat.label}</button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div class="horizontal-list" id="horizontal-list">
-          {sortedFavorites.map((item, index) => {
-            // Mark the first item of each category
-            const isFirstOfCategory = index === 0 || sortedFavorites[index-1].type !== item.type;
-            return (
-              <div 
-                class="favorite-item" 
-                data-type={item.type} 
-                id={isFirstOfCategory ? `cat-${item.type}` : undefined}
-              >
-                <div class="favorite-visual">
-                  <img 
-                    src={item.coverImage || `https://placehold.co/${item.type === 'music' ? '400x400' : '400x600'}/f4f1ea/264653?text=${encodeURIComponent(item.title)}`} 
-                    alt={item.title} 
-                    class="favorite-img"
-                  />
-                </div>
-                
-                <div class="favorite-info">
-                  <div class="favorite-header-row">
-                    <h3>{item.title}</h3>
-                    {item.year && <span class="favorite-year">{item.year}</span>}
-                  </div>
-                  
-                  <p class="favorite-creator">{item.creator}</p>
-                  
-                  {item.description && <p class="favorite-desc">{item.description}</p>}
-
-                  <div class="favorite-meta">
-                    <span class="type-tag">{item.type}</span>
-                    {item.country && <span class="country-label">{item.country}</span>}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-          
-          <div class="scroll-end-spacer">
-            <span class="end-mark">Fin.</span>
-          </div>
-        </div>
+  
+  <div class="modernist-grid">
+    <!-- Hero Section -->
+    <section class="grid-section hero-modernist-page">
+      <div class="hero-content">
+        <span class="hero-eyebrow">The Curated List</span>
+        <h1 class="hero-title">
+          <span class="gradient-text">Favorites</span>
+        </h1>
+        <p class="hero-description">
+          A collection of beautiful things that have inspired, moved, and entertained me.
+        </p>
         
-        <!-- Custom horizontal scrollbar/progress indicator -->
-        <div class="progress-bar-container">
-          <div class="progress-bar-track">
-            <div class="progress-bar-thumb" id="progress-thumb"></div>
-          </div>
+        <div class="category-nav">
+          {categories.map(cat => (
+            <a href={`#${cat.id}`} class="cat-btn">{cat.label}</a>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
 
-  <script>
-    function initHorizontalScroll() {
-      const wrapper = document.getElementById('scroll-wrapper');
-      const container = wrapper?.querySelector('.sticky-container');
-      const list = document.getElementById('horizontal-list');
-      const thumb = document.getElementById('progress-thumb');
-      const catBtns = document.querySelectorAll('.cat-btn');
-      
-      if (!wrapper || !list || !thumb || !container) return;
-
-      function updateHeight() {
-        const listWidth = list.scrollWidth;
-        const containerWidth = container.offsetWidth;
-        const viewportHeight = window.innerHeight;
+    <!-- Categories -->
+    {categories.map((cat) => (
+      <section class="grid-section favorite-category" id={cat.id}>
+        <div class="section-header">
+          <div class="jet-line-header">
+            <span>{cat.label}</span>
+          </div>
+        </div>
         
-        const scrollHeight = (listWidth - containerWidth) + viewportHeight;
-        wrapper.style.height = `${scrollHeight}px`;
-      }
+        <div class="favorites-grid">
+          {getFavoritesByType(cat.id).map((item) => (
+            <div class="favorite-item" data-type={item.type}>
+              <div class="favorite-visual">
+                <img 
+                  src={item.coverImage || `https://placehold.co/${item.type === 'music' ? '400x400' : '400x600'}/f4f1ea/264653?text=${encodeURIComponent(item.title)}`} 
+                  alt={item.title} 
+                  class="favorite-img"
+                  loading="lazy"
+                />
+              </div>
+              
+              <div class="favorite-info">
+                <div class="favorite-header-row">
+                  <h3>{item.title}</h3>
+                  {item.year && <span class="favorite-year">{item.year}</span>}
+                </div>
+                
+                <p class="favorite-creator">{item.creator}</p>
+                
+                {item.description && <p class="favorite-desc">{item.description}</p>}
 
-      function handleScroll() {
-        const rect = wrapper.getBoundingClientRect();
-        const listWidth = list.scrollWidth;
-        const containerWidth = container.offsetWidth;
-        const maxOffset = listWidth - containerWidth;
-        
-        let progress = 0;
-        
-        if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
-          const offset = -rect.top;
-          list.style.transform = `translateX(-${offset}px)`;
-          progress = offset / maxOffset;
-        } else if (rect.top > 0) {
-          list.style.transform = `translateX(0px)`;
-          progress = 0;
-        } else if (rect.bottom < window.innerHeight) {
-          list.style.transform = `translateX(-${maxOffset}px)`;
-          progress = 1;
-        }
-        
-        // Update progress thumb
-        thumb.style.transform = `scaleX(${progress})`;
-      }
-
-      function jumpToCategory(e: Event) {
-        const btn = e.currentTarget as HTMLButtonElement;
-        const catId = btn.getAttribute('data-target');
-        const targetEl = document.getElementById(`cat-${catId}`);
-        
-        if (targetEl && wrapper && container) {
-          const listWidth = list.scrollWidth;
-          const containerWidth = container.offsetWidth;
-          const maxOffset = listWidth - containerWidth;
-          
-          // Get horizontal offset of the target element
-          const horizontalOffset = targetEl.offsetLeft - 40; // Some padding
-          
-          // Clamp offset
-          const clampedOffset = Math.max(0, Math.min(horizontalOffset, maxOffset));
-          
-          // Calculate vertical position
-          const wrapperTop = wrapper.offsetTop;
-          window.scrollTo({
-            top: wrapperTop + clampedOffset,
-            behavior: 'smooth'
-          });
-        }
-      }
-
-      catBtns.forEach(btn => btn.addEventListener('click', jumpToCategory));
-      window.addEventListener('scroll', handleScroll);
-      window.addEventListener('resize', () => {
-        updateHeight();
-        handleScroll();
-      });
-
-      // Initial call
-      updateHeight();
-      handleScroll();
-      
-      window.addEventListener('load', updateHeight);
-    }
-
-    initHorizontalScroll();
-    document.addEventListener('astro:page-load', initHorizontalScroll);
-  </script>
+                <div class="favorite-meta">
+                  <span class="type-tag">{item.type}</span>
+                  {item.country && <span class="country-label">{item.country}</span>}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
 </Layout>
 
 <style>
-  :global(.main-content) {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+  .modernist-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    padding-bottom: 6rem;
   }
 
   .grid-section {
     width: 100%;
+    max-width: var(--content-max);
+    margin: 0 auto;
   }
 
   .hero-modernist-page {
-    flex: 0 0 auto;
-    padding: 0 0 1rem;
-    width: 100%;
+    padding-top: 4rem;
   }
 
   .hero-eyebrow {
@@ -244,7 +145,7 @@ const sortedFavorites = [
     line-height: 1.5;
     color: var(--text-secondary);
     max-width: 600px;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
 
   .category-nav {
@@ -265,6 +166,7 @@ const sortedFavorites = [
     color: var(--color-brown);
     cursor: pointer;
     transition: all var(--transition-fast);
+    text-decoration: none;
   }
 
   .cat-btn:hover {
@@ -273,30 +175,36 @@ const sortedFavorites = [
     transform: translateY(-2px);
   }
 
-  /* Horizontal Scroll Styles */
-  .scroll-wrapper {
-    position: relative;
-    width: calc(100% + var(--page-padding));
-    margin-right: calc(var(--page-padding) * -1);
+  .section-header {
+    margin-bottom: 3rem;
+    scroll-margin-top: 2rem;
   }
 
-  .sticky-container {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow: hidden;
+  .jet-line-header {
     display: flex;
-    flex-direction: column;
-    padding-top: var(--page-padding);
-  }
-
-  .horizontal-list {
-    display: flex;
-    gap: 4rem;
-    padding: 0 10rem 0 0;
-    will-change: transform;
-    flex: 1;
     align-items: center;
+    gap: 1.5rem;
+  }
+
+  .jet-line-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-color);
+  }
+
+  .jet-line-header span {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    color: var(--color-brown);
+    font-weight: 800;
+  }
+
+  .favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 3rem 2.5rem;
   }
 
   .favorite-item {
@@ -304,7 +212,6 @@ const sortedFavorites = [
     flex-direction: column;
     gap: 1.5rem;
     transition: transform var(--transition-medium);
-    flex: 0 0 380px;
   }
 
   .favorite-item:hover {
@@ -344,7 +251,7 @@ const sortedFavorites = [
 
   .favorite-info h3 {
     font-family: var(--font-serif);
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     text-transform: uppercase;
     color: var(--color-brown);
     margin-bottom: 0.25rem;
@@ -404,89 +311,21 @@ const sortedFavorites = [
     text-transform: uppercase;
   }
 
-  .scroll-end-spacer {
-    flex: 0 0 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .end-mark {
-    font-family: var(--font-serif);
-    font-size: 4rem;
-    color: var(--color-warm-gray);
-    opacity: 0.3;
-    text-transform: uppercase;
-  }
-
-  /* Progress Bar */
-  .progress-bar-container {
-    position: absolute;
-    bottom: 2rem;
-    left: 2rem;
-    right: 2rem;
-    height: 4px;
-    display: flex;
-    align-items: center;
-    z-index: 100;
-  }
-
-  .progress-bar-track {
-    width: 100%;
-    height: 1px;
-    background: var(--border-color);
-    position: relative;
-  }
-
-  .progress-bar-thumb {
-    position: absolute;
-    top: -1px;
-    left: 0;
-    height: 3px;
-    width: 100%;
-    background: var(--accent-primary);
-    transform-origin: left;
-    transform: scaleX(0);
-    will-change: transform;
-    border-radius: 4px;
-  }
-
+  /* Responsive Adjustments */
   @media (max-width: 1024px) {
-    .favorite-item {
-      flex: 0 0 320px;
+    .favorites-grid {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
   }
 
   @media (max-width: 768px) {
-    /* On mobile, revert to normal vertical scroll for better UX */
-    .sticky-container {
-      position: relative;
-      height: auto;
-      overflow: visible;
-      padding-top: 0;
+    .modernist-grid { gap: 3rem; }
+    .hero-title { font-size: 4rem; }
+    .jet-line-header span { font-size: 1.8rem; }
+    .favorites-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
     }
-    .scroll-wrapper {
-      height: auto !important;
-      width: 100%;
-      margin-right: 0;
-    }
-    .horizontal-list {
-      flex-direction: column;
-      transform: none !important;
-      padding: 2rem 0;
-      gap: 3rem;
-    }
-    .favorite-item {
-      flex: 1;
-    }
-    .scroll-end-spacer {
-      display: none;
-    }
-    .progress-bar-container {
-      display: none;
-    }
-    .category-nav {
-      display: none;
-    }
+    .favorite-info h3 { font-size: 1.3rem; }
   }
 </style>

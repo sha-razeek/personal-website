@@ -80,7 +80,7 @@
   --font-mono: 'Maple Mono', 'Azeret Mono', monospace;
   
   /* Spacing */
-  --sidebar-width: 160px;
+  --sidebar-width: 260px;
   --content-max: 1200px;
   --page-padding: 2.5rem;
   
@@ -539,7 +539,7 @@ code {
 }
 
 /* ---- Responsive ---- */
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
   :root {
     --sidebar-width: 0px;
     --page-padding: 1.25rem;
@@ -548,7 +548,7 @@ code {
   .main-content {
     margin-left: 0;
     max-width: 100%;
-    padding-top: 4rem;
+    padding-top: 3rem;
   }
   
   h1 { font-size: 2.25rem; }
@@ -560,6 +560,13 @@ code {
 }
 
 @media (max-width: 768px) {
+  .main-content {
+    padding-top: 2rem;
+  }
+  .page-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
