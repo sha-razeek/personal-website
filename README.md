@@ -1,43 +1,68 @@
-# Sha Razeek ✦ Developer & Designer
+# Sha Razeek  -  Mid-Century Jet Age Website
 
-I'm a **Hypermedia Specialist, Full-Stack Developer, and UI/UX Designer** with nearly two decades of experience bridging the gap between elegant design and functional technology.
+A personal website and digital portfolio built with a "Mid-Century Jet Age" aesthetic. This project serves as a hub for professional work, editorial experiments, and creative side projects, reflecting a passion for hypermedia, UI/UX, and retro-futuristic design.
 
-Currently, I'm an **Architect at Acuity Analytics**, where I lead UI/UX practices and manage delivery for Asset Management and Private Markets.
+## Design Ethos: Mid-Century Modern
+
+The site's visual language is inspired by the optimistic futurism of the 1950s and 60s - the "Jet Age." This is characterized by:
+
+- **Palette:** A curated selection of Cream, Teal, Coral, Mustard, and Charcoal.
+- **Typography:** Geometric sans-serifs (Figtree) paired with technical mono-spaced fonts (IBM Plex Mono).
+- **Motifs:** Atomic starbursts, jet-age decorative lines, and subtle "springy" animations.
+- **Layout:** A flexible sidebar-driven navigation that prioritizes content clarity and editorial flow.
+
+## Tech Stack
+
+- **Framework:** [Astro 6.x](https://astro.build/) (Static Output)
+- **Runtime:** Node.js (>=22.12.0)
+- **Deployment:** [Cloudflare Pages](https://pages.cloudflare.com/) via `@astrojs/cloudflare`
+- **Styling:** Vanilla CSS with custom properties for tokens
+- **Type Safety:** TypeScript
+
+## Project Structure
+
+```text
+/
+├── public/          # Static assets (images, icons)
+├── src/
+│   ├── components/  # Shared Astro components (Sidebar, etc.)
+│   ├── data/        # TypeScript data files (Portfolio, Quizzes, Music)
+│   ├── layouts/     # Page layouts (Layout.astro)
+│   ├── pages/       # Route-based pages (Portfolio, Blog, Trivia, etc.)
+│   └── styles/      # Global CSS and mid-century tokens
+├── astro.config.mjs # Astro configuration
+└── wrangler.jsonc   # Cloudflare Pages configuration
+```
+
+## Key Features
+
+- **Portfolio:** Showcasing projects like SLIFA Magazine, Transistor Radio, and the Mid-Century Design System.
+- **Articles:** A blog platform featuring experiments in AI augmentation, culture (City Pop, Enka), and technical explorations.
+- **Trivia:** Weekly interactive quizzes with a custom retro-styled quiz engine.
+- **Time Tracker:** A personal time-tracking utility integrated into the dashboard.
+- **Music:** A curated section for music-related projects and playlists.
+
+## Commands
+
+All commands are run from the root of the project, from a terminal:
+
+| Command           | Action                                           |
+| :---------------- | :----------------------------------------------- |
+| `npm install`     | Installs dependencies                            |
+| `npm run dev`     | Starts local dev server at `localhost:4321`      |
+| `npm run build`   | Build your production site to `./dist/`          |
+| `npm run preview` | Preview your build locally, before deploying     |
+| `npm run astro`   | Run Astro CLI commands                           |
+
+## Deployment
+
+The site is automatically deployed to **Cloudflare Pages** on push. 
+
+To generate wrangler types for development:
+```bash
+npm run generate-types
+```
 
 ---
 
-### ◈ What I Do
-
-- **Full-Stack Development:** Building robust, cloud-native applications with a focus on interconnected hypermedia systems.
-- **UI/UX Design:** Crafting digital interfaces that channel the optimism and refinement of **Mid-Century Modern** aesthetics.
-- **Creative Technology:** Exploring the intersection of art, music, and code through interactive digital experiences.
-- **Hypermedia:** Leveraging the web's native capabilities to create deeply linked and discoverable content.
-
----
-
-### ▣ Professional Background
-
-- **Architect** @ Acuity Analytics (2023 - Present)
-- **Senior Software Engineer** @ Acuity Knowledge Partners (2012 - 2023)
-- **Software Engineer** @ Amba Research (2007 - 2013)
-- **B.Sc. (Hons) in Statistics with Computer Science** (University of Colombo, 2007)
-
----
-
-### ✦ Featured Projects
-
-- **[Sakinah](https://sharazeek.com/sakinah):** A minimalist space for reflection and calm.
-- **[Transistor Radio](https://sharazeek.com/music/transistor):** A web-based radio experience celebrating global frequencies.
-- **[Portfolio](https://sharazeek.com/portfolio):** A curated selection of my design and development work.
-
----
-
-### ♫ Connect with Me
-
-- 🌐 [sharazeek.com](https://sharazeek.com)
-- ✉️ [sharazeek@atomicmail.io](mailto:sharazeek@atomicmail.io)
-- 💼 [LinkedIn](https://linkedin.com/in/sharazeek)
-
----
-
-> "Interfaces should be every bit as elegant as they are functional."
+*Designed and Developed by [Sha Razeek](https://github.com/sha-razeek)*
