@@ -1,0 +1,215 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const wallpapers = [
+  {
+    id: 'desert-dream',
+    title: 'Desert Dream',
+    description: 'A surreal, pastel-hued desert landscape with soft organic shapes and cacti.',
+    image: '/images/wallpaper-desert.png',
+    tags: ['Surreal', 'Pastel', 'Nature']
+  }
+];
+---
+
+<Layout title="Wallpapers" description="Curated high-resolution wallpapers for your desktop and mobile devices.">
+  <div class="modernist-grid">
+    <section class="grid-section hero-modernist-page">
+      <div class="hero-content">
+        <span class="hero-eyebrow">The Visual Space</span>
+        <h1 class="hero-title">
+          <span class="gradient-text">Wallpapers</span>
+        </h1>
+        <p class="hero-description">
+          A collection of curated visuals and original artwork for your digital spaces.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid-section">
+      <div class="wallpaper-grid stagger">
+        {wallpapers.map((wp) => (
+          <div class="wallpaper-card">
+            <div class="wallpaper-visual">
+              <img src={wp.image} alt={wp.title} class="wallpaper-img" />
+              <div class="wallpaper-overlay">
+                <a href={wp.image} download={`${wp.id}.png`} class="btn btn--small btn--primary">Download</a>
+              </div>
+            </div>
+            <div class="wallpaper-info">
+              <div class="wallpaper-header">
+                <h3>{wp.title}</h3>
+                <div class="wallpaper-tags">
+                  {wp.tags.map(tag => <span class="tag-tiny">{tag}</span>)}
+                </div>
+              </div>
+              <p>{wp.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .modernist-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .grid-section {
+    width: 100%;
+  }
+
+  .hero-modernist-page {
+    padding: 2rem 0 3rem;
+  }
+
+  .hero-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--color-brown);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg, 
+      var(--color-brown) 0%, 
+      var(--accent-primary) 25%, 
+      var(--accent-secondary) 50%, 
+      var(--accent-primary) 75%, 
+      var(--color-brown) 100%
+    );
+    background-size: 400% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmeryText 12s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes shimmeryText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 400% 50%; }
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    max-width: 600px;
+  }
+
+  /* Wallpaper Grid */
+  .wallpaper-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 2.5rem;
+  }
+
+  .wallpaper-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .wallpaper-visual {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    background: var(--bg-secondary);
+  }
+
+  .wallpaper-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .wallpaper-card:hover .wallpaper-img {
+    transform: scale(1.05);
+  }
+
+  .wallpaper-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(74, 48, 32, 0.3);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+  }
+
+  .wallpaper-card:hover .wallpaper-overlay {
+    opacity: 1;
+  }
+
+  .wallpaper-info h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: var(--color-brown);
+    margin: 0;
+  }
+
+  .wallpaper-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .wallpaper-info p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .wallpaper-tags {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .tag-tiny {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--color-warm-gray);
+    border: 1px solid var(--border-color);
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+  }
+
+  @media (max-width: 768px) {
+    .wallpaper-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-modernist-page {
+      padding: 1rem 0 1.5rem;
+    }
+  }
+</style>

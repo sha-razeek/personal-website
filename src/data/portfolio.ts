@@ -82,4 +82,26 @@ export const portfolioItems: PortfolioItem[] = [
       ],
     },
   },
+  {
+    slug: 'broadcast',
+    title: 'Broadcast',
+    tagline: 'Live TV Receiver tuned to the world',
+    description: 'A web-based television receiver that allows users to search and stream live channels from around the globe using IPTV sources.',
+    tags: ['Web App', 'IPTV', 'Streaming'],
+    color: 'var(--color-dark)',
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.9719 20.7939H7.02908C4.80389 20.7939 3 18.99 3 16.7648V11.3084C3 9.08319 4.80389 7.2793 7.02908 7.2793H16.9719C19.1961 7.2793 21 9.08319 21 11.3084V16.7648C21 18.99 19.1961 20.7939 16.9719 20.7939Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.9844 16.9358V16.9258" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.9844 11.1565V11.1465" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.9844 14.0471V14.0371" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.2691 17.9797H8.00147C6.9059 17.9797 6.01758 17.0914 6.01758 15.9958V12.0786C6.01758 10.9821 6.9059 10.0938 8.00147 10.0938H13.2691C14.3647 10.0938 15.253 10.9821 15.253 12.0786V15.9958C15.253 17.0914 14.3647 17.9797 13.2691 17.9797Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.4961 3.20703L11.9436 7.28184L7.50586 3.20703" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    details: {
+      role: 'Solo Developer & Designer',
+      year: '2025',
+      tools: ['JavaScript', 'HLS.js', 'iptv-org API'],
+      overview: 'Broadcast is a minimalist live TV receiver for the web. It leverages the iptv-org API to aggregate and stream publicly available television channels from hundreds of countries.',
+      features: [
+        'Search channels by name, country, or category',
+        'Live HLS streaming with integrated player',
+        'Category-based filtering (News, Sports, Kids, etc.)',
+        'Real-time channel logo and metadata retrieval',
+        'Fully responsive mid-century inspired interface',
+      ],
+    },
+  },
 ];
