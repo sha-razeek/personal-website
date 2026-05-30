@@ -40,15 +40,22 @@ const musicOnly = musicArticles.filter(a => a.genre !== 'Tech');
       <!-- Music Articles -->
       <section>
         <h2 class="serif-label">Music Writing</h2>
-        <div class="music-articles-grid stagger">
+        <div class="blog-modern-grid stagger">
           {musicOnly.map((article) => (
-            <a href={`/blog/${article.slug}`} class="article-item-modern">
-              <div class="article-thumb" style={`background: ${article.heroColor}`}>
-                {article.heroImage && <img src={article.heroImage} alt="" />}
+            <a href={`/blog/${article.slug}`} class="blog-item">
+              <div 
+                class="blog-visual" 
+                style={`background: ${article.heroColor}; ${article.heroImage ? `background-image: url('${article.heroImage}'); background-size: cover; background-position: top center;` : ''}`}
+              >
               </div>
-              <div class="article-info">
-                <h4>{article.title}</h4>
-                <p>{article.date}</p>
+              <div class="blog-info">
+                <div class="blog-meta">
+                  <span class="blog-date">{article.date}</span>
+                  <span class="blog-tag">{article.genre}</span>
+                </div>
+                <h3>{article.title}</h3>
+                <p>{article.excerpt}</p>
+                <span class="blog-link">Read Article →</span>
               </div>
             </a>
           ))}
@@ -130,7 +137,7 @@ const musicOnly = musicArticles.filter(a => a.genre !== 'Tech');
     max-width: 600px;
   }
 
-  .music-content { max-width: 900px; }
+  .music-content { max-width: 1000px; }
 
   /* Feature Block (Transistor) */
   .transistor-feature {
@@ -203,82 +210,103 @@ const musicOnly = musicArticles.filter(a => a.genre !== 'Tech');
     text-transform: uppercase;
     color: var(--color-brown);
     margin-bottom: 2rem;
+    font-weight: 700;
   }
 
-  .music-articles-grid {
+  .blog-modern-grid {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 3rem;
   }
 
-  .article-item-modern {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
+  .blog-item {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 3rem;
     text-decoration: none;
     color: inherit;
-    transition: transform var(--transition-fast);
+    transition: transform var(--transition-medium);
+    align-items: center;
   }
 
-  .article-item-modern:hover { 
-    transform: translateX(6px);
+  .blog-item:hover {
+    transform: translateX(8px);
   }
 
-  .article-thumb {
-    width: 140px;
-    height: 140px;
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    flex-shrink: 0;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
-  }
-
-  .article-thumb img {
+  .blog-visual {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    aspect-ratio: 3/4; /* Tall rectangle */
+    border-radius: var(--radius-lg); /* Rounded corners instead of circle */
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
   }
 
-  .article-info h4 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 0.5rem;
+  .blog-info h3 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
     color: var(--color-brown);
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
   }
 
-  .article-info p {
+  .blog-info p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    max-width: 600px;
+    color: var(--text-secondary);
+  }
+
+  .blog-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .blog-date {
     font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: var(--color-warm-gray);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
+  .blog-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.5rem;
+    background: rgba(42, 157, 143, 0.06);
+    border-radius: var(--radius-sm);
+  }
+
+  .blog-link {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
   @media (max-width: 768px) {
-    .article-item-modern {
+    .blog-item {
+      grid-template-columns: 100px 1fr; /* Keep side-by-side but smaller image */
       gap: 1.5rem;
     }
-    .article-thumb {
-      width: 100px;
-      height: 100px;
+    .blog-item:hover {
+      transform: translateY(-4px);
     }
-    .article-info h4 {
-      font-size: 1.25rem;
+    .blog-visual {
+      aspect-ratio: 3/4; /* Keep it tall */
     }
   }
 
   @media (max-width: 640px) {
-    .article-item-modern {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-    .article-thumb {
-      width: 100%;
-      height: 160px;
-    }
     .transistor-feature {
       height: 200px;
     }

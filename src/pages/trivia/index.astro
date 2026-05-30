@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { quizzes } from '../../data/quizzes';
+
+const sortedQuizzes = [...quizzes].sort((a, b) => b.id - a.id);
 ---
 
 <Layout title="Trivia" description="Bi-weekly quizzes on general knowledge and interesting facts">
@@ -24,11 +26,8 @@ import { quizzes } from '../../data/quizzes';
       </p>
 
       <div class="quiz-list stagger">
-        {quizzes.map((quiz) => (
+        {sortedQuizzes.map((quiz) => (
           <a href={`/trivia/week-${quiz.id}`} class="quiz-item-modern">
-            <div class="quiz-number-visual">
-              <span class="quiz-week-num">W{quiz.id}</span>
-            </div>
             <div class="quiz-info">
               <div class="quiz-meta">
                 <span class="quiz-date">{quiz.date}</span>
@@ -112,70 +111,54 @@ import { quizzes } from '../../data/quizzes';
   }
 
   .trivia-content {
-    max-width: 1000px;
+    max-width: 1100px;
   }
 
   .trivia-intro {
     font-size: 1.25rem;
     line-height: 1.7;
     color: var(--text-primary);
-    margin-bottom: 3.5rem;
-    max-width: 800px;
+    margin-bottom: 4rem;
+    max-width: 900px;
   }
 
   .quiz-list {
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 4rem;
   }
 
   .quiz-item-modern {
-    display: grid;
-    grid-template-columns: 140px 1fr;
-    gap: 3rem;
+    display: block;
     text-decoration: none;
     color: inherit;
     transition: transform var(--transition-medium);
-    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 3rem;
+  }
+
+  .quiz-item-modern:last-child {
+    border-bottom: none;
   }
 
   .quiz-item-modern:hover {
     transform: translateX(8px);
   }
 
-  .quiz-number-visual {
-    width: 140px;
-    height: 140px;
-    background: linear-gradient(135deg, var(--color-dark), var(--accent-primary));
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow-md);
-  }
-
-  .quiz-week-num {
-    font-family: var(--font-serif);
-    font-size: 3rem;
-    font-weight: 800;
-    color: white;
-    opacity: 0.9;
-  }
-
   .quiz-info h3 {
     font-family: var(--font-serif);
-    font-size: 2rem;
+    font-size: 2.5rem;
     text-transform: uppercase;
     color: var(--color-brown);
-    margin-bottom: 0.75rem;
-    line-height: 1.1;
+    margin-bottom: 1rem;
+    line-height: 1.2;
   }
 
   .quiz-info p {
-    font-size: 1.05rem;
-    line-height: 1.6;
-    margin-bottom: 1.25rem;
-    max-width: 600px;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    max-width: 800px;
     color: var(--text-secondary);
   }
 
@@ -215,14 +198,8 @@ import { quizzes } from '../../data/quizzes';
   }
 
   @media (max-width: 768px) {
-    .quiz-item-modern {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
+    .quiz-item-modern:hover {
+      transform: translateY(-4px);
     }
-    .quiz-number-visual {
-      width: 100px;
-      height: 100px;
-    }
-    .quiz-week-num { font-size: 2rem; }
   }
 </style>

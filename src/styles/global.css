@@ -3,7 +3,7 @@
    ============================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Azeret+Mono:wght@300;400;500&display=swap');
-@import url('https://api.fontshare.com/v2/css?f[]=excon@500&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=plein@700,800,900&display=swap');
 
 /* Maple Mono Webfont */
 @font-face {
@@ -75,8 +75,8 @@
   --border-color: rgba(74, 48, 32, 0.15);
   
   /* Typography */
-  --font-heading: 'Figtree', sans-serif;
-  --font-serif: 'Figtree', sans-serif;
+  --font-heading: 'Plein', sans-serif;
+  --font-serif: 'Plein', sans-serif;
   --font-body: 'Figtree', sans-serif;
   --font-mono: 'Maple Mono', 'Azeret Mono', monospace;
   
@@ -98,10 +98,10 @@
   --shadow-lg: 0 16px 40px rgba(74, 48, 32, 0.12);
   
   /* Border radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-pill: 50px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 32px;
+  --radius-pill: 100px;
 }
 
 /* ---- Reset & Base ---- */
@@ -129,7 +129,7 @@ body {
 /* ---- Typography ---- */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
@@ -453,31 +453,19 @@ code {
   50% { transform: scale(1.08); opacity: 0.8; }
 }
 
-/* Staggered animation */
-.stagger {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1.2s var(--ease-out), transform 1s var(--ease-out);
+/* Full Width Image Breakout (to Content Wrapper) */
+.wide-image {
+  width: min(calc(100vw - calc(var(--page-padding) * 2)), var(--content-max));
+  max-width: none;
+  margin-left: calc(50% - min(calc(50vw - var(--page-padding)), calc(var(--content-max) / 2)));
+  border-radius: var(--radius-lg);
 }
-
-.stagger.visible {
-  opacity: 1;
-  transform: translateY(0);
+.wide-image img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  display: block;
 }
-
-/* Staggered animation children (legacy support for grids) */
-.stagger.visible > * {
-  animation: fadeInUp 0.4s var(--ease-out) forwards;
-}
-
-.stagger.visible > *:nth-child(1) { animation-delay: 0.05s; }
-.stagger.visible > *:nth-child(2) { animation-delay: 0.1s; }
-.stagger.visible > *:nth-child(3) { animation-delay: 0.15s; }
-.stagger.visible > *:nth-child(4) { animation-delay: 0.2s; }
-.stagger.visible > *:nth-child(5) { animation-delay: 0.25s; }
-.stagger.visible > *:nth-child(6) { animation-delay: 0.3s; }
-.stagger.visible > *:nth-child(7) { animation-delay: 0.35s; }
-.stagger.visible > *:nth-child(8) { animation-delay: 0.4s; }
 
 /* ---- Magazine Editorial Styles ---- */
 .article-content p {
@@ -512,21 +500,6 @@ code {
   margin-top: 3rem;
   margin-bottom: 1.25rem;
   font-family: var(--font-serif);
-}
-
-.wide-image {
-  width: 110%;
-  margin-left: -5%;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-
-.wide-image img {
-  width: 100%;
-  height: auto;
-  display: block;
 }
 
 /* ---- Scrollbar ---- */
@@ -691,8 +664,9 @@ code {
 .quiz-question {
   font-family: var(--font-heading);
   font-size: 1.5rem;
+  font-weight: 400;
   margin-bottom: 2rem;
-  line-height: 1.4;
+  line-height: 1.6;
 }
 
 .quiz-answer {

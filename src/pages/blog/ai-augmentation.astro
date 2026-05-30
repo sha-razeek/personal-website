@@ -19,7 +19,6 @@ import Layout from '../../layouts/Layout.astro';
     <div class="article-content">
       <div class="article-image-container wide-image stagger">
         <img src="/images/ai-augmentation.png" alt="Illustration of a person and a robot working at a computer" class="article-hero-img" />
-        <div class="img-caption">The Augmentation Equation, Redefining Engineering in 2026</div>
       </div>
 
       <p class="article-lead stagger">
@@ -63,7 +62,6 @@ import Layout from '../../layouts/Layout.astro';
         </div>
       </div>
 
-      <div class="jet-line stagger"><span>✦</span></div>
 
       <h2 class="stagger">The Productivity Paradox</h2>
       <p class="stagger">
@@ -86,7 +84,6 @@ import Layout from '../../layouts/Layout.astro';
         code actually does what it appears to do, then the net gain is negative.
       </p>
 
-      <div class="jet-line stagger"><span>✦</span></div>
 
       <h2 class="stagger">The Code Review Bottleneck</h2>
       <p class="stagger">
@@ -124,7 +121,6 @@ import Layout from '../../layouts/Layout.astro';
         </div>
       </div>
 
-      <div class="jet-line stagger"><span>✦</span></div>
 
       <h2 class="stagger">What AI Actually Does Well</h2>
       <p class="stagger">
@@ -151,7 +147,6 @@ import Layout from '../../layouts/Layout.astro';
         </div>
       </div>
 
-      <div class="jet-line stagger"><span>✦</span></div>
 
       <h2 class="stagger">What AI Cannot Do</h2>
       <p class="stagger">
@@ -172,7 +167,6 @@ import Layout from '../../layouts/Layout.astro';
         with the novel, the ambiguous, and the political.
       </p>
 
-      <div class="jet-line stagger"><span>✦</span></div>
 
       <h2 class="stagger">The Real Future: Augmentation, Not Replacement</h2>
       <p class="stagger">
@@ -198,7 +192,6 @@ import Layout from '../../layouts/Layout.astro';
         asks the right questions of the code the machine provides."
       </blockquote>
 
-      <div class="jet-line stagger"><span>✦</span></div>
 
       <h2 class="stagger">A Word of Caution</h2>
       <p class="stagger">
@@ -216,7 +209,6 @@ import Layout from '../../layouts/Layout.astro';
         It requires wisdom. And wisdom, for now, remains a human endeavour.
       </p>
 
-      <div class="jet-line stagger"><span>◈</span></div>
 
       <div class="article-nav">
         <a href="/blog/dangdut" class="btn">← Dangdut</a>
@@ -239,7 +231,7 @@ import Layout from '../../layouts/Layout.astro';
   .breadcrumb a { color: var(--accent-primary); }
   .breadcrumb-sep { opacity: 0.5; }
 
-  .article-page { max-width: 840px; }
+  .article-page { max-width: 840px; margin: 0 auto; }
 
   .article-header {
     padding: 0;
@@ -288,29 +280,11 @@ import Layout from '../../layouts/Layout.astro';
     color: var(--text-primary);
   }
 
-  .article-hero-img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .img-caption {
-    padding: 0.75rem 1.25rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--color-warm-gray);
-    background: white;
-    border-top: 1px solid var(--border-color);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
 
   /* Image placeholders */
   .article-image {
-    width: 100%;
-    height: 220px;
-    border-radius: var(--radius-lg);
-    margin: 2rem 0;
+    height: 300px; /* Taller for full width */
+    margin: 3rem 0;
     position: relative;
     overflow: hidden;
   }

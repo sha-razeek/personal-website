@@ -71,7 +71,7 @@
         }
 
         .station-name {
-            font-family: sans-serif;
+            font-family: var(--font-body);
             font-size: 1rem;
             font-weight: 600;
             white-space: nowrap;
@@ -169,6 +169,7 @@
         }
 
         .station-item-name {
+            font-family: var(--font-body);
             font-weight: 500;
             white-space: nowrap;
             overflow: hidden;
@@ -237,6 +238,47 @@
         .back-link:hover {
             opacity: 1;
         }
+
+        .fine-print {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: white;
+            opacity: 0.4;
+            text-align: center;
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .scene-btn {
+            background: rgba(42, 157, 143, 0.3);
+            border: 1px solid var(--accent-primary);
+            border-radius: 20px;
+            color: white;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-left: auto;
+        }
+
+        .scene-btn:hover {
+            background: var(--accent-primary);
+            transform: translateY(-1px);
+        }
+
+        .scene-btn svg {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
@@ -266,9 +308,20 @@
             <button id="btnNext" class="control-btn" title="Next Station">
                 <svg width="20" height="20" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
             </button>
+            <button id="btnChangeVideo" class="scene-btn" title="Change View">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+                <span>Switch Scene</span>
+            </button>
         </div>
         <div id="favoritesList" class="favorites-list">
             <!-- Populated by JS -->
+        </div>
+        <div class="fine-print">
+            Favorite more stations in Transistor to see them here.
         </div>
     </div>
 
@@ -309,13 +362,34 @@
         const btnPlayPause = document.getElementById('btnPlayPause');
         const btnNext = document.getElementById('btnNext');
         const btnPrev = document.getElementById('btnPrev');
+        const btnChangeVideo = document.getElementById('btnChangeVideo');
         const svgPlay = document.getElementById('svgPlay');
         const svgPause = document.getElementById('svgPause');
+        const cafeVideo = document.getElementById('cafe-video');
 
         let favorites = [];
         let currentIndex = 0;
         let isPlaying = false;
         let isChanging = false;
+        let isAltVideo = false;
+
+        // Video Toggle Logic
+        if (btnChangeVideo && cafeVideo) {
+            btnChangeVideo.addEventListener('click', () => {
+                isAltVideo = !isAltVideo;
+                const newSrc = isAltVideo ? '/videos/cafe-bg-2.mp4' : '/videos/cafe-bg.mp4';
+                
+                // Keep the current playback state (though autoplay usually handles it)
+                const wasPaused = cafeVideo.paused;
+                
+                cafeVideo.innerHTML = `<source src="${newSrc}" type="video/mp4">`;
+                cafeVideo.load();
+                
+                if (!wasPaused) {
+                    cafeVideo.play().catch(e => console.log('Autoplay prevented on switch', e));
+                }
+            });
+        }
 
         // Load Favorites
         function loadFavorites() {

@@ -6,7 +6,6 @@ import Layout from '../layouts/Layout.astro';
   <div class="modernist-grid">
     <section class="grid-section hero-modernist-page">
       <div class="hero-content">
-        <span class="hero-eyebrow">The Background</span>
         <h1 class="hero-title">
           <span class="gradient-text">About</span>
         </h1>
@@ -16,7 +15,7 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </section>
 
-    <div class="about-content">
+    <div class="about-content mx-auto">
       <div class="about-intro">
         <div class="about-photo">
           <div class="about-photo-frame">
@@ -146,15 +145,20 @@ import Layout from '../layouts/Layout.astro';
     max-width: 600px;
   }
 
+  .text-center { text-align: center; }
+  .mx-auto { margin-left: auto; margin-right: auto; }
+  .justify-center { justify-content: center; }
+
   .about-content {
-    max-width: 900px;
+    max-width: 1000px;
+    width: 100%;
   }
 
   .about-intro {
     display: flex;
-    gap: 3rem;
+    gap: 4rem;
     align-items: flex-start;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
   }
 
   .about-photo {
@@ -163,8 +167,8 @@ import Layout from '../layouts/Layout.astro';
 
   .about-photo-frame {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: 320px;
+    height: 320px;
     z-index: 5;
   }
 
@@ -172,21 +176,21 @@ import Layout from '../layouts/Layout.astro';
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    border-radius: 50%;
     border: 3px solid white;
-    box-shadow: var(--shadow-md);
-    filter: sepia(0.1) contrast(1.05);
+    box-shadow: var(--shadow-lg);
+    filter: grayscale(100%);
     transition: all var(--transition-medium);
   }
 
   .about-photo-frame:hover .about-img {
-    border-radius: 50%;
+    filter: grayscale(0%);
     transform: scale(1.02);
   }
 
   .about-photo-accent {
     position: absolute;
-    inset: -12px;
+    inset: -20px;
     background: var(--color-offwhite);
     border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
     z-index: -1;
@@ -198,8 +202,12 @@ import Layout from '../layouts/Layout.astro';
     100% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; transform: scale(1.05) rotate(5deg); }
   }
 
+  .about-text {
+    flex: 1;
+  }
+
   .about-lead {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     line-height: 1.7;
     color: var(--text-primary);
     font-weight: 500;
@@ -212,6 +220,7 @@ import Layout from '../layouts/Layout.astro';
     text-transform: uppercase;
     color: var(--color-brown);
     margin-bottom: 2rem;
+    font-weight: 700;
   }
 
   .skills-grid {
@@ -221,7 +230,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .skill-card {
-    padding: 2rem;
+    padding: 2.5rem;
     background: white;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
@@ -252,21 +261,27 @@ import Layout from '../layouts/Layout.astro';
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
-    margin-top: 3rem;
+    margin-top: 4rem;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     .about-intro {
       flex-direction: column;
       align-items: center;
       text-align: center;
     }
+    .about-text {
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 768px) {
     .skills-grid {
       grid-template-columns: 1fr;
     }
     .about-photo-frame {
-      width: 160px;
-      height: 160px;
+      width: 240px;
+      height: 240px;
     }
   }
 </style>

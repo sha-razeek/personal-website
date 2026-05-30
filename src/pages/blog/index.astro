@@ -120,7 +120,7 @@ import { musicArticles } from '../../data/music';
 
   .blog-item {
     display: grid;
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: 240px 1fr;
     gap: 3rem;
     text-decoration: none;
     color: inherit;
@@ -134,8 +134,8 @@ import { musicArticles } from '../../data/music';
 
   .blog-visual {
     width: 100%;
-    aspect-ratio: 16/10;
-    border-radius: var(--radius-sm);
+    aspect-ratio: 3/4; /* Tall rectangle */
+    border-radius: var(--radius-lg); /* Rounded corners instead of circle */
     box-shadow: var(--shadow-md);
     position: relative;
     overflow: hidden;
@@ -144,7 +144,6 @@ import { musicArticles } from '../../data/music';
   .blog-info h3 {
     font-family: var(--font-serif);
     font-size: 2rem;
-    text-transform: uppercase;
     color: var(--color-brown);
     margin-bottom: 0.75rem;
     line-height: 1.1;
@@ -198,14 +197,14 @@ import { musicArticles } from '../../data/music';
       padding: 1rem 0 1.5rem;
     }
     .blog-item {
-      grid-template-columns: 1fr;
+      grid-template-columns: 100px 1fr; /* Keep side-by-side but smaller image */
       gap: 1.5rem;
     }
     .blog-item:hover {
       transform: translateY(-4px);
     }
     .blog-visual {
-      aspect-ratio: 16/9;
+      aspect-ratio: 3/4; /* Keep it tall */
     }
   }
 </style>
