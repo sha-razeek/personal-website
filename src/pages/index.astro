@@ -233,11 +233,11 @@ const currentJob = resumeData[0];
   }
 
   .hero-description {
-    font-size: 1.05rem;
+    font-size: 1.25rem;
     line-height: 1.5;
     color: var(--text-secondary);
-    max-width: 480px;
-    margin-bottom: 2rem;
+    max-width: 540px;
+    margin-bottom: 2.5rem;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -378,7 +378,7 @@ const currentJob = resumeData[0];
   .feature-subtitle {
     display: inline-block;
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     color: var(--color-brown);
     background: white;
     padding: 0.35rem 1rem;
@@ -536,7 +536,8 @@ const currentJob = resumeData[0];
   }
 
   .hero-bg-img {
-    transition: filter 0.1s linear; /* Smooth blur transition */
+    transition: filter 0.1s linear, transform 0.1s linear;
+    will-change: filter, transform;
   }
 </style>
 
@@ -546,13 +547,17 @@ const currentJob = resumeData[0];
   if (bgImg) {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const maxBlur = 10; // Maximum blur in pixels
-      const scrollThreshold = 500; // Scroll distance to reach max blur
+      const scrollThreshold = 600; // Scroll distance to reach max effect
       
-      const blurAmount = Math.min((scrollY / scrollThreshold) * maxBlur, maxBlur);
+      const progress = Math.min(scrollY / scrollThreshold, 1);
+      
+      const blurAmount = progress * 8; // Max blur 8px
+      const scaleAmount = 1 + (progress * 0.05); // Max scale 1.05x (very slight)
+      
       bgImg.style.filter = `blur(${blurAmount}px)`;
+      bgImg.style.transform = `scale(${scaleAmount})`;
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
   }
 </script>
