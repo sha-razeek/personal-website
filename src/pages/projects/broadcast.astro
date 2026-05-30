@@ -48,6 +48,7 @@ import Layout from '../../layouts/Layout.astro';
     <!-- Filter tabs -->
     <div class="tv-tabs">
       <button class="tab active" data-tab="all">All</button>
+      <button class="tab" data-tab="favorites">❤ Favorites</button>
       <button class="tab" data-tab="news">News</button>
       <button class="tab" data-tab="entertainment">Entertainment</button>
       <button class="tab" data-tab="sports">Sports</button>
@@ -371,6 +372,7 @@ import Layout from '../../layouts/Layout.astro';
     cursor: pointer;
     transition: all var(--transition-fast);
     text-align: center;
+    position: relative;
   }
 
   .channel-card:hover {
@@ -382,6 +384,31 @@ import Layout from '../../layouts/Layout.astro';
   .channel-card.active {
     border-color: var(--accent-primary);
     background: rgba(42, 157, 143, 0.06);
+  }
+
+  .btn-favorite {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: var(--color-warm-gray);
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all var(--transition-fast);
+    padding: 4px;
+    z-index: 5;
+    opacity: 0.4;
+  }
+
+  .btn-favorite:hover {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+
+  .btn-favorite.active {
+    color: #e76f51;
+    opacity: 1;
   }
 
   .channel-name {
@@ -512,6 +539,7 @@ import Layout from '../../layouts/Layout.astro';
   let filteredChannels: TVChannel[] = [];
   let currentChannel: TVChannel | null = null;
   let activeCategory = 'all';
+  let favoriteIds: Set<string> = new Set();
 
   const channelGrid = document.getElementById('channelGrid')!;
   const searchInput = document.getElementById('searchInput') as HTMLInputElement;
@@ -523,7 +551,38 @@ import Layout from '../../layouts/Layout.astro';
   const npMeta = document.getElementById('npMeta')!;
   const btnClose = document.getElementById('btnClose')!;
 
+  function loadFavorites() {
+    const saved = localStorage.getItem('broadcast-favorites');
+    if (saved) {
+      favoriteIds = new Set(JSON.parse(saved));
+    }
+  }
+
+  function saveFavorites() {
+    localStorage.setItem('broadcast-favorites', JSON.stringify(Array.from(favoriteIds)));
+  }
+
+  function toggleFavorite(id: string, e: Event) {
+    e.stopPropagation();
+    if (favoriteIds.has(id)) {
+      favoriteIds.delete(id);
+    } else {
+      favoriteIds.add(id);
+    }
+    saveFavorites();
+    
+    // Update active tab if we are in favorites
+    if (activeCategory === 'favorites') {
+      applyFilters();
+    } else {
+      // Just update the icon of the current card
+      const btn = (e.currentTarget as HTMLElement);
+      btn.classList.toggle('active');
+    }
+  }
+
   async function init() {
+    loadFavorites();
     try {
       const [channelsRes, streamsRes, logosRes, countriesRes] = await Promise.all([
         fetch(CHANNELS_API).then(r => r.json()),
@@ -586,7 +645,10 @@ import Layout from '../../layouts/Layout.astro';
   function applyFilters() {
     const query = searchInput.value.trim().toLowerCase();
     filteredChannels = allChannels.filter(ch => {
-      const matchesCategory = activeCategory === 'all' || ch.channel.categories.includes(activeCategory);
+      const isFavorite = favoriteIds.has(ch.channel.id);
+      const matchesCategory = activeCategory === 'all' || 
+                             (activeCategory === 'favorites' && isFavorite) ||
+                             ch.channel.categories.includes(activeCategory);
       const matchesSearch = !query ||
         ch.channel.name.toLowerCase().includes(query) ||
         ch.countryName.toLowerCase().includes(query) ||
@@ -607,6 +669,7 @@ import Layout from '../../layouts/Layout.astro';
 
     channelGrid.innerHTML = display.map(ch => `
       <div class="channel-card ${currentChannel?.channel.id === ch.channel.id ? 'active' : ''}" data-id="${ch.channel.id}">
+        <button class="btn-favorite ${favoriteIds.has(ch.channel.id) ? 'active' : ''}" data-id="${ch.channel.id}" title="Toggle favorite">❤</button>
         <div class="channel-name">${escapeHtml(ch.channel.name)}</div>
         <div class="channel-country">${ch.countryFlag} ${escapeHtml(ch.countryName)}</div>
         ${ch.stream.quality ? `<span class="channel-quality">${ch.stream.quality}</span>` : ''}
@@ -623,6 +686,14 @@ import Layout from '../../layouts/Layout.astro';
         const id = card.getAttribute('data-id')!;
         const ch = display.find(c => c.channel.id === id);
         if (ch) playChannel(ch);
+      });
+    });
+
+    // Bind favorite events
+    channelGrid.querySelectorAll('.btn-favorite').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = btn.getAttribute('data-id')!;
+        toggleFavorite(id, e);
       });
     });
   }

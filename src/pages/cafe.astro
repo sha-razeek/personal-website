@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe | The Orbital</title>
+    <style>
+        :root {
+            --color-brown: #4A3020;
+            --accent-primary: #2A9D8F;
+            --accent-secondary: #E76F51;
+            --font-mono: 'Maple Mono', monospace;
+            --font-serif: 'Maple Mono', monospace;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #222;
+        }
+        video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        /* Radio Overlay */
+        .radio-overlay {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 320px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 1rem;
+            color: white;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transition: transform 0.3s ease;
+            max-height: 400px;
+        }
+
+        .station-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .station-name {
+            font-family: sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .station-details {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.7;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s, transform 0.1s;
+            opacity: 0.8;
+        }
+
+        .control-btn:hover { opacity: 1; }
+        .control-btn:active { transform: scale(0.95); }
+        .control-btn svg { fill: currentColor; }
+
+        .play-pause-btn {
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            padding: 0.75rem;
+        }
+
+        /* Station List */
+        .favorites-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            overflow-y: auto;
+            margin-right: -4px;
+            padding-right: 4px;
+        }
+
+        .favorites-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .favorites-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+
+        .station-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .station-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            opacity: 1;
+        }
+
+        .station-item.active {
+            background: rgba(42, 157, 143, 0.2);
+            opacity: 1;
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .station-item-content {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .station-item-name {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .station-item-meta {
+            font-size: 0.65rem;
+            font-family: var(--font-mono);
+            opacity: 0.6;
+            text-transform: uppercase;
+        }
+
+        .play-indicator {
+            font-size: 0.65rem;
+            color: var(--accent-primary);
+            display: none;
+            margin-right: 0.8rem;
+            vertical-align: middle;
+        }
+
+        .station-item.active .play-indicator {
+            display: inline-block;
+        }
+
+        .static-noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://media.giphy.com/media/oEI9uWUicHkLm/giphy.gif');
+            background-size: cover;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 99;
+            mix-blend-mode: screen;
+        }
+
+        @keyframes noiseFade {
+            0% { opacity: 0; }
+            15% { opacity: 0.5; }
+            85% { opacity: 0.5; }
+            100% { opacity: 0; }
+        }
+
+        .noise-active {
+            animation: noiseFade 1.5s ease-in-out forwards;
+        }
+
+        .back-link {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            color: white;
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            z-index: 100;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video id="cafe-video" autoplay muted loop playsinline preload="auto">
+            <source src="/videos/cafe-bg.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div id="static-layer" class="static-noise"></div>
+
+    <a href="/music/transistor" class="back-link">← Return to Transistor</a>
+
+    <div class="radio-overlay">
+        <div class="station-info">
+            <div id="radio-name" class="station-name">Radio Off</div>
+            <div id="radio-details" class="station-details">No station selected</div>
+        </div>
+        <div class="controls">
+            <button id="btnPrev" class="control-btn" title="Previous Station">
+                <svg width="20" height="20" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+            </button>
+            <button id="btnPlayPause" class="control-btn play-pause-btn" title="Play/Pause">
+                <svg id="svgPlay" width="24" height="24" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg id="svgPause" width="24" height="24" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+            <button id="btnNext" class="control-btn" title="Next Station">
+                <svg width="20" height="20" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+            </button>
+        </div>
+        <div id="favoritesList" class="favorites-list">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+
+    <audio id="radio-audio" crossorigin="anonymous"></audio>
+    <audio id="static-audio" loop>
+        <source src="/videos/radio-static.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Constants
+        const LOCAL_STORAGE_KEY = 'transistor-favorites';
+        const DEFAULT_FAVORITES = [
+            {
+                stationuuid: 'default-cna',
+                name: 'CNA 938 Live',
+                url_resolved: 'https://playerservices.streamtheworld.com/api/livestream-redirect/938NOW_PREM.aac',
+                country: 'Singapore',
+                codec: 'AAC',
+                bitrate: 128,
+            },
+            {
+                stationuuid: 'default-bbc',
+                name: 'BBC World Service',
+                url_resolved: 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_east_asia',
+                country: 'United Kingdom',
+                codec: 'MP3',
+                bitrate: 128,
+            }
+        ];
+
+        // Elements
+        const audio = document.getElementById('radio-audio');
+        const staticAudio = document.getElementById('static-audio');
+        const staticLayer = document.getElementById('static-layer');
+        const nameEl = document.getElementById('radio-name');
+        const detailsEl = document.getElementById('radio-details');
+        const favoritesList = document.getElementById('favoritesList');
+        const btnPlayPause = document.getElementById('btnPlayPause');
+        const btnNext = document.getElementById('btnNext');
+        const btnPrev = document.getElementById('btnPrev');
+        const svgPlay = document.getElementById('svgPlay');
+        const svgPause = document.getElementById('svgPause');
+
+        let favorites = [];
+        let currentIndex = 0;
+        let isPlaying = false;
+        let isChanging = false;
+
+        // Load Favorites
+        function loadFavorites() {
+            const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+            const savedFavorites = saved ? JSON.parse(saved) : [];
+            // If savedFavorites is empty, use defaults. Otherwise use what's in LocalStorage.
+            favorites = savedFavorites.length > 0 ? savedFavorites : DEFAULT_FAVORITES;
+            renderFavorites();
+        }
+
+        function renderFavorites() {
+            favoritesList.innerHTML = favorites.map((s, index) => `
+                <div class="station-item ${index === currentIndex ? 'active' : ''}" data-index="${index}">
+                    <div class="station-item-content">
+                        <span class="station-item-name"><span class="play-indicator">▶</span>${s.name}</span>
+                        <span class="station-item-meta">${s.country}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            favoritesList.querySelectorAll('.station-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const index = parseInt(item.getAttribute('data-index'));
+                    playStation(index);
+                });
+            });
+        }
+
+        function updateUI() {
+            const station = favorites[currentIndex];
+            if (station) {
+                nameEl.textContent = station.name;
+                detailsEl.textContent = `${station.bitrate}kbps · ${station.country}`;
+            }
+            svgPlay.style.display = isPlaying ? 'none' : 'block';
+            svgPause.style.display = isPlaying ? 'block' : 'none';
+
+            // Update list active state
+            favoritesList.querySelectorAll('.station-item').forEach((item, index) => {
+                item.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        async function playStation(index) {
+            if (isChanging || favorites.length === 0) return;
+            isChanging = true;
+            isPlaying = true; 
+
+            currentIndex = (index + favorites.length) % favorites.length;
+            const station = favorites[currentIndex];
+
+            // Show static
+            staticLayer.classList.remove('noise-active');
+            void staticLayer.offsetWidth;
+            staticLayer.classList.add('noise-active');
+            
+            staticAudio.volume = 0.2;
+            staticAudio.play().catch(() => {});
+
+            audio.pause();
+            
+            setTimeout(async () => {
+                audio.src = station.url_resolved;
+                try {
+                    await audio.play();
+                } catch (e) {
+                    if (favorites.length > 1) {
+                         isChanging = false;
+                         playStation(currentIndex + 1);
+                         return;
+                    }
+                    isPlaying = false;
+                }
+                
+                staticAudio.pause();
+                staticAudio.currentTime = 0;
+                updateUI();
+                isChanging = false;
+            }, 1500);
+        }
+
+        btnPlayPause.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+            } else {
+                if (!audio.src) {
+                    playStation(currentIndex);
+                } else {
+                    audio.play();
+                }
+                isPlaying = true;
+            }
+            updateUI();
+        });
+
+        btnNext.addEventListener('click', () => playStation(currentIndex + 1));
+        btnPrev.addEventListener('click', () => playStation(currentIndex - 1));
+
+        loadFavorites();
+        updateUI();
+
+        window.addEventListener('click', () => {
+            const video = document.getElementById('cafe-video');
+            if (video && video.paused) video.play();
+        }, { once: true });
+    </script>
+</body>
+</html>
