@@ -3,7 +3,7 @@
    ============================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Azeret+Mono:wght@300;400;500&display=swap');
-@import url('https://api.fontshare.com/v2/css?f[]=plein@700,800,900&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=roundo@700,800,900&display=swap');
 
 /* Maple Mono Webfont */
 @font-face {
@@ -75,8 +75,8 @@
   --border-color: rgba(74, 48, 32, 0.15);
   
   /* Typography */
-  --font-heading: 'Plein', sans-serif;
-  --font-serif: 'Plein', sans-serif;
+  --font-heading: 'Roundo', sans-serif;
+  --font-serif: 'Roundo', sans-serif;
   --font-body: 'Figtree', sans-serif;
   --font-mono: 'Maple Mono', 'Azeret Mono', monospace;
   
@@ -131,7 +131,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.01em;
 }
 
 h1 { font-size: 3rem; margin-bottom: 1.25rem; }
