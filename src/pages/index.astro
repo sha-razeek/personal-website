@@ -7,23 +7,16 @@ const currentJob = resumeData[0];
 ---
 
 <Layout title="Home">
+  <div class="hero-bg-container">
+    <img src="/images/backdrop.png" alt="" class="hero-bg-img" />
+  </div>
+
   <div class="modernist-grid">
     <!-- Top Row: Hero & Main Visual -->
     <section class="grid-section hero-modernist">
-      <div class="hero-right">
-        <div class="abstract-container">
-          <div class="shape shape-circle"></div>
-          <div class="shape shape-rect"></div>
-          <div class="hero-main-img-frame">
-            <img src="/images/me.webp" alt="Sha Razeek" class="hero-main-img" />
-          </div>
-        </div>
-      </div>
-      <div class="hero-left">
-        <span class="hero-eyebrow">Digital Craftsman</span>
+      <div class="glass-hero-panel">
         <h1 class="hero-title">
-          <span class="gradient-text">The Orbital</span> <br/>
-          <span class="hero-title-sub">by Sha Razeek</span>
+          <span class="gradient-text">Sha Razeek</span>
         </h1>
         <p class="hero-description">
           A self-taught designer and developer with more than two decades of experience.
@@ -117,70 +110,82 @@ const currentJob = resumeData[0];
     flex-direction: column;
     gap: 1.5rem;
     padding-bottom: 4rem;
+    background: transparent; /* Reveal fixed background */
   }
 
   .grid-section {
     width: 100%;
+    background: transparent;
   }
 
   /* Modernist Hero */
   .hero-modernist {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    padding: 2rem 0 4rem;
     position: relative;
-    flex-wrap: wrap;
+    width: 100%;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 0;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  /* Full Width Background Image Container */
+  .hero-bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Below everything */
+    pointer-events: none;
+    display: flex;
+    justify-content: center; /* Center the image horizontally */
+    align-items: flex-start; /* Align to top */
+  }
+
+  .hero-bg-img {
+    width: 1872px; /* Fixed width to prevent resizing */
+    min-width: 1872px;
+    height: auto;
+    object-fit: contain;
+    opacity: 1; 
   }
 
   @media (max-width: 768px) {
     .hero-modernist {
-      padding: 1rem 0 1.5rem;
+      min-height: 60vh;
+      padding: 2rem 0;
     }
-  }
-
-  .hero-left {
-    flex: 2; /* Increased flex to give title more room */
-    z-index: 10;
-    order: 2;
-  }
-
-  .hero-right {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    position: relative;
-    order: 1;
-  }
-
-  @media (min-width: 1441px) {
-    .hero-modernist {
-      flex-wrap: nowrap; /* Prevent wrapping on desktop */
-      align-items: flex-start;
-    }
-    .hero-left { order: 1; }
-    .hero-right { order: 2; }
-  }
-
-  .hero-eyebrow {
-    display: block;
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    font-size: 0.8rem;
-    color: var(--accent-primary);
-    margin-bottom: 1rem;
   }
 
   .hero-title {
-    font-family: var(--font-serif);
-    font-size: clamp(3.5rem, 12vw, 10rem); /* Slightly more conservative max size to avoid squashing */
-    line-height: 0.85;
-    font-weight: 900;
+    font-family: 'Excon', sans-serif;
+    font-size: clamp(4rem, 12vw, 10rem); /* Increased font size */
+    line-height: 1.1;
+    font-weight: 500;
     color: var(--color-brown);
-    text-transform: uppercase;
-    margin-bottom: 2rem; /* More space for sub-title */
+    margin-bottom: 2rem;
     letter-spacing: -0.05em;
+    white-space: nowrap;
+  }
+
+  .glass-hero-panel {
+    position: relative;
+    z-index: 10;
+    max-width: 1100px;
+    width: 100%;
+    text-align: center;
+    padding: 5rem 3rem;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 60px; /* Highly curved corners */
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05);
+    margin-top: 4rem;
   }
 
   .hero-title-sub {
@@ -221,60 +226,16 @@ const currentJob = resumeData[0];
     color: var(--text-secondary);
     max-width: 480px;
     margin-bottom: 2rem;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .hero-btns {
     display: flex;
     gap: 0.75rem;
     flex-wrap: wrap;
-  }
-
-  /* Abstract Composition */
-  .abstract-container {
-    position: relative;
-    width: 340px;
-    height: 520px;
-  }
-
-  .shape {
-    position: absolute;
-    z-index: 1;
-  }
-
-  .shape-circle {
-    width: 280px;
-    height: 280px;
-    background: #E8E0D5;
-    border-radius: 50%;
-    top: -30px;
-    right: -10px;
-  }
-
-  .shape-rect {
-    width: 120px;
-    height: 140px;
-    background: var(--accent-secondary);
-    bottom: 30px;
-    right: 0;
-  }
-
-  .hero-main-img-frame {
-    position: absolute;
-    top: 20px;
-    left: 0;
-    width: 320px;
-    height: 480px;
-    z-index: 5;
-    overflow: hidden;
-    border-radius: 160px; /* Pill shape */
-    border: 1px solid var(--border-color);
-  }
-
-  .hero-main-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: sepia(0.1) contrast(1.05);
+    justify-content: center; /* Center buttons */
   }
 
   /* Mini Apps Section */
@@ -547,8 +508,7 @@ const currentJob = resumeData[0];
   /* Responsive */
   @media (max-width: 1440px) {
     .hero-modernist { flex-direction: column; text-align: center; }
-    .hero-left { order: 2; width: 100%; }
-    .hero-right { order: 1; width: 100%; justify-content: center; }
+    .glass-hero-panel { margin-left: auto; margin-right: auto; }
     .hero-description { margin-left: auto; margin-right: auto; }
     .hero-btns { justify-content: center; }
     .bottom-composite { grid-template-columns: 1fr; }
@@ -561,8 +521,27 @@ const currentJob = resumeData[0];
   }
 
   @media (max-width: 640px) {
-    .abstract-container { width: 280px; height: 420px; }
-    .hero-main-img-frame { width: 240px; height: 380px; border-radius: 120px; }
-    .shape-circle { width: 220px; height: 220px; }
+    .hero-modernist { min-height: auto; }
+  }
+
+  .hero-bg-img {
+    transition: filter 0.1s linear; /* Smooth blur transition */
   }
 </style>
+
+<script>
+  const bgImg = document.querySelector('.hero-bg-img') as HTMLImageElement;
+  
+  if (bgImg) {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const maxBlur = 10; // Maximum blur in pixels
+      const scrollThreshold = 500; // Scroll distance to reach max blur
+      
+      const blurAmount = Math.min((scrollY / scrollThreshold) * maxBlur, maxBlur);
+      bgImg.style.filter = `blur(${blurAmount}px)`;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+  }
+</script>
