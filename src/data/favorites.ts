@@ -6,6 +6,7 @@ export interface FavoriteItem {
   description?: string;
   coverImage?: string;
   country?: string;
+  youtubeId?: string;
 }
 
 export const favorites: FavoriteItem[] = [
@@ -36,6 +37,7 @@ export const favorites: FavoriteItem[] = [
     description: 'A visually stunning adaptation of "Basilisk", depicting the tragic love story between two rival ninjas during the Tokugawa shogunate.',
     coverImage: '/images/shinobi.jpg',
     country: 'Japan',
+    youtubeId: 'xwcrkq33C9o',
   },
   {
     title: 'Wonderful Nightmare',
@@ -45,6 +47,7 @@ export const favorites: FavoriteItem[] = [
     description: 'A successful lawyer dies in a clerical error and must live as a housewife and mother for a month before returning to her own life.',
     coverImage: '/images/wonderful-nightmare.jpg',
     country: 'South Korea',
+    youtubeId: 'WkX6tY7_o7w',
   },
   {
     title: 'The Golden Cane Warrior',
@@ -54,6 +57,7 @@ export const favorites: FavoriteItem[] = [
     description: 'A stylish Indonesian martial arts epic featuring breathtaking cinematography and classic wuxia-inspired storytelling.',
     coverImage: '/images/the-golden-cane-warrior.jpg',
     country: 'Indonesia',
+    youtubeId: 'uD7UeJ4vN1E',
   },
   {
     title: 'In the Mood for Love',
@@ -63,6 +67,7 @@ export const favorites: FavoriteItem[] = [
     description: 'A visually ravishing and emotionally charged masterpiece of 1960s Hong Kong, exploring the subtle and restrained connection between two neighbors.',
     coverImage: '/images/in-the-mood-for-love.jpg',
     country: 'Hong Kong',
+    youtubeId: '277uCNxatVw',
   },
 
   // TV Shows

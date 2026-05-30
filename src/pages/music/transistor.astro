@@ -110,7 +110,7 @@ import Layout from '../../layouts/Layout.astro';
             <img src="/images/cafe-promo.png" alt="Cafe Immersive Mode" class="feature-img" />
             <div class="feature-label-overlay">
               <span class="feature-eyebrow">Atmospheric</span>
-              <h3>Immersive Radio Mode ☕</h3>
+              <h3>Immersive Radio Mode</h3>
             </div>
           </div>
         </a>
@@ -283,7 +283,6 @@ import Layout from '../../layouts/Layout.astro';
     position: relative;
     display: block;
     transition: transform var(--transition-medium);
-    border: 1px solid var(--border-color);
   }
 
   .feature-block-main:hover {
@@ -540,18 +539,25 @@ import Layout from '../../layouts/Layout.astro';
 
   /* Map Modal Styles */
   .map-modal-box {
-    max-width: 900px;
-    width: 95%;
+    max-width: 100%;
+    width: 100%;
+    height: 100vh;
     padding: 0;
     overflow: hidden;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.3s var(--ease-out);
   }
 
   .modal-header {
-    padding: 1.25rem 1.5rem;
+    padding: 1.5rem 2rem;
     border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: white;
+    z-index: 10;
   }
 
   .modal-header h3 { margin-bottom: 0; }
@@ -559,28 +565,35 @@ import Layout from '../../layouts/Layout.astro';
   .modal-close {
     background: none;
     border: none;
-    font-size: 2rem;
+    font-size: 2.5rem;
     line-height: 1;
     cursor: pointer;
     color: var(--color-warm-gray);
+    transition: color 0.2s;
   }
+
+  .modal-close:hover { color: var(--color-charcoal); }
 
   .map-modal-viewport {
     width: 100%;
-    height: 50vh;
-    min-height: 350px;
+    flex: 1;
     background: var(--bg-secondary);
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: grab;
+    overflow: hidden;
   }
 
-  #radio-world-map { width: 100%; height: 100%; }
+  #radio-world-map { 
+    width: 100%; 
+    height: 100%;
+    max-height: calc(100vh - 120px); /* Adjust based on header/footer */
+  }
 
   .map-modal-footer {
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 2rem;
     background: white;
     border-top: 1px solid var(--border-color);
     display: flex;

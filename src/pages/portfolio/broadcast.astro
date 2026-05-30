@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { portfolioItems } from '../../data/portfolio';
 
-const item = portfolioItems.find(i => i.slug === 'slifa-magazine')!;
+const item = portfolioItems.find(i => i.slug === 'broadcast')!;
 ---
 
 <Layout title={item.title} description={item.tagline}>
@@ -18,7 +18,7 @@ const item = portfolioItems.find(i => i.slug === 'slifa-magazine')!;
       <p class="project-tagline">{item.tagline}</p>
     </header>
 
-    <div class="project-content">
+    <div class="project-content mx-auto">
       <div class="project-meta">
         <div class="meta-item">
           <span class="meta-label">Role</span>
@@ -39,7 +39,7 @@ const item = portfolioItems.find(i => i.slug === 'slifa-magazine')!;
         <p>{item.details.overview}</p>
 
         <div class="project-main-image">
-          <img src="/images/slifa-magazine.png" alt="Slifa Magazine mockup" />
+          <img src="/images/tv.png" alt="Broadcast interface" />
         </div>
 
         <h2>Key Features</h2>
@@ -48,6 +48,10 @@ const item = portfolioItems.find(i => i.slug === 'slifa-magazine')!;
             <li>{f}</li>
           ))}
         </ul>
+
+        <div class="project-cta mt-4">
+          <a href="/projects/broadcast" class="btn btn--primary">Launch Broadcast receiver →</a>
+        </div>
 
         <div class="project-nav mt-4">
           <a href="/portfolio" class="btn">← All Projects</a>
@@ -104,28 +108,29 @@ const item = portfolioItems.find(i => i.slug === 'slifa-magazine')!;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
-    margin: 2rem 0;
+    margin: 3rem 0;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: 3rem;
   }
   .project-main-image img {
     max-width: 100%;
     height: auto;
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-lg);
     border-radius: var(--radius-md);
   }
 
   .feature-list {
     list-style: none;
     padding: 0;
+    margin: 2rem 0;
   }
   .feature-list li {
-    padding: 0.5rem 0 0.5rem 1.25rem;
+    padding: 0.75rem 0 0.75rem 1.5rem;
     position: relative;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     color: var(--text-secondary);
     border-bottom: 1px solid var(--border-color);
   }
@@ -135,4 +140,6 @@ const item = portfolioItems.find(i => i.slug === 'slifa-magazine')!;
     left: 0;
     color: var(--accent-primary);
   }
+
+  .project-cta { text-align: center; }
 </style>
