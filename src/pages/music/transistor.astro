@@ -19,90 +19,102 @@ import Layout from '../../layouts/Layout.astro';
         <p class="hero-description">
           Online radio player, Search, listen, and discover stations worldwide.
         </p>
-        <div class="hero-actions">
-          <a href="/cafe" class="btn btn--coral">Immersive Radio Mode ☕</a>
-        </div>
       </div>
       <div class="header-visual">
         <img src="/images/radio.png" alt="Transistor Radio" class="radio-hero-img" />
       </div>
     </section>
 
-    <div class="radio-app grid-section">
-      <!-- Now Playing Bar -->
-      <div class="now-playing" id="nowPlaying" style="display: none;">
-      <div class="np-info">
-        <div class="np-favicon" id="npFavicon"></div>
-        <div class="np-indicator"></div>
-        <div class="np-text">
-          <span class="np-station" id="npStation"> - </span>
-          <span class="np-country" id="npCountry"> - </span>
+    <div class="radio-layout-container">
+      <div class="radio-main-pane">
+        <!-- Now Playing Bar -->
+        <div class="now-playing" id="nowPlaying" style="display: none;">
+          <div class="np-info">
+            <div class="np-favicon" id="npFavicon"></div>
+            <div class="np-indicator"></div>
+            <div class="np-text">
+              <span class="np-station" id="npStation"> - </span>
+              <span class="np-country" id="npCountry"> - </span>
+            </div>
+          </div>
+          <div class="np-controls">
+            <button class="np-btn" id="btnFav" title="Add to favorites">♡</button>
+            <button class="np-btn np-btn-play" id="btnPlayPause" title="Play/Pause">
+              <svg class="icon-play" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="icon-pause" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+            <button class="np-btn" id="btnStop" title="Stop">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h12v12H6z"/></svg>
+            </button>
+            <div class="np-volume">
+              <button class="vol-mute-btn" id="btnMute" title="Mute/Unmute">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path class="vol-path-1" d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                  <path class="vol-path-2" d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                </svg>
+              </button>
+              <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.75" class="vol-slider" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Search -->
+        <div class="radio-search">
+          <input type="text" id="searchInput" placeholder="Search stations by name, country, or tag..." class="search-input" />
+          <button class="btn btn--primary" id="btnSearch">Search</button>
+          <button class="btn btn--coral" id="btnOpenMap">Explore on Map 🌐</button>
+        </div>
+
+        <!-- Map Modal -->
+        <div class="modal-overlay" id="mapModal">
+          <div class="modal-box map-modal-box">
+            <div class="modal-header">
+              <h3>Explore World Band</h3>
+              <button class="modal-close" id="btnCloseMap">×</button>
+            </div>
+            <div class="map-modal-viewport">
+              <div id="map-loading">Initialising global coordinates...</div>
+              <svg id="radio-world-map"></svg>
+            </div>
+            <div class="map-modal-footer">
+              <span class="info-label">📍 Detected:</span>
+              <span id="map-country-name" class="info-value">Select a country...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="radio-tabs">
+          <button class="tab active" data-tab="favorites">Favorites</button>
+          <button class="tab" data-tab="results">Results</button>
+        </div>
+
+        <!-- Station Lists -->
+        <div class="tab-content" id="tabFavorites">
+          <div class="station-list" id="favoritesList">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <div class="tab-content" id="tabResults" style="display: none;">
+          <div class="station-list" id="resultsList">
+            <p class="empty-state">Search for stations above to see results.</p>
+          </div>
         </div>
       </div>
-      <div class="np-controls">
-        <button class="np-btn" id="btnFav" title="Add to favorites">♡</button>
-        <button class="np-btn np-btn-play" id="btnPlayPause" title="Play/Pause">
-          <svg class="icon-play" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          <svg class="icon-pause" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-        </button>
-        <button class="np-btn" id="btnStop" title="Stop">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h12v12H6z"/></svg>
-        </button>
-        <div class="np-volume">
-          <span class="vol-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-            </svg>
-          </span>
-          <input type="range" id="volumeSlider" min="0" max="100" value="75" class="vol-slider" />
-        </div>
-      </div>
-    </div>
 
-    <!-- Search -->
-    <div class="radio-search">
-      <input type="text" id="searchInput" placeholder="Search stations by name, country, or tag..." class="search-input" />
-      <button class="btn btn--primary" id="btnSearch">Search</button>
-      <button class="btn btn--coral" id="btnOpenMap">Explore on Map 🌐</button>
-    </div>
-
-    <!-- Map Modal -->
-    <div class="modal-overlay" id="mapModal">
-      <div class="modal-box map-modal-box">
-        <div class="modal-header">
-          <h3>Explore World Band</h3>
-          <button class="modal-close" id="btnCloseMap">×</button>
-        </div>
-        <div class="map-modal-viewport">
-          <div id="map-loading">Initialising global coordinates...</div>
-          <svg id="radio-world-map"></svg>
-        </div>
-        <div class="map-modal-footer">
-          <span class="info-label">📍 Detected:</span>
-          <span id="map-country-name" class="info-value">Select a country...</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tabs -->
-    <div class="radio-tabs">
-      <button class="tab active" data-tab="favorites">Favorites</button>
-      <button class="tab" data-tab="results">Results</button>
-    </div>
-
-    <!-- Station Lists -->
-    <div class="tab-content" id="tabFavorites">
-      <div class="station-list" id="favoritesList">
-        <!-- Populated by JS -->
-      </div>
-    </div>
-
-    <div class="tab-content" id="tabResults" style="display: none;">
-      <div class="station-list" id="resultsList">
-        <p class="empty-state">Search for stations above to see results.</p>
-      </div>
+      <aside class="radio-sidebar">
+        <a href="/cafe" class="feature-block-main sidebar-promo-card">
+          <div class="feature-img-container">
+            <img src="/images/cafe-promo.png" alt="Cafe Immersive Mode" class="feature-img" />
+            <div class="feature-label-overlay">
+              <span class="feature-eyebrow">Atmospheric</span>
+              <h3>Immersive Radio Mode ☕</h3>
+            </div>
+          </div>
+        </a>
+      </aside>
     </div>
 
     <!-- Fine Print -->
@@ -113,7 +125,6 @@ import Layout from '../../layouts/Layout.astro';
     <!-- Audio element -->
     <audio id="audioPlayer" crossorigin="anonymous"></audio>
   </div>
-</div>
 </Layout>
 
 <style is:global>
@@ -203,11 +214,6 @@ import Layout from '../../layouts/Layout.astro';
     margin-bottom: 2rem;
   }
 
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-  }
-
   .header-visual {
     width: 320px;
     height: 320px;
@@ -245,6 +251,101 @@ import Layout from '../../layouts/Layout.astro';
 
   .header-visual:hover .radio-hero-img {
     transform: scale(1.1) rotate(2deg);
+  }
+
+  .radio-app {
+    width: 100%;
+  }
+
+  .radio-layout-container {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 3rem;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .radio-main-pane {
+    min-width: 0;
+  }
+
+  .radio-sidebar {
+    position: sticky;
+    top: 120px;
+  }
+
+  .sidebar-promo-card {
+    width: 100%;
+    height: 600px;
+    background: var(--color-dark);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    display: block;
+    transition: transform var(--transition-medium);
+    border: 1px solid var(--border-color);
+  }
+
+  .feature-block-main:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .feature-img-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .feature-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: opacity var(--transition-medium);
+  }
+
+  .feature-block-main:hover .feature-img {
+    opacity: 1;
+  }
+
+  .feature-label-overlay {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    padding-right: 1rem;
+  }
+
+  .feature-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--color-offwhite);
+    opacity: 0.9;
+  }
+
+  .feature-label-overlay h3 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+
+  @media (max-width: 1100px) {
+    .radio-layout-container {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .radio-sidebar {
+      position: static;
+      order: -1;
+    }
+    .sidebar-promo-card {
+      height: 320px;
+    }
   }
 
   @media (max-width: 768px) {
@@ -375,11 +476,21 @@ import Layout from '../../layouts/Layout.astro';
     margin-left: 0.5rem;
   }
 
-  .vol-icon {
+  .vol-mute-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     align-items: center;
     color: white;
     opacity: 0.8;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .vol-mute-btn:hover {
+    opacity: 1;
   }
 
   .vol-slider {
@@ -393,6 +504,7 @@ import Layout from '../../layouts/Layout.astro';
     cursor: pointer;
   }
 
+  /* Slider Thumb */
   .vol-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 12px;
@@ -400,6 +512,22 @@ import Layout from '../../layouts/Layout.astro';
     border-radius: 50%;
     background: var(--color-mustard);
     cursor: pointer;
+    border: none;
+  }
+
+  .vol-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-mustard);
+    cursor: pointer;
+    border: none;
+  }
+
+  .vol-slider::-moz-range-track {
+    background: rgba(255,255,255,0.2);
+    height: 3px;
+    border-radius: 2px;
   }
 
   /* Search */
@@ -689,6 +817,70 @@ import Layout from '../../layouts/Layout.astro';
     margin: 0;
   }
 
+  /* Promo Section */
+  .transistor-promo-section {
+    margin-top: 4rem;
+    max-width: 840px;
+  }
+
+  .cafe-promo-card {
+    height: 320px;
+    background: var(--color-dark);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    display: block;
+    transition: transform var(--transition-medium);
+    border: 1px solid var(--border-color);
+  }
+
+  .feature-block-main:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .feature-img-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .feature-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: opacity var(--transition-medium);
+  }
+
+  .feature-block-main:hover .feature-img {
+    opacity: 1;
+  }
+
+  .feature-label-overlay {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .feature-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--color-offwhite);
+    opacity: 0.9;
+  }
+
+  .feature-label-overlay h3 {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    line-height: 1;
+  }
+
   @media (max-width: 640px) {
     .now-playing {
       flex-direction: column;
@@ -733,9 +925,12 @@ import Layout from '../../layouts/Layout.astro';
   const btnPlayPause = document.getElementById('btnPlayPause')!;
   const btnStop = document.getElementById('btnStop')!;
   const btnFav = document.getElementById('btnFav')!;
+  const btnMute = document.getElementById('btnMute')!;
   const npFavicon = document.getElementById('npFavicon')!;
   const btnSearch = document.getElementById('btnSearch')!;
   const volumeSlider = document.getElementById('volumeSlider') as HTMLInputElement;
+  
+  let lastVolume = 0.75;
   const favoritesList = document.getElementById('favoritesList')!;
   const resultsList = document.getElementById('resultsList')!;
   
@@ -781,6 +976,7 @@ import Layout from '../../layouts/Layout.astro';
     setupTabs();
     setupEventListeners();
     audio.volume = 0.75;
+    updateVolumeUI();
   }
 
   function saveFavorites() {
@@ -831,8 +1027,26 @@ import Layout from '../../layouts/Layout.astro';
       if (currentStation) toggleFavorite(currentStation);
     });
 
+    btnMute.addEventListener('click', () => {
+      if (audio.muted || audio.volume === 0) {
+        audio.muted = false;
+        if (audio.volume === 0) audio.volume = lastVolume || 0.75;
+      } else {
+        lastVolume = audio.volume;
+        audio.muted = true;
+      }
+    });
+
     volumeSlider.addEventListener('input', () => {
-      audio.volume = parseInt(volumeSlider.value) / 100;
+      audio.volume = parseFloat(volumeSlider.value);
+      if (audio.volume > 0) {
+        audio.muted = false;
+      }
+    });
+
+    // Handle volume changes (native and JS triggered)
+    audio.addEventListener('volumechange', () => {
+      updateVolumeUI();
     });
 
     audio.addEventListener('play', () => {
@@ -1055,6 +1269,24 @@ import Layout from '../../layouts/Layout.astro';
         btn.textContent = isFavorite(uuid) ? '♥' : '♡';
       }
     });
+  }
+
+  function updateVolumeUI() {
+    const path1 = btnMute.querySelector('.vol-path-1') as HTMLElement;
+    const path2 = btnMute.querySelector('.vol-path-2') as HTMLElement;
+    
+    // Sync slider value
+    volumeSlider.value = audio.volume.toString();
+    
+    if (audio.muted || audio.volume === 0) {
+      if (path1) path1.style.opacity = '0';
+      if (path2) path2.style.opacity = '0';
+      btnMute.style.opacity = '0.5';
+    } else {
+      if (path1) path1.style.opacity = '1';
+      if (path2) path2.style.opacity = audio.volume > 0.5 ? '1' : '0';
+      btnMute.style.opacity = '0.8';
+    }
   }
 
   function escapeHtml(str: string): string {
