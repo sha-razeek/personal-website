@@ -371,13 +371,44 @@
         let currentIndex = 0;
         let isPlaying = false;
         let isChanging = false;
-        let isAltVideo = false;
+        const BACKDROPS = [
+            '/videos/cafe-bg.mp4',
+            '/videos/cafe-bg-2.mp4',
+            '/videos/cafe-bg-3.mp4'
+        ];
+        const BACKDROP_STORAGE_KEY = 'cafe-backdrop-index';
+        let currentBackdropIndex = 0;
 
-        // Video Toggle Logic
+        // Load initial backdrop preference from localStorage
+        try {
+            const savedIndex = localStorage.getItem(BACKDROP_STORAGE_KEY);
+            if (savedIndex !== null) {
+                const parsed = parseInt(savedIndex, 10);
+                if (!isNaN(parsed) && parsed >= 0 && parsed < BACKDROPS.length) {
+                    currentBackdropIndex = parsed;
+                }
+            }
+        } catch (e) {
+            console.error('Failed to load backdrop preference', e);
+        }
+
+        // Initialize saved backdrop if it is not the default one
+        if (currentBackdropIndex !== 0 && cafeVideo) {
+            cafeVideo.innerHTML = `<source src="${BACKDROPS[currentBackdropIndex]}" type="video/mp4">`;
+            cafeVideo.load();
+        }
+
+        // Video Toggle Logic (cycling through backdrops)
         if (btnChangeVideo && cafeVideo) {
             btnChangeVideo.addEventListener('click', () => {
-                isAltVideo = !isAltVideo;
-                const newSrc = isAltVideo ? '/videos/cafe-bg-2.mp4' : '/videos/cafe-bg.mp4';
+                currentBackdropIndex = (currentBackdropIndex + 1) % BACKDROPS.length;
+                const newSrc = BACKDROPS[currentBackdropIndex];
+                
+                try {
+                    localStorage.setItem(BACKDROP_STORAGE_KEY, currentBackdropIndex.toString());
+                } catch (e) {
+                    console.error('Failed to save backdrop preference', e);
+                }
                 
                 // Keep the current playback state (though autoplay usually handles it)
                 const wasPaused = cafeVideo.paused;
