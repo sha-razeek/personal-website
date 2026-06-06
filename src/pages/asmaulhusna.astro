@@ -1,0 +1,760 @@
+---
+import { asmaulhusna } from '../data/asmaulhusna';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asma-ul-Husna | The 99 Names of Allah</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cinzel:wght@400;500;600;700&family=Figtree:wght@300;400;500&display=swap');
+
+        :root {
+            --font-arabic: 'Amiri', serif;
+            --font-display: 'Cinzel', serif;
+            --font-body: 'Figtree', sans-serif;
+            
+            --color-gold: #d4af37;
+            --color-gold-light: #f3e5ab;
+            --color-cream: #f9f6f0;
+            --color-bg-overlay: rgba(10, 10, 12, 0.4);
+            --color-glass: rgba(20, 20, 25, 0.35);
+            --color-glass-border: rgba(212, 175, 55, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: #050508;
+            color: var(--color-cream);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            user-select: none;
+        }
+
+        /* Screen-filling Backdrop Video */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        /* Ambient overlays */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.5) 100%), var(--color-bg-overlay);
+            z-index: -1;
+        }
+
+        /* Main Page Layout */
+        .container {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Name Display Card */
+        .name-card {
+            max-width: 750px;
+            width: 100%;
+            text-align: center;
+            padding: 3rem;
+            border-radius: 24px;
+            background: var(--color-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--color-glass-border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .counter {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            color: var(--color-gold);
+            letter-spacing: 0.3em;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .arabic-text {
+            font-family: var(--font-arabic);
+            font-size: 6.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 40%, var(--color-gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+            direction: rtl;
+        }
+
+        .transliteration-text {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            color: var(--color-cream);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .translation-text {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--color-gold-light);
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
+        }
+
+        .divider {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--color-gold), transparent);
+            margin-bottom: 2rem;
+        }
+
+        .explanation-text {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            font-weight: 300;
+            color: rgba(249, 246, 240, 0.85);
+            max-width: 620px;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Navigation Controls */
+        .controls-overlay {
+            position: absolute;
+            bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            z-index: 20;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        body:hover .controls-overlay,
+        body:focus-within .controls-overlay {
+            opacity: 1;
+        }
+
+        .control-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: rgba(10, 10, 12, 0.6);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: var(--color-cream);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            opacity: 0.7;
+        }
+
+        .control-btn:hover {
+            opacity: 1;
+            color: var(--color-gold);
+            transform: scale(1.08);
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .play-pause {
+            background: rgba(212, 175, 55, 0.2);
+            border-radius: 50%;
+            padding: 0.75rem;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .play-pause:hover {
+            background: rgba(212, 175, 55, 0.3);
+        }
+
+        /* Progress Bar (Visual representation of 10s timer) */
+        .progress-container {
+            width: 140px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--color-gold);
+            transition: width 0.1s linear;
+        }
+
+        /* Top Title */
+        .page-title {
+            position: absolute;
+            top: 2.5rem;
+            left: 3rem;
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            letter-spacing: 0.4em;
+            opacity: 0.6;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        /* Back Link */
+        .back-link {
+            position: fixed;
+            bottom: 2.5rem;
+            left: 2.5rem;
+            color: var(--color-cream);
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            opacity: 0.4;
+            transition: all 0.3s;
+            z-index: 20;
+        }
+
+        .back-link:hover {
+            opacity: 0.9;
+            color: var(--color-gold);
+            transform: translateX(3px);
+        }
+
+        /* Index selector trigger button */
+        .list-trigger {
+            position: fixed;
+            bottom: 2.5rem;
+            right: 2.5rem;
+            color: var(--color-cream);
+            background: none;
+            border: none;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            opacity: 0.4;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .list-trigger:hover {
+            opacity: 0.9;
+            color: var(--color-gold);
+        }
+
+        /* Modal Drawer */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            padding: 3rem;
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            max-width: 1000px;
+            width: 100%;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--color-gold);
+            letter-spacing: 0.1em;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--color-cream);
+            cursor: pointer;
+            font-size: 1.5rem;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+            color: var(--color-gold);
+        }
+
+        .names-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .names-grid::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .names-grid::-webkit-scrollbar-thumb {
+            background: var(--color-gold);
+            border-radius: 2px;
+        }
+
+        .grid-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+
+        .grid-item:hover {
+            background: rgba(212, 175, 55, 0.08);
+            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .grid-item.active {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: var(--color-gold);
+        }
+
+        .grid-arabic {
+            font-family: var(--font-arabic);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--color-cream);
+        }
+
+        .grid-english {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            color: var(--color-gold);
+            text-align: center;
+        }
+
+        .grid-num {
+            font-family: var(--font-body);
+            font-size: 0.65rem;
+            opacity: 0.5;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .name-card {
+                padding: 2rem;
+                max-width: 90%;
+            }
+
+            .arabic-text {
+                font-size: 4.5rem;
+            }
+
+            .transliteration-text {
+                font-size: 1.6rem;
+            }
+
+            .translation-text {
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .explanation-text {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+
+            .back-link, .list-trigger {
+                bottom: 1.5rem;
+            }
+            
+            .back-link { left: 1.5rem; }
+            .list-trigger { right: 1.5rem; }
+            .page-title { left: 2rem; top: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="/videos/asma-ul-husna-bg.mp4" type="video/mp4" />
+        </video>
+    </div>
+    <div class="overlay"></div>
+
+    <div class="page-title">Asma-ul-Husna</div>
+
+    <main class="container">
+        <div id="name-display" class="name-card">
+            <span id="counter" class="counter">01 / 99</span>
+            <h1 id="arabic" class="arabic-text">الرحمن</h1>
+            <h2 id="transliteration" class="transliteration-text">Ar-Rahman</h2>
+            <h3 id="translation" class="translation-text">The Entirely Merciful</h3>
+            <div class="divider"></div>
+            <p id="explanation" class="explanation-text">Focus on the vast, all-encompassing mercy of Allah that brings all of creation into existence.</p>
+        </div>
+
+        <!-- Float controls, visible on hover -->
+        <div class="controls-overlay">
+            <div class="control-buttons">
+                <button id="btn-prev" class="control-btn" title="Previous Name (Left Arrow)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                        <line x1="5" y1="19" x2="5" y2="5"></line>
+                    </svg>
+                </button>
+                <button id="btn-play-pause" class="control-btn play-pause" title="Play/Pause (Spacebar)">
+                    <!-- Pause Icon -->
+                    <svg id="icon-pause" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="6" y="4" width="4" height="16"></rect>
+                        <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                    <!-- Play Icon -->
+                    <svg id="icon-play" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                </button>
+                <button id="btn-next" class="control-btn" title="Next Name (Right Arrow)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                        <line x1="19" y1="5" x2="19" y2="19"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="progress-container">
+                <div id="progress" class="progress-bar"></div>
+            </div>
+        </div>
+    </main>
+
+    <a href="/" class="back-link">← Return to Orbit</a>
+
+    <button id="btn-list" class="list-trigger">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+        </svg>
+        Explore Names
+    </button>
+
+    <!-- Modal Drawer for all 99 names -->
+    <div id="list-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">99 Names of Allah</h2>
+                <button id="btn-close-modal" class="close-btn" title="Close modal">&times;</button>
+            </div>
+            <div id="names-grid" class="names-grid">
+                <!-- Javascript will populate -->
+            </div>
+        </div>
+    </div>
+
+    <script define:vars={{ asmaulhusna }}>
+        let currentIndex = 0;
+        let isPlaying = true;
+        let displayTimeout = null;
+        let progressInterval = null;
+        let progressValue = 0;
+        
+        const DISPLAY_DURATION = 15000; // 15 seconds display time
+        const INTERVAL_STEP = 100; // 100ms updates
+        const FADE_OUT_DURATION = 1000; // 1s transition in css
+
+        const card = document.getElementById('name-display');
+        const counterEl = document.getElementById('counter');
+        const arabicEl = document.getElementById('arabic');
+        const transliterationEl = document.getElementById('transliteration');
+        const translationEl = document.getElementById('translation');
+        const explanationEl = document.getElementById('explanation');
+
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        const btnPlayPause = document.getElementById('btn-play-pause');
+        const iconPlay = document.getElementById('icon-play');
+        const iconPause = document.getElementById('icon-pause');
+        const progressBar = document.getElementById('progress');
+
+        const btnList = document.getElementById('btn-list');
+        const listModal = document.getElementById('list-modal');
+        const btnCloseModal = document.getElementById('btn-close-modal');
+        const namesGrid = document.getElementById('names-grid');
+
+        // Initialize display with index 0
+        updateDisplay(0);
+        resetTimer();
+
+        // Core display update
+        function updateDisplay(index) {
+            currentIndex = index;
+            const name = asmaulhusna[currentIndex];
+            
+            // Pad ID to two digits
+            const displayId = String(name.id).padStart(2, '0');
+            
+            counterEl.textContent = `${displayId} / 99`;
+            arabicEl.textContent = name.arabic;
+            transliterationEl.textContent = name.transliteration;
+            translationEl.textContent = name.translation;
+            explanationEl.textContent = name.explanation;
+
+            // Update modal active state
+            document.querySelectorAll('.grid-item').forEach((item, idx) => {
+                item.classList.toggle('active', idx === currentIndex);
+            });
+        }
+
+        function triggerNext() {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(10px)';
+            
+            setTimeout(() => {
+                const nextIndex = (currentIndex + 1) % asmaulhusna.length;
+                updateDisplay(nextIndex);
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+                resetTimer();
+            }, FADE_OUT_DURATION);
+        }
+
+        function triggerPrev() {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(-10px)';
+            
+            setTimeout(() => {
+                const prevIndex = (currentIndex - 1 + asmaulhusna.length) % asmaulhusna.length;
+                updateDisplay(prevIndex);
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+                resetTimer();
+            }, FADE_OUT_DURATION);
+        }
+
+        function jumpToName(index) {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                updateDisplay(index);
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1)';
+                resetTimer();
+            }, FADE_OUT_DURATION);
+        }
+
+        // Timer & Progress management
+        function resetTimer() {
+            clearInterval(progressInterval);
+            clearTimeout(displayTimeout);
+            
+            progressValue = 0;
+            progressBar.style.width = '0%';
+
+            if (!isPlaying) return;
+
+            // Start progress bar timer
+            progressInterval = setInterval(() => {
+                progressValue += (INTERVAL_STEP / DISPLAY_DURATION) * 100;
+                progressBar.style.width = Math.min(progressValue, 100) + '%';
+            }, INTERVAL_STEP);
+
+            // Wait for display duration then start fade-out
+            displayTimeout = setTimeout(() => {
+                triggerNext();
+            }, DISPLAY_DURATION);
+        }
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            if (isPlaying) {
+                iconPause.style.display = 'block';
+                iconPlay.style.display = 'none';
+                resetTimer();
+            } else {
+                iconPause.style.display = 'none';
+                iconPlay.style.display = 'block';
+                clearInterval(progressInterval);
+                clearTimeout(displayTimeout);
+                progressBar.style.width = '0%';
+            }
+        }
+
+        // Event listeners for controls
+        btnPlayPause.addEventListener('click', togglePlay);
+        btnNext.addEventListener('click', () => {
+            if (isPlaying) {
+                triggerNext();
+            } else {
+                const nextIndex = (currentIndex + 1) % asmaulhusna.length;
+                updateDisplay(nextIndex);
+            }
+        });
+        btnPrev.addEventListener('click', () => {
+            if (isPlaying) {
+                triggerPrev();
+            } else {
+                const prevIndex = (currentIndex - 1 + asmaulhusna.length) % asmaulhusna.length;
+                updateDisplay(prevIndex);
+            }
+        });
+
+        // Key listeners
+        window.addEventListener('keydown', (e) => {
+            if (listModal.classList.contains('active')) return;
+
+            if (e.code === 'Space') {
+                e.preventDefault();
+                togglePlay();
+            } else if (e.code === 'ArrowRight') {
+                e.preventDefault();
+                if (isPlaying) {
+                    triggerNext();
+                } else {
+                    updateDisplay((currentIndex + 1) % asmaulhusna.length);
+                }
+            } else if (e.code === 'ArrowLeft') {
+                e.preventDefault();
+                if (isPlaying) {
+                    triggerPrev();
+                } else {
+                    updateDisplay((currentIndex - 1 + asmaulhusna.length) % asmaulhusna.length);
+                }
+            }
+        });
+
+        // Populate and handle modal list
+        function initModal() {
+            namesGrid.innerHTML = asmaulhusna.map((name, index) => `
+                <div class="grid-item ${index === currentIndex ? 'active' : ''}" data-index="${index}">
+                    <span class="grid-num">${String(name.id).padStart(2, '0')}</span>
+                    <span class="grid-arabic">${name.arabic}</span>
+                    <span class="grid-english">${name.transliteration}</span>
+                </div>
+            `).join('');
+
+            // Click listener for grid items
+            namesGrid.querySelectorAll('.grid-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const targetIndex = parseInt(item.getAttribute('data-index'), 10);
+                    jumpToName(targetIndex);
+                    listModal.classList.remove('active');
+                });
+            });
+        }
+
+        initModal();
+
+        btnList.addEventListener('click', () => {
+            listModal.classList.add('active');
+        });
+
+        btnCloseModal.addEventListener('click', () => {
+            listModal.classList.remove('active');
+        });
+
+        listModal.addEventListener('click', (e) => {
+            if (e.target === listModal) {
+                listModal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

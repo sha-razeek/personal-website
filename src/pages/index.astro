@@ -48,16 +48,29 @@ const currentJob = resumeData[0];
 
     <!-- Bottom Section: Feature + Acquisitions -->
     <section class="grid-section bottom-composite">
-      <a href="/sakinah" class="feature-block-main">
-        <div class="feature-img-container">
-          <img src="/images/sakinah.png" alt="Sakinah" class="feature-img" />
-          <div class="feature-label-overlay">
-            <span class="feature-eyebrow">Featured</span>
-            <h3>Sakinah</h3>
-            <p class="feature-subtitle">Thoughts to Reflect on</p>
+      <div class="features-side-column">
+        <a href="/asmaulhusna" class="feature-block-main">
+          <div class="feature-img-container">
+            <img src="/images/asmaulhusna.png" alt="Asma ul Husna" class="feature-img" />
+            <div class="feature-label-overlay">
+              <span class="feature-eyebrow">Featured</span>
+              <h3>Asma ul Husna</h3>
+              <p class="feature-subtitle">99 Names of Allah</p>
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
+
+        <a href="/sakinah" class="feature-block-main">
+          <div class="feature-img-container">
+            <img src="/images/sakinah.png" alt="Sakinah" class="feature-img" />
+            <div class="feature-label-overlay">
+              <span class="feature-eyebrow">Thoughts</span>
+              <h3>Sakinah</h3>
+              <p class="feature-subtitle">Reflections & Quotes</p>
+            </div>
+          </div>
+        </a>
+      </div>
 
       <div class="acquisitions-side">
         <div class="acquisitions-header">
@@ -307,6 +320,19 @@ const currentJob = resumeData[0];
     gap: 1.5rem;
   }
 
+  .features-side-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100%;
+  }
+
+  .features-side-column .feature-block-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
   .feature-block-main {
     background: var(--accent-warm);
     border-radius: var(--radius-sm);
@@ -324,6 +350,7 @@ const currentJob = resumeData[0];
     width: 100%;
     height: 100%;
     position: relative;
+    flex: 1;
   }
 
   .feature-img {
@@ -340,8 +367,8 @@ const currentJob = resumeData[0];
 
   .feature-label-overlay {
     position: absolute;
-    bottom: 2rem;
-    left: 2rem;
+    bottom: 1.5rem;
+    left: 1.5rem;
     color: var(--color-brown);
   }
 
@@ -354,9 +381,9 @@ const currentJob = resumeData[0];
   }
 .feature-label-overlay h3 {
   font-family: var(--font-serif);
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
   text-transform: uppercase;
-  line-height: 1;
+  line-height: 1.1;
   margin: 0;
   background: linear-gradient(
     135deg, 
