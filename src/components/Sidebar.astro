@@ -27,13 +27,13 @@ const navItems = [
 <div id="nav-overlay" class="nav-overlay"></div>
 
 <!-- Menu toggle button -->
-<button id="nav-toggle" class="nav-toggle" aria-label="Toggle menu">
+<button id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navbar">
   <span class="hamburger-line"></span>
   <span class="hamburger-line"></span>
   <span class="hamburger-line"></span>
 </button>
 
-<header id="navbar" class="navbar">
+<header id="navbar" class="navbar" aria-label="Site Navigation">
   <div class="navbar-inner">
     <!-- Close button for mobile -->
     <button id="nav-close" class="nav-close" aria-label="Close menu">
@@ -262,13 +262,17 @@ const navItems = [
       padding: 5rem 1.5rem 2.5rem;
       overflow-y: auto;
       opacity: 1;
-      visibility: visible;
+      visibility: hidden;
+      pointer-events: none;
       z-index: 1100;
       display: block; /* Vertical list */
+      transition: transform var(--transition-medium), visibility var(--transition-medium);
     }
 
     .navbar.open {
       transform: translateY(0);
+      visibility: visible;
+      pointer-events: auto;
     }
 
     .navbar-inner {
@@ -338,6 +342,34 @@ const navItems = [
 </style>
 
 <script>
+  function closeNav() {
+    const navbar = document.getElementById('navbar');
+    const overlay = document.getElementById('nav-overlay');
+    const toggle = document.getElementById('nav-toggle');
+
+    if (navbar) navbar.classList.remove('open');
+    if (overlay) overlay.classList.remove('active');
+    if (toggle) {
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+    document.body.style.overflow = '';
+  }
+
+  function openNav() {
+    const navbar = document.getElementById('navbar');
+    const overlay = document.getElementById('nav-overlay');
+    const toggle = document.getElementById('nav-toggle');
+
+    if (navbar) navbar.classList.add('open');
+    if (overlay) overlay.classList.add('active');
+    if (toggle) {
+      toggle.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+    document.body.style.overflow = 'hidden';
+  }
+
   function setupNav() {
     const toggle = document.getElementById('nav-toggle');
     const close = document.getElementById('nav-close');
@@ -345,20 +377,8 @@ const navItems = [
     const overlay = document.getElementById('nav-overlay');
 
     if (!toggle || !navbar || !overlay) return;
-
-    const closeNav = () => {
-      navbar.classList.remove('open');
-      overlay.classList.remove('active');
-      toggle.classList.remove('open');
-      document.body.style.overflow = '';
-    };
-
-    const openNav = () => {
-      navbar.classList.add('open');
-      overlay.classList.add('active');
-      toggle.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    };
+    if (toggle.dataset.navBound === 'true') return;
+    toggle.dataset.navBound = 'true';
 
     toggle.addEventListener('click', () => {
       const isOpen = navbar.classList.contains('open');
@@ -371,10 +391,36 @@ const navItems = [
     }
 
     overlay.addEventListener('click', closeNav);
+
+    // Close mobile nav when clicking any nav link
+    const navLinks = navbar.querySelectorAll('.nav-link');
+    navLinks.forEach((link) => {
+      link.addEventListener('click', closeNav);
+    });
   }
 
-  // Handle initial load and view transitions
-  setupNav();
+  // Handle page load and Astro view transitions cleanly
   document.addEventListener('astro:page-load', setupNav);
-  document.addEventListener('astro:after-swap', setupNav);
+
+  // Close nav on Escape key press
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const navbar = document.getElementById('navbar');
+      if (navbar && navbar.classList.contains('open')) {
+        closeNav();
+      }
+    }
+  });
+
+  // Ensure body scroll lock is released before page transition
+  document.addEventListener('astro:before-swap', () => {
+    closeNav();
+  });
+
+  // Handle window resize back to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1024) {
+      closeNav();
+    }
+  });
 </script>
