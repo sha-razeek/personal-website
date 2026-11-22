@@ -56,7 +56,7 @@ import Layout from '../layouts/Layout.astro';
   </div>
 
   <!-- Check-in Dialog -->
-  <div class="modal-overlay" id="checkinDialog">
+  <dialog class="modern-dialog" id="checkinDialog" aria-labelledby="dialogTitle" closedby="any">
     <div class="modal-box">
       <h3 id="dialogTitle">Check In</h3>
       <p class="dialog-date" id="dialogDate"></p>
@@ -78,7 +78,7 @@ import Layout from '../layouts/Layout.astro';
         <button class="btn btn--small" id="btnCancel">Cancel</button>
       </div>
     </div>
-  </div>
+  </dialog>
 </Layout>
 
 <script>
@@ -107,7 +107,7 @@ import Layout from '../layouts/Layout.astro';
   const monthTitle = document.getElementById('monthTitle')!;
   const btnPrevMonth = document.getElementById('btnPrevMonth')!;
   const btnNextMonth = document.getElementById('btnNextMonth')!;
-  const checkinDialog = document.getElementById('checkinDialog')!;
+  const checkinDialog = document.getElementById('checkinDialog') as HTMLDialogElement;
   const dialogTitle = document.getElementById('dialogTitle')!;
   const dialogDate = document.getElementById('dialogDate')!;
   const checkinTime = document.getElementById('checkinTime') as HTMLInputElement;
@@ -231,13 +231,17 @@ import Layout from '../layouts/Layout.astro';
       btnClear.style.display = 'none';
     }
 
-    checkinDialog.classList.add('active');
+    checkinDialog.showModal();
   }
 
   function closeDialog() {
-    checkinDialog.classList.remove('active');
+    checkinDialog.close();
     selectedDate = '';
   }
+
+  checkinDialog.addEventListener('close', () => {
+    selectedDate = '';
+  });
 
   // Event Listeners
   btnPrevMonth.addEventListener('click', () => {

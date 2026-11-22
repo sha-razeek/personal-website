@@ -373,7 +373,8 @@ const navItems = [
     overlay.addEventListener('click', closeNav);
   }
 
-  // Handle both initial load and view transitions
+  // Handle initial load and view transitions
   setupNav();
+  document.addEventListener('astro:page-load', setupNav);
   document.addEventListener('astro:after-swap', setupNav);
 </script>

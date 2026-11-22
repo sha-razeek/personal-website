@@ -1,0 +1,1595 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="3D Elevation Sandbox" description="Interactive 3D WebGL topography visualizer. Explore global heights, bathymetry, and terrain deformation using real heightmaps.">
+  <div class="sandbox-container">
+    
+    <!-- 3D Canvas Viewport (Fills Container) -->
+    <div class="canvas-viewport">
+      <div class="viewport-loading" id="viewport-loading">
+        <div class="spinner"></div>
+        <span id="loading-status">Synthesizing terrain meshes...</span>
+      </div>
+      
+      <!-- Live Marker Label Overlay -->
+      <div class="marker-overlay" id="marker-overlay">
+        <div class="marker-card">
+          <span class="marker-close" id="marker-close">×</span>
+          <h4 id="marker-title">Selected Point</h4>
+          <div class="marker-stats">
+            <div><span>Coords:</span> <strong id="marker-coords">-</strong></div>
+            <div><span>Height:</span> <strong id="marker-elevation">-</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <canvas id="three-canvas"></canvas>
+      
+      <div class="canvas-hint">
+        <span>🖱️ Left-Click & Drag to Rotate</span>
+        <span>🖱️ Right-Click & Drag to Pan</span>
+        <span>Scroll to Zoom</span>
+        <span>Click on Terrain to measure elevation</span>
+      </div>
+    </div>
+
+    <!-- Floating Title Panel (Top Left) -->
+    <div class="floating-panel floating-title-card">
+      <a href="/experiments" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Lab Experiments
+      </a>
+      <h1 class="sandbox-title">Elevation <span>3D</span></h1>
+      <p class="sandbox-meta">ASTER GDEM Visualizer</p>
+    </div>
+
+    <!-- Floating HUD Display (Top Center) -->
+    <div class="floating-hud">
+      <div class="hud-item">
+        <span class="hud-label">LATITUDE</span>
+        <span class="hud-value" id="hud-lat">27.9881° N</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">LONGITUDE</span>
+        <span class="hud-value" id="hud-lon">86.9250° E</span>
+      </div>
+      <div class="hud-item highlight">
+        <span class="hud-label">ELEVATION</span>
+        <span class="hud-value" id="hud-ele">8,848 m</span>
+      </div>
+    </div>
+
+    <!-- Floating Controls Panel (Right Column) -->
+    <div class="floating-controls-panel">
+      
+      <!-- View & Mesh Setup -->
+      <div class="control-section">
+        <h3 class="section-title">Projection & Mesh</h3>
+        
+        <div class="control-group">
+          <label>Projection Mode</label>
+          <div class="btn-group">
+            <button class="btn btn--small" id="btn-mode-globe">3D Globe</button>
+            <button class="btn btn--small active" id="btn-mode-flat">Flat Map</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label>Mesh Resolution</label>
+          <div class="btn-group">
+            <button class="btn btn--small" id="btn-res-low">Low</button>
+            <button class="btn btn--small active" id="btn-res-med">Standard</button>
+            <button class="btn btn--small" id="btn-res-high">Detailed (512²)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Render Styles -->
+      <div class="control-section">
+        <h3 class="section-title">Surface Styling</h3>
+
+        <div class="control-group">
+          <label>Color Mapping</label>
+          <select class="control-select" id="select-style">
+            <option value="topography">Topographic Choropleth</option>
+            <option value="satellite">Natural Satellite (NASA)</option>
+            <option value="cyber">Blueprint Contour Grid</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <div class="slider-header">
+            <label>Elevation Exaggeration</label>
+            <span id="label-exaggeration">5.0x</span>
+          </div>
+          <input type="range" class="control-slider" id="slider-exaggeration" min="0" max="15" step="0.5" value="5.0" />
+        </div>
+
+        <div class="control-group">
+          <div class="slider-header">
+            <label>Solar Position (Shadows)</label>
+            <span id="label-sun">12:00</span>
+          </div>
+          <input type="range" class="control-slider" id="slider-sun" min="0" max="360" value="135" />
+        </div>
+
+        <div class="control-group row">
+          <label for="check-rotate">Earth Rotation</label>
+          <input type="checkbox" class="control-checkbox" id="check-rotate" />
+        </div>
+      </div>
+
+      <!-- Landmarks Explorer -->
+      <div class="control-section">
+        <h3 class="section-title">Famous Landmarks</h3>
+        <p class="section-desc">Fly the camera to major elevation anomalies on Earth:</p>
+        
+        <div class="landmarks-list">
+          <button class="landmark-btn active" data-lat="27.9881" data-lon="86.9250" data-ele="8848" data-ex="8" data-name="Mount Everest" data-desc="Highest point above sea level on Earth, situated in the Himalayas.">
+            ⛰️ Mt. Everest (8,848m)
+          </button>
+          <button class="landmark-btn" data-lat="11.3733" data-lon="142.5911" data-ele="0" data-ex="12" data-name="Mariana Trench" data-desc="The Challenger Deep, deepest known point in Earth's seabed. (Rendered flat at sea level).">
+            🌊 Mariana Trench (Flat Sea)
+          </button>
+          <button class="landmark-btn" data-lat="36.0544" data-lon="-112.1401" data-ele="2200" data-ex="9" data-name="Grand Canyon" data-desc="Immense, steep-sided canyon carved by the Colorado River in Arizona.">
+            🏜️ Grand Canyon (~2,200m)
+          </button>
+          <button class="landmark-btn" data-lat="-3.0674" data-lon="37.3556" data-ele="5895" data-ex="9" data-name="Mt. Kilimanjaro" data-desc="A dormant volcano, the highest single free-standing mountain in the world.">
+            🌋 Mt. Kilimanjaro (5,895m)
+          </button>
+          <button class="landmark-btn" data-lat="31.5000" data-lon="35.5000" data-ele="0" data-ex="6" data-name="The Dead Sea" data-desc="The lowest land elevation on Earth. (Rendered flat at sea level).">
+            🧂 The Dead Sea (Flat Sea)
+          </button>
+          <button class="landmark-btn" data-lat="-32.6532" data-lon="-70.0109" data-ele="6961" data-ex="8" data-name="Aconcagua" data-desc="Highest mountain peak in both the Southern and Western Hemispheres (Andes).">
+            🏔️ Aconcagua (6,961m)
+          </button>
+        </div>
+
+        <div class="landmark-info-box" id="landmark-info-box" style="display: none;">
+          <h4 id="landmark-name">Landmark Name</h4>
+          <p id="landmark-desc">Description will appear here when you fly to the location.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</Layout>
+
+<script>
+  import * as THREE from 'three';
+  import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+  // --- Constants & Global State ---
+  let scene, camera, renderer, controls;
+  let earthMesh, waterMesh, borderMesh;
+  let sunLight;
+  let activeGeometry = 'flat';  // Start with Flat Map
+  let activeResolution = 256;   // 128, 256, 512
+  let activeStyle = 'topography'; // Start with Topography choropleth
+  
+  // Texture holders
+  let imgColor, imgBump, imgSpecular;
+  let texColorModified, texBumpModified, texTopo, texSpecular;
+  
+  let heightData = null;
+  let heightImgWidth = 0;
+  let heightImgHeight = 0;
+  let specularData = null;
+
+  // Render & Animation Control
+  let isRotating = false; // Start static for zoomed-in flat view
+  let exaggeration = 5.0; // scale multiplier for 3D displacement
+  
+  // Camera Target Interpolation
+  let targetCamPos = null;
+  let targetLookAt = null;
+  let flightProgress = 0;
+  const flightDuration = 60; // frames (~1s)
+
+  // Interactive Marker Pin
+  let pinMesh;
+  let initialized = false;
+
+  // --- Initialize App ---
+  async function init() {
+    if (initialized) return;
+    
+    const canvas = document.getElementById('three-canvas');
+    if (!canvas) {
+      console.warn("Canvas element not found. Skipping 3D initialization.");
+      return;
+    }
+    
+    initialized = true;
+    console.log("Initializing 3D Elevation Sandbox...");
+
+    try {
+      // Setup WebGL Scene
+      setupScene(canvas);
+      setupLights();
+      setupInteractiveMarker();
+      
+      // Load raw images using robust browser Image loader
+      updateLoadingStatus('Downloading Earth elevation topography datasets...');
+      await loadImages();
+      
+      // Process height maps & color maps synchronously from memory
+      updateLoadingStatus('Synthesizing light-themed topography models...');
+      buildElevationArray();
+      buildSpecularArray();
+      buildTopographicTexture();
+      buildModifiedColorTexture();
+      buildModifiedBumpTexture();
+      
+      updateLoadingStatus('Generating 3D relief model...');
+      createMesh();
+      
+      // Position camera zoomed in on Mount Everest at start
+      // Everest flat map coordinates: x ~ 3.86, z ~ -1.24
+      camera.position.set(3.86, 1.8, 1.2);
+      controls.target.set(3.86, 0.2, -1.24);
+      controls.update();
+
+      // Place initial pin on Mount Everest
+      placePinAtCoords(27.9881, 86.9250);
+      updateHUD(27.9881, 86.9250, 8848);
+
+      // Display initial landmark card
+      const infoBox = document.getElementById('landmark-info-box');
+      if (infoBox) {
+        document.getElementById('landmark-name').innerText = "Mount Everest";
+        document.getElementById('landmark-desc').innerText = "Highest point above sea level on Earth, situated in the Himalayas.";
+        infoBox.style.display = 'block';
+      }
+
+      // Hide loading spinner
+      const loaderEl = document.getElementById('viewport-loading');
+      if (loaderEl) loaderEl.style.display = 'none';
+      
+      // Setup UI Listeners
+      setupUIListeners();
+      
+      // Start loop
+      animate();
+    } catch (err) {
+      console.error("Initialization error:", err);
+      initialized = false; // Reset on failure so we can try again
+      
+      const loadingText = document.getElementById('loading-status');
+      if (loadingText) {
+        loadingText.innerHTML = `<span style="color: #d05e3c; font-weight: bold;">Initialization Failed</span><br><span style="font-size: 0.8rem; color: #5a5752;">${err.message}</span><br><span style="font-size: 0.75rem; color: #a3a198; display: block; margin-top: 5px;">See browser console for details.</span>`;
+      }
+      const spinner = document.getElementById('viewport-loading')?.querySelector('.spinner');
+      if (spinner) {
+        spinner.style.borderTopColor = '#d05e3c';
+        spinner.style.animationPlayState = 'paused';
+      }
+    }
+  }
+
+  // --- Scene / Camera / Renderer Setup ---
+  function setupScene(canvas) {
+    const container = document.querySelector('.canvas-viewport');
+    
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color('#95c5e0'); // Prominent blue ocean paper background
+    
+    camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(0, 0, 16);
+    
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.minDistance = 1.5; // allow closer zoom
+    controls.maxDistance = 35;
+    controls.enablePan = true;
+    
+    window.addEventListener('resize', onWindowResize);
+  }
+
+  // --- Lights Setup ---
+  function setupLights() {
+    // Brighter Ambient Light for a clean light-themed paper look
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+    
+    // Oblique sun light to cast long, dramatic relief shadows
+    sunLight = new THREE.DirectionalLight(0xffffff, 2.2);
+    sunLight.position.set(10, 8, 10);
+    sunLight.castShadow = true;
+    
+    // Shadow settings
+    sunLight.shadow.mapSize.width = 2048;
+    sunLight.shadow.mapSize.height = 2048;
+    sunLight.shadow.bias = -0.0003;
+    
+    scene.add(sunLight);
+    
+    // Soft fill light from opposite angle to brighten shaded valleys
+    const fillLight = new THREE.DirectionalLight(0xd9e5ff, 0.45);
+    fillLight.position.set(-10, 5, -10);
+    scene.add(fillLight);
+  }
+
+  // --- Interactive Pin Setup ---
+  function setupInteractiveMarker() {
+    // A small glowing point marker to show selection
+    const pinGeo = new THREE.SphereGeometry(0.04, 16, 16);
+    
+    const pinMat = new THREE.MeshBasicMaterial({ 
+      color: 0xff3b30, 
+      depthTest: false,
+      transparent: true,
+      opacity: 0.95
+    });
+    
+    pinMesh = new THREE.Mesh(pinGeo, pinMat);
+    pinMesh.visible = false;
+    pinMesh.renderOrder = 999;
+    scene.add(pinMesh);
+  }
+
+  // --- Image Loader (Promise-based, extremely robust) ---
+  function loadImage(url) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous'; // Avoid canvas security issues
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error(`Failed to load texture at ${url}`));
+      img.src = url;
+    });
+  }
+
+  async function loadImages() {
+    imgColor = await loadImage('/images/experiments/earth-color.jpg');
+    imgBump = await loadImage('/images/experiments/earth-bump.jpg');
+    imgSpecular = await loadImage('/images/experiments/earth-specular.jpg');
+    
+    // Create specular texture
+    texSpecular = new THREE.CanvasTexture(imgSpecular);
+  }
+
+  // Helper to update loading status
+  function updateLoadingStatus(text) {
+    const status = document.getElementById('loading-status');
+    if (status) status.innerText = text;
+  }
+
+  // --- Heightmap Processing & Modified Textures Generation ---
+  
+  // Read height image into a memory canvas to fetch heights quickly via JS
+  function buildElevationArray() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1024;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(imgBump, 0, 0, 1024, 512);
+    
+    const imgData = ctx.getImageData(0, 0, 1024, 512);
+    heightData = imgData.data;
+    heightImgWidth = 1024;
+    heightImgHeight = 512;
+  }
+
+  // Read specular image into a memory canvas to identify oceans via JS
+  function buildSpecularArray() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1024;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(imgSpecular, 0, 0, 1024, 512);
+    
+    const imgData = ctx.getImageData(0, 0, 1024, 512);
+    specularData = imgData.data;
+  }
+
+  // Fetch height (0-255) from UV coordinates
+  function getHeightFromUV(u, v) {
+    if (!heightData) return 0;
+    
+    u = Math.max(0, Math.min(1, u));
+    v = Math.max(0, Math.min(1, v));
+    
+    const x = Math.floor(u * (heightImgWidth - 1));
+    const y = Math.floor((1 - v) * (heightImgHeight - 1)); // Invert Y
+    
+    const idx = (y * heightImgWidth + x) * 4;
+    
+    // If specular map indicates water (specular value > 10), return 0 elevation (flatten ocean)
+    const isOcean = specularData ? (specularData[idx] > 10) : false;
+    if (isOcean) return 0;
+    
+    return heightData[idx];
+  }
+
+  // Build heightmap with a cliff baseline step on land to cast sharp shadows on flat water
+  function buildModifiedBumpTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1024;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.drawImage(imgBump, 0, 0, 1024, 512);
+    const imgData = ctx.getImageData(0, 0, 1024, 512);
+    const data = imgData.data;
+    
+    for (let i = 0; i < data.length; i += 4) {
+      const h = data[i];
+      const isOcean = specularData ? (specularData[i] > 10) : false;
+      if (!isOcean && h > 0) {
+        // Land: add a baseline step of 18 and scale remaining
+        data[i] = Math.min(255, 18 + h * 0.9);
+        data[i + 1] = data[i];
+        data[i + 2] = data[i];
+      } else {
+        // Ocean: completely flat 0
+        data[i] = 0;
+        data[i + 1] = 0;
+        data[i + 2] = 0;
+      }
+    }
+    
+    ctx.putImageData(imgData, 0, 0);
+    texBumpModified = new THREE.CanvasTexture(canvas);
+  }
+
+  // Build color texture with flat, bright blue oceans (Satellite mode)
+  function buildModifiedColorTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1024;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.drawImage(imgColor, 0, 0, 1024, 512);
+    const imgData = ctx.getImageData(0, 0, 1024, 512);
+    const data = imgData.data;
+    
+    for (let i = 0; i < data.length; i += 4) {
+      const isOcean = specularData ? (specularData[i] > 10) : false;
+      if (isOcean) {
+        // Flat prominent blue ocean
+        data[i] = 120;
+        data[i + 1] = 178;
+        data[i + 2] = 214;
+      }
+    }
+    
+    ctx.putImageData(imgData, 0, 0);
+    texColorModified = new THREE.CanvasTexture(canvas);
+    texColorModified.colorSpace = THREE.SRGBColorSpace;
+  }
+
+  // Build bright topographic color map (matches Sri Lanka reference image)
+  function buildTopographicTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1024;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.drawImage(imgBump, 0, 0, 1024, 512);
+    const imgData = ctx.getImageData(0, 0, 1024, 512);
+    const data = imgData.data;
+    
+    for (let i = 0; i < data.length; i += 4) {
+      const h = data[i]; // original height value (0-255)
+      const isOcean = specularData ? (specularData[i] > 10) : false;
+      
+      let r, g, b;
+      
+      if (isOcean) {
+        // Flat prominent blue paper ocean
+        r = 120; g = 178; b = 214;
+      } else {
+        if (h < 15) {
+          // Coast / Sandy Beaches: Warm cream
+          const t = h / 15;
+          r = lerp(242, 235, t);
+          g = lerp(235, 222, t);
+          b = lerp(215, 195, t);
+        } else if (h < 60) {
+          // Lowlands: Soft bright pasture green
+          const t = (h - 15) / 45;
+          r = lerp(235, 145, t);
+          g = lerp(222, 182, t);
+          b = lerp(195, 118, t);
+        } else if (h < 120) {
+          // Mid Hills: Olive-yellow-green
+          const t = (h - 60) / 60;
+          r = lerp(145, 205, t);
+          g = lerp(182, 190, t);
+          b = lerp(118, 120, t);
+        } else if (h < 190) {
+          // Mountains: Warm terracotta orange-brown
+          const t = (h - 120) / 70;
+          r = lerp(205, 175, t);
+          g = lerp(190, 120, t);
+          b = lerp(120, 80, t);
+        } else {
+          // Alpine peaks: Deep chocolate reddish-brown
+          const t = (h - 190) / 65;
+          r = lerp(175, 105, t);
+          g = lerp(120, 65, t);
+          b = lerp(80, 45, t);
+        }
+      }
+      
+      data[i] = r;
+      data[i + 1] = g;
+      data[i + 2] = b;
+    }
+    
+    ctx.putImageData(imgData, 0, 0);
+    texTopo = new THREE.CanvasTexture(canvas);
+    texTopo.colorSpace = THREE.SRGBColorSpace;
+  }
+
+  function lerp(start, end, amt) {
+    return (1 - amt) * start + amt * end;
+  }
+
+  // --- Mesh Building ---
+  function createMesh() {
+    // Remove existing meshes from scene
+    if (earthMesh) scene.remove(earthMesh);
+    if (waterMesh) scene.remove(waterMesh);
+    if (borderMesh) scene.remove(borderMesh);
+    
+    // Update scene background depending on active style
+    if (activeStyle === 'cyber') {
+      scene.background = new THREE.Color('#f0f4f8'); // Architectural blueprint white
+    } else {
+      scene.background = new THREE.Color('#95c5e0'); // Prominent blue ocean paper
+    }
+    
+    // Create base material
+    let matProps = {
+      displacementMap: texBumpModified,
+      displacementScale: activeGeometry === 'globe' ? (exaggeration * 0.04) : (exaggeration * 0.4),
+      displacementBias: 0.0,
+      roughness: 0.85, // Matte paper look
+      metalness: 0.02,
+      bumpMap: texBumpModified,
+      bumpScale: 0.02,
+    };
+    
+    // Select style variables
+    if (activeStyle === 'satellite') {
+      matProps.map = texColorModified;
+      matProps.specularMap = texSpecular;
+      matProps.wireframe = false;
+      matProps.color = new THREE.Color(0xffffff);
+    } else if (activeStyle === 'topography') {
+      matProps.map = texTopo || texColorModified;
+      matProps.wireframe = false;
+      matProps.color = new THREE.Color(0xffffff);
+    } else if (activeStyle === 'cyber') {
+      matProps.map = null;
+      matProps.specularMap = null;
+      matProps.wireframe = true;
+      matProps.color = new THREE.Color('#2e6ca4'); // Blueprint blue
+    }
+    
+    const material = new THREE.MeshStandardMaterial(matProps);
+    
+    if (activeGeometry === 'globe') {
+      // 3D GLOBE MODE
+      const geometry = new THREE.SphereGeometry(4.5, activeResolution, activeResolution);
+      
+      earthMesh = new THREE.Mesh(geometry, material);
+      earthMesh.castShadow = true;
+      earthMesh.receiveShadow = true;
+      scene.add(earthMesh);
+      
+      // Flat ocean water sphere
+      if (activeStyle !== 'cyber') {
+        const waterGeo = new THREE.SphereGeometry(4.52, 64, 64); // Increased radius to prevent z-fighting
+        const waterMat = new THREE.MeshStandardMaterial({
+          color: 0x78b2d6, // Matches prominent blue ocean paper
+          roughness: 0.4,
+          metalness: 0.1,
+          transparent: true,
+          opacity: 0.7,
+          polygonOffset: true,
+          polygonOffsetFactor: -1,
+          polygonOffsetUnits: -2
+        });
+        waterMesh = new THREE.Mesh(waterGeo, waterMat);
+        scene.add(waterMesh);
+      }
+      
+      controls.target.set(0, 0, 0);
+      
+    } else {
+      // FLAT MAP MODE
+      const geometry = new THREE.PlaneGeometry(16, 8, activeResolution, activeResolution);
+      
+      earthMesh = new THREE.Mesh(geometry, material);
+      earthMesh.rotation.x = -Math.PI / 2;
+      earthMesh.position.y = 0.2; // raise slightly above border
+      earthMesh.castShadow = true;
+      earthMesh.receiveShadow = true;
+      scene.add(earthMesh);
+      
+      // Sea level plane (transparent flat blue plane)
+      if (activeStyle !== 'cyber') {
+        const waterGeo = new THREE.PlaneGeometry(16, 8, 2, 2);
+        const waterMat = new THREE.MeshStandardMaterial({
+          color: 0x78b2d6, // Matches prominent blue ocean paper
+          roughness: 0.45,
+          metalness: 0.1,
+          transparent: true,
+          opacity: 0.75,
+          polygonOffset: true,
+          polygonOffsetFactor: -1,
+          polygonOffsetUnits: -2
+        });
+        waterMesh = new THREE.Mesh(waterGeo, waterMat);
+        waterMesh.rotation.x = -Math.PI / 2;
+        waterMesh.position.y = 0.25; // Raised slightly more to prevent z-fighting
+        scene.add(waterMesh);
+      }
+      
+      // Light birch base board
+      const borderGeo = new THREE.BoxGeometry(16.5, 0.4, 8.5);
+      const borderMat = new THREE.MeshStandardMaterial({
+        color: 0xe6dfd3, // Light birch wood
+        roughness: 0.9,
+        metalness: 0.05
+      });
+      borderMesh = new THREE.Mesh(borderGeo, borderMat);
+      borderMesh.position.y = 0;
+      borderMesh.receiveShadow = true;
+      scene.add(borderMesh);
+    }
+    
+    // Hide pin when rebuilding
+    if (pinMesh) pinMesh.visible = false;
+    const overlay = document.getElementById('marker-overlay');
+    if (overlay) overlay.style.display = 'none';
+  }
+
+  // --- Animation Loop ---
+  function animate() {
+    const canvas = document.getElementById('three-canvas');
+    if (!canvas) {
+      // Canvas was removed from DOM (navigated away), stop loop to prevent leak
+      console.log("Canvas not in DOM. Stopping render loop.");
+      initialized = false;
+      return;
+    }
+    
+    requestAnimationFrame(animate);
+    
+    // Smooth camera flight translation
+    if (targetCamPos && targetLookAt) {
+      flightProgress++;
+      const t = flightProgress / flightDuration;
+      
+      camera.position.lerpVectors(camera.position, targetCamPos, 0.08);
+      controls.target.lerpVectors(controls.target, targetLookAt, 0.08);
+      
+      if (flightProgress >= flightDuration || camera.position.distanceTo(targetCamPos) < 0.03) {
+        camera.position.copy(targetCamPos);
+        controls.target.copy(targetLookAt);
+        targetCamPos = null;
+        targetLookAt = null;
+      }
+    }
+    
+    // Auto Rotation
+    if (isRotating && !targetCamPos) {
+      if (activeGeometry === 'globe' && earthMesh) {
+        earthMesh.rotation.y += 0.0015;
+        if (waterMesh) waterMesh.rotation.y += 0.0015;
+      }
+    }
+    
+    controls.update();
+    renderer.render(scene, camera);
+  }
+
+  // --- Raycasting (Interactivity on Click) ---
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+
+  function onTerrainClick(event) {
+    if (event.target.id !== 'three-canvas') return;
+    
+    const rect = renderer.domElement.getBoundingClientRect();
+    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    
+    raycaster.setFromCamera(mouse, camera);
+    
+    const intersects = raycaster.intersectObject(earthMesh);
+    if (intersects.length > 0) {
+      const hit = intersects[0];
+      const uv = hit.uv;
+      
+      const lon = uv.x * 360 - 180;
+      const lat = uv.y * 180 - 90;
+      
+      // Retrieve original height (unmodified by coast baseline step)
+      const heightVal = getHeightFromUV(uv.x, uv.y);
+      const elevation = heightVal * (8848 / 255); // Mt Everest calibration
+      
+      // Remove active from landmark list buttons
+      document.querySelectorAll('.landmark-btn').forEach(b => b.classList.remove('active'));
+      const infoBox = document.getElementById('landmark-info-box');
+      if (infoBox) infoBox.style.display = 'none';
+
+      // Place Pin Marker
+      if (pinMesh) {
+        pinMesh.position.copy(hit.point);
+        pinMesh.lookAt(hit.point.clone().add(hit.face.normal));
+        pinMesh.visible = true;
+      }
+      
+      // Stop Earth rotation
+      isRotating = false;
+      const rotateCheck = document.getElementById('check-rotate');
+      if (rotateCheck) rotateCheck.checked = false;
+      
+      // Update overlay marker card
+      displayMarkerOverlay(lat, lon, elevation);
+    }
+  }
+
+  function displayMarkerOverlay(lat, lon, elevation) {
+    const overlay = document.getElementById('marker-overlay');
+    const title = document.getElementById('marker-title');
+    const coords = document.getElementById('marker-coords');
+    const ele = document.getElementById('marker-elevation');
+    
+    if (title) title.innerText = "Target Coordinate Locked";
+    if (coords) coords.innerText = `${Math.abs(lat).toFixed(4)}° ${lat >= 0 ? 'N' : 'S'}, ${Math.abs(lon).toFixed(4)}° ${lon >= 0 ? 'E' : 'W'}`;
+    
+    if (ele) {
+      if (elevation === 0) {
+        ele.innerText = `Sea Level (Flat Ocean Floor)`;
+      } else {
+        ele.innerText = `${Math.round(elevation).toLocaleString()} m (${Math.round(elevation * 3.28084).toLocaleString()} ft)`;
+      }
+    }
+    
+    if (overlay) overlay.style.display = 'block';
+    
+    // Live update HUD as well
+    updateHUD(lat, lon, elevation);
+  }
+
+  function updateHUD(lat, lon, elevation) {
+    const latEl = document.getElementById('hud-lat');
+    const lonEl = document.getElementById('hud-lon');
+    const eleEl = document.getElementById('hud-ele');
+    
+    if (latEl) latEl.innerText = `${Math.abs(lat).toFixed(4)}° ${lat >= 0 ? 'N' : 'S'}`;
+    if (lonEl) lonEl.innerText = `${Math.abs(lon).toFixed(4)}° ${lon >= 0 ? 'E' : 'W'}`;
+    if (eleEl) eleEl.innerText = elevation === 0 ? "Sea Level" : `${Math.round(elevation).toLocaleString()} m`;
+  }
+
+  // --- UI Listener Bindings (Safe DOM Helper) ---
+  const addListener = (id, event, callback) => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener(event, callback);
+  };
+
+  function setupUIListeners() {
+    window.addEventListener('click', onTerrainClick);
+    
+    addListener('marker-close', 'click', () => {
+      const overlay = document.getElementById('marker-overlay');
+      if (overlay) overlay.style.display = 'none';
+      if (pinMesh) pinMesh.visible = false;
+    });
+
+    addListener('check-rotate', 'change', (e) => {
+      isRotating = e.target.checked;
+    });
+    
+    addListener('btn-mode-globe', 'click', () => {
+      if (activeGeometry === 'globe') return;
+      activeGeometry = 'globe';
+      document.getElementById('btn-mode-globe')?.classList.add('active');
+      document.getElementById('btn-mode-flat')?.classList.remove('active');
+      rebuildModel();
+      
+      targetLookAt = new THREE.Vector3(0, 0, 0);
+      targetCamPos = new THREE.Vector3(0, 0, 14);
+      flightProgress = 0;
+    });
+    
+    addListener('btn-mode-flat', 'click', () => {
+      if (activeGeometry === 'flat') return;
+      activeGeometry = 'flat';
+      document.getElementById('btn-mode-flat')?.classList.add('active');
+      document.getElementById('btn-mode-globe')?.classList.remove('active');
+      rebuildModel();
+      
+      targetLookAt = new THREE.Vector3(0, 0.2, 0);
+      targetCamPos = new THREE.Vector3(0, 8, 8);
+      flightProgress = 0;
+    });
+
+    addListener('btn-res-low', 'click', () => {
+      if (activeResolution === 128) return;
+      activeResolution = 128;
+      updateResUI('btn-res-low', 'btn-res-med', 'btn-res-high');
+      rebuildModel();
+    });
+    addListener('btn-res-med', 'click', () => {
+      if (activeResolution === 256) return;
+      activeResolution = 256;
+      updateResUI('btn-res-med', 'btn-res-low', 'btn-res-high');
+      rebuildModel();
+    });
+    addListener('btn-res-high', 'click', () => {
+      if (activeResolution === 512) return;
+      activeResolution = 512;
+      updateResUI('btn-res-high', 'btn-res-low', 'btn-res-med');
+      rebuildModel();
+    });
+
+    addListener('select-style', 'change', (e) => {
+      activeStyle = e.target.value;
+      rebuildModel();
+    });
+
+    addListener('slider-exaggeration', 'input', (e) => {
+      exaggeration = parseFloat(e.target.value);
+      const label = document.getElementById('label-exaggeration');
+      if (label) label.innerText = `${exaggeration.toFixed(1)}x`;
+      
+      if (earthMesh) {
+        earthMesh.material.displacementScale = activeGeometry === 'globe' ? (exaggeration * 0.04) : (exaggeration * 0.4);
+      }
+    });
+
+    addListener('slider-sun', 'input', (e) => {
+      const angle = parseInt(e.target.value);
+      const rad = angle * (Math.PI / 180);
+      
+      if (sunLight) {
+        sunLight.position.x = 12 * Math.cos(rad);
+        sunLight.position.z = 12 * Math.sin(rad);
+      }
+      
+      const label = document.getElementById('label-sun');
+      if (label) {
+        let hours = Math.floor((angle / 360) * 24 + 6) % 24;
+        label.innerText = `${hours.toString().padStart(2, '0')}:00`;
+      }
+    });
+
+    document.querySelectorAll('.landmark-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const lat = parseFloat(btn.dataset.lat);
+        const lon = parseFloat(btn.dataset.lon);
+        const ele = parseFloat(btn.dataset.ele);
+        const ex = parseFloat(btn.dataset.ex);
+        const name = btn.dataset.name;
+        const desc = btn.dataset.desc;
+        
+        document.querySelectorAll('.landmark-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        isRotating = false;
+        const rotateCheck = document.getElementById('check-rotate');
+        if (rotateCheck) rotateCheck.checked = false;
+        
+        const sliderEx = document.getElementById('slider-exaggeration');
+        if (sliderEx) sliderEx.value = ex;
+        exaggeration = ex;
+        
+        const labelEx = document.getElementById('label-exaggeration');
+        if (labelEx) labelEx.innerText = `${ex.toFixed(1)}x`;
+        
+        if (earthMesh) {
+          earthMesh.material.displacementScale = activeGeometry === 'globe' ? (exaggeration * 0.04) : (exaggeration * 0.4);
+        }
+        
+        flyToCoordinates(lat, lon);
+        
+        const infoBox = document.getElementById('landmark-info-box');
+        if (infoBox) {
+          document.getElementById('landmark-name').innerText = name;
+          document.getElementById('landmark-desc').innerText = desc;
+          infoBox.style.display = 'block';
+        }
+        
+        updateHUD(lat, lon, ele);
+        placePinAtCoords(lat, lon);
+      });
+    });
+  }
+
+  function updateResUI(activeId, opt1Id, opt2Id) {
+    document.getElementById(activeId)?.classList.add('active');
+    document.getElementById(opt1Id)?.classList.remove('active');
+    document.getElementById(opt2Id)?.classList.remove('active');
+  }
+
+  function rebuildModel() {
+    const loading = document.getElementById('viewport-loading');
+    if (loading) loading.style.display = 'flex';
+    
+    setTimeout(() => {
+      createMesh();
+      if (loading) loading.style.display = 'none';
+    }, 50);
+  }
+
+  // --- Coordinates Flight Animation ---
+  function flyToCoordinates(lat, lon) {
+    if (earthMesh) {
+      earthMesh.rotation.y = 0;
+      if (waterMesh) waterMesh.rotation.y = 0;
+    }
+    
+    if (activeGeometry === 'globe') {
+      const radius = 4.5;
+      const phi = (90 - lat) * (Math.PI / 180);
+      const theta = (lon + 180) * (Math.PI / 180);
+      
+      const x = -(radius * Math.sin(phi) * Math.sin(theta));
+      const y = radius * Math.cos(phi);
+      const z = radius * Math.sin(phi) * Math.cos(theta);
+      
+      const targetPosOnSphere = new THREE.Vector3(x, y, z);
+      const normal = targetPosOnSphere.clone().normalize();
+      
+      targetCamPos = normal.clone().multiplyScalar(9.0);
+      targetLookAt = new THREE.Vector3(0, 0, 0);
+      flightProgress = 0;
+    } else {
+      const u = (lon + 180) / 360;
+      const v = (lat + 90) / 180;
+      
+      const x = u * 16 - 8;
+      const z = -(v * 8 - 4);
+      
+      const heightVal = getHeightFromUV(u, v);
+      const baseStep = heightVal > 0 ? 18 : 0;
+      const displacement = (baseStep + heightVal * 0.9) * (exaggeration * 0.4) * (1.0 / 255);
+
+      targetLookAt = new THREE.Vector3(x, 0.2 + displacement, z);
+      targetCamPos = new THREE.Vector3(x, 1.8 + displacement, z + 1.2); 
+      flightProgress = 0;
+    }
+  }
+
+  function placePinAtCoords(lat, lon) {
+    const u = (lon + 180) / 360;
+    const v = (lat + 90) / 180;
+
+    if (activeGeometry === 'globe') {
+      const radius = 4.5;
+      const phi = (90 - lat) * (Math.PI / 180);
+      const theta = (lon + 180) * (Math.PI / 180);
+      
+      const x = -(radius * Math.sin(phi) * Math.sin(theta));
+      const y = radius * Math.cos(phi);
+      const z = radius * Math.sin(phi) * Math.cos(theta);
+      
+      const pt = new THREE.Vector3(x, y, z);
+      const normal = pt.clone().normalize();
+      
+      const heightVal = getHeightFromUV(u, v);
+      const baseStep = heightVal > 0 ? 18 : 0;
+      const displacement = (baseStep + heightVal * 0.9) * (exaggeration * 0.04) * (1.0 / 255);
+      
+      const displacedPt = pt.clone().add(normal.multiplyScalar(displacement));
+      
+      if (pinMesh) {
+        pinMesh.position.copy(displacedPt);
+        pinMesh.lookAt(displacedPt.clone().add(normal));
+        pinMesh.visible = true;
+      }
+    } else {
+      const x = u * 16 - 8;
+      const z = -(v * 8 - 4);
+      
+      const heightVal = getHeightFromUV(u, v);
+      const baseStep = heightVal > 0 ? 18 : 0;
+      const displacement = (baseStep + heightVal * 0.9) * (exaggeration * 0.4) * (1.0 / 255);
+      
+      const pt = new THREE.Vector3(x, 0.2 + displacement, z);
+      
+      if (pinMesh) {
+        pinMesh.position.copy(pt);
+        pinMesh.lookAt(pt.clone().add(new THREE.Vector3(0, 1, 0)));
+        pinMesh.visible = true;
+      }
+    }
+  }
+
+  function onWindowResize() {
+    const container = document.querySelector('.canvas-viewport');
+    if (!container || !camera || !renderer) return;
+    
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+    
+    renderer.setSize(container.clientWidth, container.clientHeight);
+  }
+
+  // --- Astro Page-Load &DOM Integration ---
+  function startSandbox() {
+    init();
+  }
+
+  // Support direct page visits & DOM loads
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    startSandbox();
+  } else {
+    document.addEventListener('DOMContentLoaded', startSandbox);
+  }
+
+  // Support Astro View Transitions page swaps
+  document.addEventListener('astro:page-load', startSandbox);
+</script>
+
+<style>
+  /* --- Astro Global Layout Overrides (Force Full-Screen) --- */
+  :global(.main-content) {
+    padding: 0 !important;
+    max-width: 100% !important;
+    height: calc(100vh - 80px) !important;
+    margin-top: 80px !important;
+    overflow: hidden;
+  }
+  
+  :global(.main-content .content-wrapper) {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100%;
+  }
+
+  :global(.app-layout) {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  :global(body) {
+    overflow: hidden;
+  }
+
+  /* --- Full Screen Sandbox Layout --- */
+  .sandbox-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    color: var(--text-primary);
+  }
+
+  /* Canvas Viewport */
+  .canvas-viewport {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: #95c5e0; /* Prominent blue water background matching layout */
+    z-index: 1;
+  }
+
+  #three-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: grab;
+  }
+
+  #three-canvas:active {
+    cursor: grabbing;
+  }
+
+  /* Loading Spinner */
+  .viewport-loading {
+    position: absolute;
+    inset: 0;
+    background: rgba(248, 246, 242, 0.98);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    z-index: 100;
+  }
+
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid rgba(74, 48, 32, 0.05);
+    border-top: 3px solid var(--accent-secondary);
+    border-radius: 50%;
+    animation: atomicSpin 1s linear infinite;
+  }
+
+  .viewport-loading span {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  /* Hint Overlay */
+  .canvas-hint {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .canvas-hint span {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    background: rgba(248, 246, 242, 0.8);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(74, 48, 32, 0.12);
+    color: var(--text-secondary);
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--radius-sm);
+    width: max-content;
+  }
+
+  /* --- Floating Light-Themed Glassmorphic Panels --- */
+  .floating-panel {
+    position: absolute;
+    background: rgba(248, 246, 242, 0.88);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(74, 48, 32, 0.15);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    z-index: 10;
+    box-shadow: 0 8px 32px rgba(74, 48, 32, 0.08);
+  }
+
+  /* Floating Title Card (Top Left) */
+  .floating-title-card {
+    top: 1.5rem;
+    left: 1.5rem;
+    width: 300px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-primary);
+    margin-bottom: 0.5rem;
+    transition: color var(--transition-fast);
+  }
+
+  .back-link:hover {
+    color: var(--accent-secondary);
+  }
+
+  .sandbox-title {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    margin-bottom: 0.15rem;
+    color: var(--text-primary);
+    line-height: 1.1;
+  }
+
+  .sandbox-title span {
+    color: var(--accent-secondary);
+    font-weight: 300;
+  }
+
+  .sandbox-meta {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Floating HUD (Top Center) */
+  .floating-hud {
+    position: absolute;
+    top: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 2rem;
+    padding: 0.6rem 2rem;
+    background: rgba(248, 246, 242, 0.88);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(74, 48, 32, 0.15);
+    border-radius: var(--radius-pill);
+    box-shadow: 0 8px 32px rgba(74, 48, 32, 0.08);
+  }
+
+  .hud-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hud-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+  }
+
+  .hud-value {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  .hud-item.highlight .hud-value {
+    color: var(--accent-secondary);
+  }
+
+  /* Floating Selection Card (Bottom Left) */
+  .marker-overlay {
+    position: absolute;
+    bottom: 5.5rem;
+    left: 1.5rem;
+    z-index: 10;
+    display: none;
+    width: 300px;
+    animation: fadeInUp 0.3s var(--ease-out);
+  }
+
+  .marker-card {
+    background: rgba(248, 246, 242, 0.92);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(74, 48, 32, 0.15);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(74, 48, 32, 0.08);
+  }
+
+  .marker-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: var(--color-warm-gray);
+    transition: color var(--transition-fast);
+  }
+
+  .marker-close:hover {
+    color: var(--accent-secondary);
+  }
+
+  .marker-card h4 {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+    padding-right: 1.5rem;
+  }
+
+  .marker-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+  }
+
+  .marker-stats span {
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+  }
+
+  .marker-stats strong {
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+  }
+
+  /* Floating Controls Panel (Right Side) */
+  .floating-controls-panel {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    width: 330px;
+    background: rgba(248, 246, 242, 0.88);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(74, 48, 32, 0.15);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    z-index: 10;
+    box-shadow: 0 8px 32px rgba(74, 48, 32, 0.08);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    color: var(--text-primary);
+  }
+
+  .floating-controls-panel::-webkit-scrollbar {
+    width: 4px;
+  }
+  .floating-controls-panel::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .floating-controls-panel::-webkit-scrollbar-thumb {
+    background: rgba(74, 48, 32, 0.2);
+    border-radius: 2px;
+  }
+
+  .control-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(74, 48, 32, 0.15);
+    padding-bottom: 0.4rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .section-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .control-group.row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .control-group label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Dropdown Styling */
+  .control-select {
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(74, 48, 32, 0.15);
+    background: rgba(255, 255, 255, 0.7);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .control-select option {
+    background: var(--color-cream);
+    color: var(--text-primary);
+  }
+
+  /* Slider Styling */
+  .slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .slider-header span {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent-secondary);
+  }
+
+  .control-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 3px;
+    border-radius: 1.5px;
+    background: rgba(74, 48, 32, 0.1);
+    outline: none;
+  }
+
+  .control-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent-primary);
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+  }
+
+  .control-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.3);
+    background: var(--accent-secondary);
+  }
+
+  .control-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--accent-primary);
+  }
+
+  /* Button Groups */
+  .btn-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 0.2rem;
+    background: rgba(74, 48, 32, 0.05);
+    padding: 0.15rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(74, 48, 32, 0.1);
+  }
+
+  .btn-group .btn {
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    padding: 0.35rem 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 500;
+    border-radius: 4px;
+    justify-content: center;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-group .btn:hover {
+    color: var(--text-primary);
+  }
+
+  .btn-group .btn.active {
+    background: var(--accent-secondary);
+    color: white;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Landmarks List */
+  .landmarks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .landmark-btn {
+    text-align: left;
+    background: rgba(74, 48, 32, 0.04);
+    border: 1px solid rgba(74, 48, 32, 0.1);
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    font-family: var(--font-body);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .landmark-btn:hover {
+    background: rgba(74, 48, 32, 0.08);
+    border-color: var(--accent-primary);
+    transform: translateX(2px);
+  }
+
+  .landmark-btn.active {
+    background: rgba(73, 132, 138, 0.12);
+    border-color: var(--accent-primary);
+    color: var(--text-primary);
+  }
+
+  .landmark-info-box {
+    padding: 0.75rem 1rem;
+    background: rgba(73, 132, 138, 0.05);
+    border-left: 3px solid var(--accent-secondary);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    animation: fadeInUp 0.3s var(--ease-out);
+  }
+
+  .landmark-info-box h4 {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+    color: var(--color-brown);
+  }
+
+  .landmark-info-box p {
+    font-size: 0.7rem;
+    margin-bottom: 0;
+    line-height: 1.45;
+    color: var(--text-secondary);
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 1024px) {
+    :global(.main-content) {
+      height: calc(100vh - 5rem) !important;
+      margin-top: 5rem !important;
+    }
+    
+    .floating-hud {
+      top: auto;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .marker-overlay {
+      bottom: 5.5rem;
+    }
+
+    .floating-controls-panel {
+      position: absolute;
+      top: auto;
+      right: 1rem;
+      left: 1rem;
+      bottom: 4.5rem;
+      width: auto;
+      height: 200px;
+      max-height: 200px;
+      flex-direction: row;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 1rem;
+      gap: 1.5rem;
+    }
+
+    .control-section {
+      min-width: 260px;
+    }
+    
+    .floating-title-card {
+      width: auto;
+      right: 1.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .floating-hud {
+      gap: 1rem;
+      padding: 0.5rem 1.25rem;
+    }
+    .hud-value {
+      font-size: 0.75rem;
+    }
+  }
+</style>

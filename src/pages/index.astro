@@ -8,7 +8,7 @@ const currentJob = resumeData[0];
 
 <Layout title="Home">
   <div class="hero-bg-container">
-    <img src="/images/backdrop.png" alt="" class="hero-bg-img" />
+    <img src="/images/backdrop.png" alt="" class="hero-bg-img" fetchpriority="high" decoding="async" />
   </div>
 
   <div class="modernist-grid">
@@ -181,6 +181,7 @@ const currentJob = resumeData[0];
     color: var(--color-brown);
     margin-bottom: 2rem;
     letter-spacing: -0.05em;
+    text-wrap: balance;
   }
 
   .glass-hero-panel {
@@ -254,6 +255,7 @@ const currentJob = resumeData[0];
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+    text-wrap: pretty;
   }
 
   .hero-btns {
@@ -562,29 +564,53 @@ const currentJob = resumeData[0];
     .hero-modernist { min-height: auto; }
   }
 
+  @keyframes heroScrollEffect {
+    from {
+      filter: blur(0px);
+      transform: scale(1);
+    }
+    to {
+      filter: blur(8px);
+      transform: scale(1.05);
+    }
+  }
+
   .hero-bg-img {
     transition: filter 0.1s linear, transform 0.1s linear;
     will-change: filter, transform;
   }
+
+  /* Declarative Off-Thread Scroll-Driven Animation (Google Chrome / Baseline) */
+  @supports (animation-timeline: scroll()) {
+    .hero-bg-img {
+      transition: none;
+      animation: heroScrollEffect linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0px 600px;
+    }
+  }
 </style>
 
 <script>
-  const bgImg = document.querySelector('.hero-bg-img') as HTMLImageElement;
-  
-  if (bgImg) {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const scrollThreshold = 600; // Scroll distance to reach max effect
-      
-      const progress = Math.min(scrollY / scrollThreshold, 1);
-      
-      const blurAmount = progress * 8; // Max blur 8px
-      const scaleAmount = 1 + (progress * 0.05); // Max scale 1.05x (very slight)
-      
-      bgImg.style.filter = `blur(${blurAmount}px)`;
-      bgImg.style.transform = `scale(${scaleAmount})`;
-    };
+  // Progressive enhancement fallback: only listen to scroll events if CSS scroll-driven animations are not supported
+  if (!CSS.supports('animation-timeline', 'scroll()')) {
+    const bgImg = document.querySelector('.hero-bg-img') as HTMLImageElement;
+    
+    if (bgImg) {
+      const handleScroll = () => {
+        const scrollY = window.scrollY;
+        const scrollThreshold = 600; // Scroll distance to reach max effect
+        
+        const progress = Math.min(scrollY / scrollThreshold, 1);
+        
+        const blurAmount = progress * 8; // Max blur 8px
+        const scaleAmount = 1 + (progress * 0.05); // Max scale 1.05x (very slight)
+        
+        bgImg.style.filter = `blur(${blurAmount}px)`;
+        bgImg.style.transform = `scale(${scaleAmount})`;
+      };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    }
   }
 </script>

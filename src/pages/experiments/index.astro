@@ -1,0 +1,120 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Lab Experiments" description="A playground for interactive WebGL, data visualizations, and interface prototypes by Sha Razeek.">
+  <div class="page-header">
+    <h1>Lab & Experiments</h1>
+    <p class="subtitle">Experimental prototypes, WebGL sandboxes, and data visualisations.</p>
+  </div>
+
+  <div class="intro-section">
+    <p>
+      Welcome to the laboratory. These are isolated, experimental pages that are not linked to the main site.
+      They serve as a sandbox for testing performance-heavy graphics, advanced layouts, and data-rich visualizations.
+    </p>
+  </div>
+
+  <div class="grid-2 mt-4">
+    <div class="card experiment-card">
+      <div class="experiment-badge">WebGL 3D</div>
+      <div class="experiment-content">
+        <h3>3D Elevation Visualizer</h3>
+        <p>
+          An interactive, high-fidelity 3D Earth terrain model utilizing global elevation heightmaps.
+          Visualize topographic gradients, exaggerate mountain ranges, and explore famous peaks and trenches.
+        </p>
+        <div class="tech-tags">
+          <span class="tag">Three.js</span>
+          <span class="tag tag--coral">WebGL</span>
+          <span class="tag tag--mustard">Cartography</span>
+        </div>
+        <a href="/experiments/elevation" class="btn btn--coral mt-3">Launch Experiment ✦</a>
+      </div>
+    </div>
+
+    <div class="card experiment-card card-placeholder">
+      <div class="experiment-badge">Future Sandbox</div>
+      <div class="experiment-content">
+        <h3>More Experiments Coming Soon</h3>
+        <p>
+          Currently plotting next-gen UI animations, physics engine simulations, and advanced hypermedia layouts. Keep an eye out for updates.
+        </p>
+        <div class="tech-tags">
+          <span class="tag">CSS Grid</span>
+          <span class="tag">Canvas</span>
+        </div>
+        <button class="btn btn--outline mt-3" disabled style="opacity: 0.5; cursor: not-allowed;">Locked 🔒</button>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .intro-section {
+    max-width: 800px;
+    margin-bottom: 3rem;
+  }
+  
+  .intro-section p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+  }
+
+  .experiment-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    min-height: 380px;
+    background: white;
+    border: 1px solid var(--border-color);
+    padding: 2.5rem;
+    position: relative;
+  }
+
+  .experiment-badge {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.35rem 0.75rem;
+    background: var(--color-cream);
+    border-radius: var(--radius-sm);
+    color: var(--color-brown);
+    border: 1px solid var(--border-color);
+    font-weight: 500;
+  }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tech-tags .tag {
+    font-size: 0.75rem;
+  }
+
+  .card-placeholder {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(74, 48, 32, 0.02),
+      rgba(74, 48, 32, 0.02) 10px,
+      rgba(74, 48, 32, 0.04) 10px,
+      rgba(74, 48, 32, 0.04) 20px
+    );
+    border-style: dashed;
+    border-width: 2px;
+  }
+
+  .card-placeholder h3 {
+    color: var(--color-warm-gray);
+  }
+</style>

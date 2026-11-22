@@ -166,18 +166,36 @@ const categories = ['Computing', 'Display', 'Peripherals', 'Audio', 'Storage'];
   }
 
   .gear-modern-grid {
+    container-type: inline-size;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }
 
   .gear-item {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 180px;
     background: white;
     padding: 2rem;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-color);
     transition: all var(--transition-medium);
     border-top: 3px solid var(--border-color);
+  }
+
+  @container (max-width: 580px) {
+    .gear-modern-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @container (max-width: 320px) {
+    .gear-item {
+      padding: 1.25rem;
+    }
+    .gear-item h3 {
+      font-size: 1.2rem;
+    }
   }
 
   .gear-item:hover {

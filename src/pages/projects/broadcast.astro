@@ -354,12 +354,15 @@ import Layout from '../../layouts/Layout.astro';
 
   /* Channel grid */
   .channel-grid {
+    container-type: inline-size;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
   }
 
   .channel-card {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 150px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -372,6 +375,21 @@ import Layout from '../../layouts/Layout.astro';
     transition: all var(--transition-fast);
     text-align: center;
     position: relative;
+  }
+
+  @container (max-width: 600px) {
+    .channel-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+  }
+
+  @container (max-width: 220px) {
+    .channel-card {
+      padding: 1rem 0.75rem;
+    }
+    .channel-name {
+      font-size: 1.05rem;
+    }
   }
 
   .channel-card:hover {

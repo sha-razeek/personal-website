@@ -114,6 +114,11 @@
 html {
   scroll-behavior: smooth;
   font-size: 18px;
+  scrollbar-gutter: stable;
+  --scrollbar-thumb: var(--color-warm-gray);
+  --scrollbar-track: transparent;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 body {
@@ -131,6 +136,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.2;
+  text-wrap: balance;
 }
 
 h1 { font-size: 3rem; margin-bottom: 1.25rem; }
@@ -142,6 +148,7 @@ p {
   margin-bottom: 1.25rem;
   color: var(--text-secondary);
   line-height: 1.8;
+  text-wrap: pretty;
 }
 
 a {
@@ -473,6 +480,7 @@ code {
   margin-bottom: 2.5rem;
   color: var(--text-primary);
   opacity: 0.9;
+  text-wrap: pretty;
 }
 
 .article-lead::first-letter {
@@ -491,6 +499,7 @@ code {
   margin-top: 4rem;
   margin-bottom: 1.5rem;
   font-family: var(--font-serif);
+  text-wrap: balance;
 }
 
 .article-content h3 {
@@ -499,11 +508,18 @@ code {
   margin-top: 3rem;
   margin-bottom: 1.25rem;
   font-family: var(--font-serif);
+  text-wrap: balance;
 }
 
-/* ---- Scrollbar ---- */
+/* ---- Scrollbar (Standard & Legacy Fallback) ---- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb, var(--color-warm-gray)) var(--scrollbar-track, transparent);
+}
+
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -773,7 +789,64 @@ code {
   line-height: 1.5;
 }
 
-/* ---- Dialog/Modal ---- */
+/* ---- View Transitions (Modern Navigation API) ---- */
+@view-transition {
+  navigation: auto;
+}
+
+/* ---- Native HTML <dialog> Modern Guidance ---- */
+dialog.modern-dialog,
+dialog:modal {
+  /* Contain scroll chaining on the modal container */
+  overscroll-behavior: contain;
+  border: none;
+  background: transparent;
+  padding: 0;
+  max-width: 90vw;
+  margin: auto;
+  overflow: visible;
+  /* Top-layer entry & exit transitions via @starting-style */
+  transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-spring), overlay 0.25s allow-discrete, display 0.25s allow-discrete;
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+dialog.modern-dialog[open],
+dialog:modal[open] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@starting-style {
+  dialog.modern-dialog[open],
+  dialog:modal[open] {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+dialog::backdrop {
+  /* Mandatory per Chrome guide: ::backdrop must have overflow: hidden to be a non-scrollable container */
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background: rgba(38, 70, 83, 0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: opacity 0.25s var(--ease-out), overlay 0.25s allow-discrete, display 0.25s allow-discrete;
+  opacity: 0;
+}
+
+dialog[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* Legacy modal-overlay fallback */
 .modal-overlay {
   display: none;
   position: fixed;

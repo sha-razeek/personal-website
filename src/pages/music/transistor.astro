@@ -66,12 +66,12 @@ import Layout from '../../layouts/Layout.astro';
           <button class="btn btn--coral" id="btnOpenMap">Explore on Map 🌐</button>
         </div>
 
-        <!-- Map Modal -->
-        <div class="modal-overlay" id="mapModal">
+        <!-- Map Modal (Native HTML <dialog>) -->
+        <dialog class="modern-dialog map-dialog" id="mapModal" aria-labelledby="mapModalTitle" closedby="any">
           <div class="modal-box map-modal-box">
             <div class="modal-header">
-              <h3>Explore World Band</h3>
-              <button class="modal-close" id="btnCloseMap">×</button>
+              <h3 id="mapModalTitle">Explore World Band</h3>
+              <button class="modal-close" id="btnCloseMap" aria-label="Close map">×</button>
             </div>
             <div class="map-modal-viewport">
               <div id="map-loading">Initialising global coordinates...</div>
@@ -82,7 +82,7 @@ import Layout from '../../layouts/Layout.astro';
               <span id="map-country-name" class="info-value">Select a country...</span>
             </div>
           </div>
-        </div>
+        </dialog>
 
         <!-- Tabs -->
         <div class="radio-tabs">
@@ -538,6 +538,17 @@ import Layout from '../../layouts/Layout.astro';
   }
 
   /* Map Modal Styles */
+  .map-dialog {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+
   .map-modal-box {
     max-width: 100%;
     width: 100%;
@@ -686,12 +697,15 @@ import Layout from '../../layouts/Layout.astro';
 
   /* Station List */
   .station-list {
+    container-type: inline-size;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
   }
 
   .station-item {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 170px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -705,6 +719,21 @@ import Layout from '../../layouts/Layout.astro';
     text-align: center;
     box-shadow: var(--shadow-sm);
     overflow: hidden;
+  }
+
+  @container (max-width: 600px) {
+    .station-list {
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+  }
+
+  @container (max-width: 220px) {
+    .station-name {
+      font-size: 1.1rem;
+    }
+    .station-item {
+      padding: 1rem 0.75rem;
+    }
   }
 
   .station-item:hover {
@@ -950,7 +979,7 @@ import Layout from '../../layouts/Layout.astro';
   // Map Elements
   const btnOpenMap = document.getElementById('btnOpenMap')!;
   const btnCloseMap = document.getElementById('btnCloseMap')!;
-  const mapModal = document.getElementById('mapModal')!;
+  const mapModal = document.getElementById('mapModal') as HTMLDialogElement;
   const mapCountryName = document.getElementById('map-country-name')!;
 
   // Default favorites
@@ -1018,12 +1047,12 @@ import Layout from '../../layouts/Layout.astro';
     });
 
     btnOpenMap.addEventListener('click', () => {
-      mapModal.classList.add('active');
+      mapModal.showModal();
       if (!mapInitialised) initMap();
     });
 
-    btnCloseMap.addEventListener('click', () => mapModal.classList.remove('active'));
-    mapModal.addEventListener('click', (e) => { if (e.target === mapModal) mapModal.classList.remove('active'); });
+    btnCloseMap.addEventListener('click', () => mapModal.close());
+    mapModal.addEventListener('click', (e) => { if (e.target === mapModal) mapModal.close(); });
 
     btnPlayPause.addEventListener('click', () => {
       if (isPlaying) {
@@ -1133,7 +1162,7 @@ import Layout from '../../layouts/Layout.astro';
           d3.select(event.currentTarget).classed('selected', true);
           
           setTimeout(() => {
-            mapModal.classList.remove('active');
+            mapModal.close();
           }, 600);
         });
 

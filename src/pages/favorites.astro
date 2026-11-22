@@ -201,16 +201,28 @@ const getFavoritesByType = (type: string) => favorites.filter(f => f.type === ty
   }
 
   .favorites-grid {
+    container-type: inline-size;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 3rem 2.5rem;
   }
 
   .favorite-item {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 420px;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     transition: transform var(--transition-medium);
+  }
+
+  @container (max-width: 340px) {
+    .favorite-info h3 {
+      font-size: 1.25rem;
+    }
+    .favorite-creator {
+      font-size: 1rem;
+    }
   }
 
   .favorite-item:hover {
