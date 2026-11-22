@@ -1,0 +1,628 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout 
+  title="Spindle — Native macOS Music Player" 
+  description="A fast, tactile native macOS music player built with SwiftUI, featuring a 3D vinyl drawer and zero-storage-duplication Apple Music library integration."
+>
+  <nav class="breadcrumb">
+    <a href="/projects">Projects</a>
+    <span class="breadcrumb-sep">→</span>
+    <span class="breadcrumb-current">Spindle</span>
+  </nav>
+
+  <div class="spindle-page">
+    <!-- Hero Section -->
+    <header class="spindle-hero">
+      <div class="spindle-hero-content">
+        <div class="hero-badges">
+          <span class="tag tag--mustard">In Development</span>
+          <span class="tag">macOS Native</span>
+          <span class="tag tag--coral">SwiftUI</span>
+        </div>
+
+        <h1 class="spindle-title">
+          <span class="gradient-text">Spindle</span>
+        </h1>
+
+        <p class="spindle-lead">
+          A fast, lightweight, and tactile native macOS music player built for music lovers who appreciate the physical experience of vinyl and album sleeves while seamlessly interfacing with their local <strong>Apple Music Library</strong> with <strong>zero storage duplication</strong>.
+        </p>
+
+        <div class="spindle-actions">
+          <a href="https://github.com/sha-razeek/spindle" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+            <span>View on GitHub</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
+          <a href="/projects" class="btn btn--outline">← All Projects</a>
+        </div>
+      </div>
+
+      <div class="spindle-hero-visual">
+        <div class="icon-frame">
+          <img src="/images/spindle/app-icon.png" alt="Spindle Turntable App Icon" class="app-icon-img" />
+        </div>
+      </div>
+    </header>
+
+    <!-- Quick Meta Bar -->
+    <section class="meta-strip">
+      <div class="meta-card">
+        <span class="meta-label">Platform</span>
+        <span class="meta-val">macOS 14+ (Sonoma)</span>
+      </div>
+      <div class="meta-card">
+        <span class="meta-label">Language</span>
+        <span class="meta-val">Swift 5.9+</span>
+      </div>
+      <div class="meta-card">
+        <span class="meta-label">Frameworks</span>
+        <span class="meta-val">SwiftUI • AVFoundation</span>
+      </div>
+      <div class="meta-card">
+        <span class="meta-label">Integration</span>
+        <span class="meta-val">iTunesLibrary (`ITLibrary`)</span>
+      </div>
+      <div class="meta-card">
+        <span class="meta-label">License</span>
+        <span class="meta-val">MIT Open Source</span>
+      </div>
+    </section>
+
+    <!-- Core Philosophy: Zero Duplication -->
+    <section class="content-block">
+      <div class="section-heading">
+        <span class="eyebrow">Direct Integration</span>
+        <h2>Zero-Duplication Architecture</h2>
+        <p class="section-desc">
+          Instead of forcing you to re-index or copy thousands of files into a proprietary database, Spindle connects directly to your existing Apple Music database via macOS's native <code>iTunesLibrary.framework</code>. Song metadata, album artwork, and playlists are read directly in place, while playback streams straight from your original local audio files without creating shadow libraries or duplicating disk storage.
+        </p>
+      </div>
+    </section>
+
+    <!-- Feature 1: 3D Vinyl Drawer -->
+    <section class="content-block feature-spotlight">
+      <div class="spotlight-text">
+        <span class="eyebrow">Tactile Hardware Aesthetic</span>
+        <h2>The 3D Vinyl Drawer</h2>
+        <p>
+          Browsing digital music often feels like scrolling through an endless spreadsheet. Spindle recaptures the tactility of crate digging with an interactive vertical stack of album jackets tilted in true 3D perspective space.
+        </p>
+        <ul class="feature-bullets">
+          <li><strong>Die-Cut Sleeve Notch:</strong> Authentic thumb cut-out on the right jacket edge, teasing the inner sleeve and vinyl grooves.</li>
+          <li><strong>Spinning White Vinyl LP:</strong> When music begins playing, a pearlescent white vinyl record with micro-etched concentric grooves and custom album center label slides out and spins.</li>
+          <li><strong>Dynamic Ambient Backdrop:</strong> The view background smoothly blends into a spotlight aura sampled from the active album's color palette.</li>
+          <li><strong>Tactile Spine Navigation:</strong> Clicking any album jacket centers it in the viewport with responsive spring physics.</li>
+        </ul>
+      </div>
+
+      <div class="spotlight-media">
+        <div class="media-window">
+          <img src="/images/spindle/vinyl-drawer.png" alt="Spindle 3D Vinyl Drawer Interface" loading="lazy" />
+        </div>
+        <span class="media-caption">The 3D Vinyl Drawer view with spinning pearlescent white vinyl LP</span>
+      </div>
+    </section>
+
+    <!-- Feature 2: Expanded Now Playing & Spectrogram -->
+    <section class="content-block feature-spotlight feature-spotlight--reverse">
+      <div class="spotlight-text">
+        <span class="eyebrow">Audiophile Interaction</span>
+        <h2>Expanded Now Playing & Spectrogram Seeker</h2>
+        <p>
+          A distraction-free, full-window listening experience that puts the artwork and audio characteristics at center stage.
+        </p>
+        <ul class="feature-bullets">
+          <li><strong>Waveform Spectrogram Seeker:</strong> High-resolution RMS audio analysis generates a smooth Catmull-Rom spline curve that visualizes the track's volume profile and acts as an interactive scrubbing seeker.</li>
+          <li><strong>Dynamic Living Motion Gradients:</strong> Subtle, fluid ambient light shifts dynamically behind the album art in harmony with the music.</li>
+          <li><strong>Minimalist Typography:</strong> Clean, left-aligned tracklists and typography-first metadata without clutter or distraction.</li>
+        </ul>
+      </div>
+
+      <div class="spotlight-media">
+        <div class="media-window">
+          <img src="/images/spindle/now-playing.png" alt="Spindle Expanded Now Playing & Spectrogram Seeker" loading="lazy" />
+        </div>
+        <span class="media-caption">Expanded Now Playing view with Catmull-Rom waveform spectrogram seeker</span>
+      </div>
+    </section>
+
+    <!-- Feature 3: Library & macOS System Integration -->
+    <section class="content-block feature-spotlight">
+      <div class="spotlight-text">
+        <span class="eyebrow">Native Platform Citizen</span>
+        <h2>Library Browsing & System Integration</h2>
+        <p>
+          Built completely in native SwiftUI and AppKit to feel right at home on macOS Sonoma and later, behaving like a first-party Apple utility.
+        </p>
+        <ul class="feature-bullets">
+          <li><strong>Multiple Library Perspectives:</strong> Switch effortlessly between Recently Added, 3D Vinyl Drawer, Cover Grid, sortable Songs list, and Artist discography.</li>
+          <li><strong>Control Center & Lock Screen:</strong> Publishes active title, artist, album, duration, elapsed playback time, and artwork to macOS <code>MPNowPlayingInfoCenter</code>.</li>
+          <li><strong>Media Keys & Hardware Shortcuts:</strong> Seamless integration with <code>MPRemoteCommandCenter</code>, physical keyboard media keys (F7, F8, F9), and Touch Bar controls.</li>
+          <li><strong>Reveal in Finder:</strong> Jump straight to the underlying high-resolution audio file on disk with a single click.</li>
+        </ul>
+      </div>
+
+      <div class="spotlight-media">
+        <div class="media-window">
+          <img src="/images/spindle/albums-grid.png" alt="Spindle Albums Grid View" loading="lazy" />
+        </div>
+        <span class="media-caption">Responsive album artwork grid with instant detail inspection</span>
+      </div>
+    </section>
+
+    <!-- Supported Formats & Code Block -->
+    <section class="content-block technical-details">
+      <div class="section-heading">
+        <span class="eyebrow">Audio Engine</span>
+        <h2>Supported Formats & Local Playback</h2>
+        <p class="section-desc">
+          Spindle decodes lossless and uncompressed audio directly using hardware decoders in CoreAudio and AVFoundation.
+        </p>
+      </div>
+
+      <div class="formats-pill-row">
+        <span class="format-pill">ALAC (Apple Lossless)</span>
+        <span class="format-pill">FLAC</span>
+        <span class="format-pill">WAV</span>
+        <span class="format-pill">AIFF</span>
+        <span class="format-pill">AAC</span>
+        <span class="format-pill">MP3</span>
+      </div>
+
+      <div class="code-box">
+        <div class="code-box-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="code-box-title">Clone & Build Spindle from Source</span>
+        </div>
+        <pre><code><span class="code-comment"># Clone the repository</span>
+git clone https://github.com/sha-razeek/spindle.git
+cd spindle
+
+<span class="code-comment"># Compile, generate turntable icon, and create standalone .app</span>
+./scripts/build_app.sh
+
+<span class="code-comment"># Launch the application</span>
+open build/Spindle.app</code></pre>
+      </div>
+    </section>
+
+    <!-- Bottom Actions -->
+    <footer class="spindle-footer">
+      <div class="jet-line"><span>✦✦✦</span></div>
+      <div class="footer-cta">
+        <h3>Explore the Spindle Codebase</h3>
+        <p>Spindle is free and open-source under the MIT License.</p>
+        <div class="cta-btns">
+          <a href="https://github.com/sha-razeek/spindle" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+            Visit GitHub Repository →
+          </a>
+          <a href="/projects" class="btn btn--outline">
+            ← Back to All Projects
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+    color: var(--color-warm-gray);
+  }
+  .breadcrumb a { color: var(--accent-primary); }
+  .breadcrumb-sep { opacity: 0.5; }
+
+  .spindle-page {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+  }
+
+  /* ---- Hero ---- */
+  .spindle-hero {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 3rem;
+    align-items: center;
+    padding: 1rem 0 3rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .hero-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .spindle-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    line-height: 0.95;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--color-brown);
+    margin-bottom: 1.5rem;
+  }
+
+  .gradient-text {
+    background: linear-gradient(
+      135deg, 
+      var(--color-brown) 0%, 
+      var(--accent-primary) 35%, 
+      var(--accent-secondary) 70%, 
+      var(--color-brown) 100%
+    );
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmeryText 10s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes shimmeryText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+
+  .spindle-lead {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    max-width: 680px;
+  }
+
+  .spindle-lead strong {
+    color: var(--text-primary);
+  }
+
+  .spindle-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .spindle-hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .icon-frame {
+    width: 240px;
+    height: 240px;
+    border-radius: var(--radius-lg);
+    background: white;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: transform var(--transition-medium);
+  }
+
+  .icon-frame:hover {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+
+  .app-icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 16px rgba(74, 48, 32, 0.15));
+  }
+
+  /* ---- Meta Strip ---- */
+  .meta-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .meta-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .meta-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-warm-gray);
+  }
+
+  .meta-val {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  /* ---- Content Blocks ---- */
+  .content-block {
+    margin-top: 4.5rem;
+  }
+
+  .section-heading {
+    margin-bottom: 2.5rem;
+    max-width: 750px;
+  }
+
+  .eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent-primary);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .section-heading h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    color: var(--color-brown);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-desc {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  /* ---- Feature Spotlight ---- */
+  .feature-spotlight {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 3.5rem;
+    align-items: center;
+  }
+
+  .feature-spotlight--reverse {
+    grid-template-columns: 1.2fr 1fr;
+  }
+
+  .feature-spotlight--reverse .spotlight-text {
+    order: 2;
+  }
+
+  .feature-spotlight--reverse .spotlight-media {
+    order: 1;
+  }
+
+  .spotlight-text h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    color: var(--color-brown);
+    margin-bottom: 1rem;
+    line-height: 1.15;
+  }
+
+  .spotlight-text p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .feature-bullets {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .feature-bullets li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .feature-bullets li::before {
+    content: "✦";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent-secondary);
+    font-size: 0.8rem;
+  }
+
+  .feature-bullets strong {
+    color: var(--text-primary);
+  }
+
+  .spotlight-media {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .media-window {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-dark);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .media-window img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform var(--transition-medium);
+  }
+
+  .media-window:hover img {
+    transform: scale(1.02);
+  }
+
+  .media-caption {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-warm-gray);
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  /* ---- Formats & Terminal Box ---- */
+  .formats-pill-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .format-pill {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius-pill);
+    background: white;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .code-box {
+    background: #1e262c;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .code-box-header {
+    background: #141b20;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .terminal-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .terminal-dot.red { background: #ff5f56; }
+  .terminal-dot.yellow { background: #ffbd2e; }
+  .terminal-dot.green { background: #27c93f; }
+
+  .code-box-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-left: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .code-box pre {
+    padding: 1.5rem;
+    margin: 0;
+    overflow-x: auto;
+  }
+
+  .code-box code {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: #f1f5f9;
+    background: transparent;
+    padding: 0;
+    line-height: 1.6;
+  }
+
+  .code-comment {
+    color: #64748b;
+  }
+
+  /* ---- Footer ---- */
+  .spindle-footer {
+    margin-top: 5rem;
+    text-align: center;
+  }
+
+  .footer-cta {
+    max-width: 600px;
+    margin: 2.5rem auto 0;
+  }
+
+  .footer-cta h3 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    color: var(--color-brown);
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-cta p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 900px) {
+    .spindle-hero {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 2rem;
+    }
+
+    .hero-badges, .spindle-actions {
+      justify-content: center;
+    }
+
+    .spindle-lead {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .feature-spotlight,
+    .feature-spotlight--reverse {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .feature-spotlight--reverse .spotlight-text {
+      order: 1;
+    }
+
+    .feature-spotlight--reverse .spotlight-media {
+      order: 2;
+    }
+  }
+</style>

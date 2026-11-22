@@ -16,7 +16,15 @@ const navItems = [
   { href: '/music', label: 'Music' },
   { href: '/blog', label: 'Articles' },
   { href: '/gear', label: 'My Gear' },
-  { href: '/projects', label: 'Projects' },
+  { 
+    href: '/projects', 
+    label: 'Projects',
+    children: [
+      { href: '/music/transistor', label: 'Transistor' },
+      { href: '/projects/broadcast', label: 'Broadcast' },
+      { href: '/projects/spindle', label: 'Spindle' },
+    ]
+  },
   { href: '/trivia', label: 'Trivia' },
   { href: '/wallpapers', label: 'Wallpapers' },
 ];
@@ -46,7 +54,6 @@ const navItems = [
         const isCurrentParent = normalizedPath === item.href;
         const hasActiveChild = item.children && item.children.some(c => c.href === normalizedPath);
         const isActive = isCurrentParent || hasActiveChild;
-        const showChildren = item.children && (item.href === '/about' ? isActive : true);
 
         return (
           <div class="nav-group">

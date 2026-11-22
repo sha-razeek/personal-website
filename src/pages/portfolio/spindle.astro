@@ -1,0 +1,143 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { portfolioItems } from '../../data/portfolio';
+
+const item = portfolioItems.find(i => i.slug === 'spindle')!;
+---
+
+<Layout title={item.title} description={item.tagline}>
+  <nav class="breadcrumb">
+    <a href="/portfolio">Portfolio</a>
+    <span class="breadcrumb-sep">→</span>
+    <span class="breadcrumb-current">{item.title}</span>
+  </nav>
+
+  <article class="article-page">
+    <header class="article-header">
+      <h1 class="hero-title">{item.title}</h1>
+      <p class="project-tagline">{item.tagline}</p>
+    </header>
+
+    <div class="project-content mx-auto">
+      <div class="project-meta">
+        <div class="meta-item">
+          <span class="meta-label">Role</span>
+          <span class="meta-value">{item.details.role}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Year</span>
+          <span class="meta-value">{item.details.year}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Tools</span>
+          <span class="meta-value">{item.details.tools.join(', ')}</span>
+        </div>
+      </div>
+
+      <div class="article-content">
+        <h2>Overview</h2>
+        <p>{item.details.overview}</p>
+
+        <div class="project-main-image">
+          <img src="/images/spindle/vinyl-drawer.png" alt="Spindle 3D Vinyl Drawer" />
+        </div>
+
+        <h2>Key Features</h2>
+        <ul class="feature-list">
+          {item.details.features.map((f) => (
+            <li>{f}</li>
+          ))}
+        </ul>
+
+        <div class="project-cta mt-4">
+          <a href="/projects/spindle" class="btn btn--primary">View Full Project Showcase →</a>
+        </div>
+
+        <div class="project-nav mt-4">
+          <a href="/portfolio" class="btn">← All Portfolio</a>
+        </div>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-warm-gray);
+  }
+  .breadcrumb a { color: var(--accent-primary); }
+  .breadcrumb-sep { opacity: 0.5; }
+
+  .article-page { max-width: 840px; margin: 0 auto; }
+  .article-header { margin-bottom: 3.5rem; padding-bottom: 0; }
+  .hero-title { font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1.1; margin-bottom: 0.5rem; color: var(--text-primary); font-weight: 800; }
+  .project-tagline { font-size: 1.25rem; color: var(--text-secondary); opacity: 0.8; font-weight: 400; }
+
+  .project-content { max-width: 800px; margin: 0 auto; }
+
+  .project-meta {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .meta-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-warm-gray);
+    margin-bottom: 0.4rem;
+  }
+  .meta-value {
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .project-main-image {
+    margin: 2rem 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    background: var(--bg-secondary);
+  }
+  .project-main-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+  .feature-list li {
+    padding: 0.6rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .feature-list li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--accent-primary);
+  }
+
+  .project-cta, .project-nav {
+    display: flex;
+    gap: 1rem;
+  }
+</style>
